@@ -244,8 +244,10 @@ module TSOS {
                         _StdOut.putText("Cls clears the screen and resets the cursor once entered.");
                         break;
                     case "man":
-                        _StdOut.putText("Put a topic after man and it will display the MANual page for the topic. Also you just used the command twice, it won't work a third time.");
+                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, it won't work a third time.");
                         break;
+                    case "trace":
+                        _StdOut.putText("");
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
