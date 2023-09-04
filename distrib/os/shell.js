@@ -22,7 +22,10 @@ var TSOS;
             //
             // Load the command list.
             // ver
-            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
+            sc = new TSOS.ShellCommand(this.shellFancyVer, "fver", "- Displays the current version.");
+            this.commandList[this.commandList.length] = sc;
+            // ver
+            sc = new TSOS.ShellCommand(this.shellVer, "fver", "- Displays the current version, but with spice.");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
@@ -288,6 +291,15 @@ var TSOS;
             else {
                 _StdOut.putText("Your browser does not support geolocation. Either you're a privacy nut, or you haven't upgraded past Internet Explorer.");
             }
+        }
+        shellFancyVer(args) {
+            _StdOut.putText("  _                             _       __      ____      ___        ____         _  _    ");
+            _StdOut.putText("  FJ        _    _     ____     FJ___    LJ     F __ ]    F __\".     F _  ]       FJ  L] ");
+            _StdOut.putText(" J |       J |  | L   F ___J.  J  __ `.        J |--| L  J (___|    J |/ | L     J |__| L ");
+            _StdOut.putText(" | |       | |  | |  | |---LJ  | |--| |  FJ    | |  | |  J\___ \    | | /| |     |____  | ");
+            _StdOut.putText(" F L_____  F L__J J  F L___--. F L  J J J  L   F L__J J .--___) \   F  /_J J  __ L____J J ");
+            _StdOut.putText("J________LJ\____,__LJ\______/FJ__L  J__LJ__L  J\______/FJ\______J  J\______/FJ__L     J__L");
+            _StdOut.putText("|________| J____,__F J______F |__L  J__||__|   J______F  J______F   J______F |__|     J__|");
         }
     }
     TSOS.Shell = Shell;
