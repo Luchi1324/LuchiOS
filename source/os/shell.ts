@@ -240,6 +240,9 @@ module TSOS {
                     case "shutdown":
                         _StdOut.putText("Shutdown, well, shuts down the virtual os once entered.");
                         break;
+                    case "cls":
+                        _StdOut.putText("Cls clears the screen and resets the cursor once entered.");
+                        break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
