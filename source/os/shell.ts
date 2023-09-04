@@ -78,6 +78,12 @@ module TSOS {
                                   "date",
                                   "- Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
+
+            // date
+            sc = new ShellCommand(this.shellWhereAmI,
+                                  "whereami",
+                                  "- Displays your current position.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -262,7 +268,8 @@ module TSOS {
                         break;
                     case "date":
                         _StdOut.putText("Outputs the current date and time in MM/DD/YYYY HH:MM.SS.")
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+                    case "whereami":
+                        _StdOut.putText("Outputs the current location of your comouter in lattitude and longitude.")
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -315,6 +322,17 @@ module TSOS {
         public shellDate(args: string[]) {
             const time = new Date();
             _StdOut.putText(`The current date and time is ${time.toLocaleString()}`);
+        }
+
+        public shellWhereAmI(args: string[]) {
+            // Navigator code used from Chrome documentation and https://www.w3schools.com/jsref/prop_nav_geolocation.asp
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    _StdOut.putText(`Your current position is latitude: ${position.coords.latitude}, longtitude: ${position.coords.longitude}`)
+                });
+            } else {
+                _StdOut.putText("Your browser does not support geolocation. Either you're a privacy nut, or you haven't upgraded past Internet Explorer.");
+            }
         }
 
     }
