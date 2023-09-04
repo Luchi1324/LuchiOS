@@ -260,6 +260,8 @@ module TSOS {
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
+                    case "date":
+                        _StdOut.putText("Outputs the current date and time in MM/DD/YYYY HH:MM.SS.")
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -311,10 +313,8 @@ module TSOS {
         }
 
         public shellDate(args: string[]) {
-            if (args.length > 0) {
-                const time = new Date();
-                _StdOut.putText(`The current date and time is ${time.toLocaleString()}`);
-            }
+            const time = new Date();
+            _StdOut.putText(`The current date and time is ${time.toLocaleString()}`);
         }
 
     }
