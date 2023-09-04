@@ -247,7 +247,7 @@ module TSOS {
                         _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, it won't work a third time.");
                         break;
                     case "trace":
-                        _StdOut.putText("");
+                        _StdOut.putText("Enables or disables the OS trace. Enter this followed by 'on' or 'off' to enable or disable this respectively.");
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
