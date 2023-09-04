@@ -45,6 +45,8 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            // date
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -193,6 +195,27 @@ var TSOS;
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
+                    case "ver":
+                        _StdOut.putText("This displays the name and the current version of the os.");
+                        break;
+                    case "shutdown":
+                        _StdOut.putText("Shutdown, well, shuts down the virtual os once entered.");
+                        break;
+                    case "cls":
+                        _StdOut.putText("Cls clears the screen and resets the cursor once entered.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, it won't work a third time.");
+                        break;
+                    case "trace":
+                        _StdOut.putText("Enables or disables the OS trace. Enter this followed by 'on' or 'off' to enable or disable this respectively.");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("Performs rot13 obfuscation on an entered string. It will output the obfuscated string (You can put it back in to reverse it!)");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
+                        break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -242,6 +265,12 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
+            }
+        }
+        shellDate(args) {
+            if (args.length > 0) {
+                const time = new Date();
+                _StdOut.putText(`The current date and time is ${time.toLocaleString()}`);
             }
         }
     }

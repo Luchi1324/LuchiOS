@@ -73,6 +73,11 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
+            // date
+            sc = new ShellCommand(this.shellDate,
+                                  "date",
+                                  "- Displays the current date and time")
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -302,6 +307,13 @@ module TSOS {
                 _OsShell.promptStr = args[0];
             } else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
+            }
+        }
+
+        public shellDate(args: string[]) {
+            if (args.length > 0) {
+                const time = new Date();
+                _StdOut.putText(`The current date and time is ${time.toLocaleString()}`);
             }
         }
 
