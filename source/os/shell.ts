@@ -252,6 +252,9 @@ module TSOS {
                     case "rot13":
                         _StdOut.putText("Performs rot13 obfuscation on an entered string. It will output the obfuscated string (You can put it back in to reverse it!)");
                         break;
+                    case "prompt":
+                        _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
+                        break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
