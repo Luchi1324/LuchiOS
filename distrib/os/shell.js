@@ -27,6 +27,9 @@ var TSOS;
             // fver TODO: Get text wrap working so this displays properly
             sc = new TSOS.ShellCommand(this.shellFancyVer, "fver", "- Displays the current version, but with spice.");
             this.commandList[this.commandList.length] = sc;
+            // status
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "- Changes the status above");
+            this.commandList[this.commandList.length] = sc;
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
             this.commandList[this.commandList.length] = sc;
@@ -205,6 +208,9 @@ var TSOS;
                     case "ver":
                         _StdOut.putText("This displays the name and the current version of the os.");
                         break;
+                    case "status":
+                        _StdOut.putText("Changes a patch of text on the top of the OS. Enter 'status' followed by the string of your choice");
+                        break;
                     case "shutdown":
                         _StdOut.putText("Shutdown, well, shuts down the virtual os once entered.");
                         break;
@@ -290,6 +296,17 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Your browser does not support geolocation. Either you're a privacy nut, or you haven't upgraded past Internet Explorer.");
+            }
+        }
+        shellStatus(args) {
+            let status;
+            if (args.length > 0) {
+                status = args[0];
+                _StdOut.putText(`Set status to '${status}'`);
+                document.getElementById('divStatus').innerHTML = status;
+            }
+            else {
+                _StdOut.putText("Usage: status <string> Please supply a string.");
             }
         }
         shellFancyVer(args) {

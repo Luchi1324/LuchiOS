@@ -5,7 +5,7 @@
    <meta name="author"             content="Alan G. Labouseur" />
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
    <title>
-      TSOS - a browser-based virtual Operating System in TypeScript
+      LuchiOS - a browser-based virtual Operating System in TypeScript
    </title>
 
    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
@@ -30,6 +30,15 @@
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
+
+   <!-- Script for current time -->
+   <!-- setInterval updates every second, taken from https://developer.mozilla.org/en-US/docs/Web/API/setInterval -->
+   <script>
+      setInterval(function(){
+         let date = new Date();
+         document.getElementById('divTime').innerHTML = date.toLocaleString();
+      }, 1000)
+   </script>
    <!-- Uncomment the line below to enable GLaDOS testing.
    <script type="text/javascript" src="https://alanclasses.github.io/TSOS/test/glados-ip0.js"></script>
     -->
@@ -38,6 +47,11 @@
 <body onload="onDocumentLoad()">
 
 <div id="divMain" style="width:100%;">
+
+   <div id = 'divTimeStatusBar'>
+      <a id="divTime"></a>
+      <a id="divStatus"></a>
+   </div>
 
    <div id="divButtonBar" style="margin:4px;">
       <input type="button"
@@ -74,7 +88,7 @@
               tabindex="3">
       </canvas>
    </div>
-
+   
    <div id="divLog" style="margin-left:520px;">
       <label>
          Host Log
@@ -105,7 +119,7 @@
    Copyright &copy; 2008 - 2112 No Rights Reserved.
    <br>
    Reproduction is inhibited without the express written consent of
-   Ted Codd, Stevie Ray Vaughan, Neil Peart, and Ian Fleming.
+   Luciano Mattoli.
 </p>
 
 </body>
