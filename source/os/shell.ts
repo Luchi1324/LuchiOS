@@ -26,13 +26,13 @@ module TSOS {
             // Load the command list.
 
             // ver
-            sc = new ShellCommand(this.shellFancyVer,
-                                  "fver",
+            sc = new ShellCommand(this.shellVer,
+                                  "ver",
                                   "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
 
-            // ver
-            sc = new ShellCommand(this.shellVer,
+            // fver TODO: Get text wrap working so this displays properly
+            sc = new ShellCommand(this.shellFancyVer,
                 "fver",
                 "- Displays the current version, but with spice.");
             this.commandList[this.commandList.length] = sc;

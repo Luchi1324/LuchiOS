@@ -22,10 +22,10 @@ var TSOS;
             //
             // Load the command list.
             // ver
-            sc = new TSOS.ShellCommand(this.shellFancyVer, "fver", "- Displays the current version.");
+            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
-            // ver
-            sc = new TSOS.ShellCommand(this.shellVer, "fver", "- Displays the current version, but with spice.");
+            // fver TODO: Get text wrap working so this displays properly
+            sc = new TSOS.ShellCommand(this.shellFancyVer, "fver", "- Displays the current version, but with spice.");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
