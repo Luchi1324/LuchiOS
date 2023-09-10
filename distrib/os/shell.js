@@ -48,6 +48,9 @@ var TSOS;
             // rot13 <string>
             sc = new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>.");
             this.commandList[this.commandList.length] = sc;
+            // load
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Validates the code in the User Program Input area.");
+            this.commandList[this.commandList.length] = sc;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
@@ -226,6 +229,8 @@ var TSOS;
                     case "rot13":
                         _StdOut.putText("Performs rot13 obfuscation on an entered string. It will output the obfuscated string (You can put it back in to reverse it!)");
                         break;
+                    case "load":
+                        _StdOut.putText("Validates the code in the User Program Input Area (I assume it executes it but we haven't gotten that far yet.");
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
@@ -296,6 +301,29 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Your browser does not support geolocation. Either you're a privacy nut, or you haven't upgraded past Internet Explorer.");
+            }
+        }
+        shellLoad(args) {
+            let hex = [' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+            let flag = true;
+            // I don't remember where I found the <HTMLInputElement> but it was the only thing that got this stupid .value working
+            // This took nearly an hour alone, the text is starting to dance on my screen
+            let input = document.getElementById("taProgramInput").value;
+            // No point in running the function if the field is empty
+            if (input.length != 0) {
+                for (let i = 0; i < input.length; i++) {
+                    let ch = input[i];
+                    // Curses taught me about the .indexOf, could've prevented a lot of nested loops with that in the past
+                    if (hex.indexOf(ch) === -1) {
+                        flag = false;
+                        break;
+                    }
+                }
+                // Simple ternary operator to print if the UPI is valid or not
+                flag ? _StdOut.putText("Valid User Program Input!") : _StdOut.putText("Invalid User Program Input.");
+            }
+            else {
+                _StdOut.putText("User Program Input is empty. Don't leave it empty :(");
             }
         }
         shellStatus(args) {
