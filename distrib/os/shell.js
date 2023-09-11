@@ -39,6 +39,9 @@ var TSOS;
             // cls
             sc = new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.");
             this.commandList[this.commandList.length] = sc;
+            // bsod
+            sc = new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Triggers a BSOD.");
+            this.commandList[this.commandList.length] = sc;
             // man <topic>
             sc = new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.");
             this.commandList[this.commandList.length] = sc;
@@ -238,6 +241,8 @@ var TSOS;
                         _StdOut.putText("Outputs the current date and time in MM/DD/YYYY HH:MM.SS.");
                     case "whereami":
                         _StdOut.putText("Outputs the current location of your comouter in lattitude and longitude.");
+                    case "bsod":
+                        _StdOut.putText("Forces the Kernal to capture a non-existent error, and triggers the screen nobody wants to see.");
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -325,6 +330,9 @@ var TSOS;
             else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(");
             }
+        }
+        shellBSOD(args) {
+            _Kernel.krnTrapError('Called from CLS.');
         }
         shellStatus(args) {
             let status;
