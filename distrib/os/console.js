@@ -75,11 +75,11 @@ var TSOS;
             // Calculate the size of the current character ...
             var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
             var ySet = _DefaultFontSize;
-            // ... then we want to find out 
+            // ... then find the beginning of the character to find the area to delete ...
             var xBeginnningPos = this.currentXPosition - xSet;
             var yBeginningPos = this.currentYPosition - ySet;
             // ... then we clear the canvas in the area, set the cursor back to the start, and remove the character from the buffer
-            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet);
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
             this.currentXPosition = xBeginnningPos;
             this.buffer = this.buffer.slice(0, -1);
         }
@@ -95,7 +95,7 @@ var TSOS;
                 _FontHeightMargin;
             // Fixes scrolling, only does so if current Y Position surpasses height
             if (this.currentYPosition > _Canvas.height) {
-                // Calculates offset from current position and captures the current canvas ...
+                // Calculates offset from current position () and captures the current canvas ...
                 let offset = this.currentYPosition - _Canvas.height + _FontHeightMargin;
                 let screenData = _DrawingContext.getImageData(0, 0, _Canvas.width, this.currentYPosition + _FontHeightMargin);
                 // ... then clears the screen and redraws the canvas
