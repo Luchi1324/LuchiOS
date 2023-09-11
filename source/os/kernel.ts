@@ -169,9 +169,8 @@ module TSOS {
 
         public krnTrapError(msg) {
             Control.hostLog("OS ERROR - TRAP: " + msg);
-            // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
+            
             let screen = (<HTMLCanvasElement> document.getElementById('display'));
-            //let ctx = _DrawingContext;
             _DrawingContext.fillStyle = "blue";
             _DrawingContext.fillRect(0, 0, screen.width, screen.height);
             _StdOut.resetXY();
