@@ -78,7 +78,16 @@ var TSOS;
             this.currentYPosition += _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            // TODO: Handle scrolling. (iProject 1)
+            // Fixes scrolling, only does so if current Y Position surpasses height
+            if (this.currentYPosition > _Canvas.height) {
+                // Calculates offset from current position and captures the current canvas ...
+                let offset = this.currentYPosition - _Canvas.height + _FontHeightMargin;
+                let screenData = _DrawingContext.getImageData(0, 0, _Canvas.width, this.currentYPosition + _FontHeightMargin);
+                // ... then clears the screen and redraws the canvas
+                this.clearScreen();
+                _DrawingContext.putImageData(screenData, 0, -offset);
+                this.currentYPosition -= offset;
+            }
         }
     }
     TSOS.Console = Console;
