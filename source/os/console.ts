@@ -41,6 +41,8 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
+                } else if (chr === String.fromCharCode(8)) { // the Backspace key
+                    this.removeText();
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -67,6 +69,20 @@ module TSOS {
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
+         }
+
+        public removeText(): void {
+            // Calculate the size of the current character ...
+            var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+            var ySet = _DefaultFontSize; 
+            // ... then find the beginning of the character to find the area to delete ...
+            var xBeginnningPos = this.currentXPosition - xSet;
+            var yBeginningPos = this.currentYPosition - ySet;
+            
+            // ... then we clear the canvas in the area, set the cursor back to the start, and remove the character from the buffer
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet);
+            this.currentXPosition = xBeginnningPos;
+            this.buffer = this.buffer.slice(0, -1);
          }
 
         public advanceLine(): void {

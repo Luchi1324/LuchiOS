@@ -42,6 +42,9 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
+                else if (chr === String.fromCharCode(8)) { // the Backspace key
+                    this.removeText();
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -67,6 +70,18 @@ var TSOS;
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
+        }
+        removeText() {
+            // Calculate the size of the current character ...
+            var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+            var ySet = _DefaultFontSize;
+            // ... then we want to find out 
+            var xBeginnningPos = this.currentXPosition - xSet;
+            var yBeginningPos = this.currentYPosition - ySet;
+            // ... then we clear the canvas in the area, set the cursor back to the start, and remove the character from the buffer
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet);
+            this.currentXPosition = xBeginnningPos;
+            this.buffer = this.buffer.slice(0, -1);
         }
         advanceLine() {
             this.currentXPosition = 0;
