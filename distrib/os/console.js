@@ -64,11 +64,22 @@ var TSOS;
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                // In order to get line wrap, we need to draw the text character by character for it to work
+                // So I changed the function to do it character by character instead of the entire text at once
+                // I probably could do it with the text all at once, but I'm already pushing the deadline as is.
+                for (let i = 0; i < text.length; i++) {
+                    // If we're at the edge already, then we just advance the line
+                    if (this.currentXPosition > _Canvas.width - 10) {
+                        this.advanceLine();
+                    }
+                    // ... then we start drawing the text
+                    let ch = text.charAt(i);
+                    let offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, ch);
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, ch);
+                    // Move the current X position.
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         }
         removeText() {
