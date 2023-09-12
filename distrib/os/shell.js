@@ -345,6 +345,7 @@ var TSOS;
                 _StdOut.putText("Usage: status <string> Please supply a string.");
             }
         }
+        // TODO: Make the ASCII art smaller
         shellFancyVer(args) {
             _StdOut.putText("  _                             _       __      ____      ___        ____         _  _    ");
             _StdOut.putText("  FJ        _    _     ____     FJ___    LJ     F __ ]    F __\".     F _  ]       FJ  L] ");

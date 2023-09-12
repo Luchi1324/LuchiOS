@@ -12,12 +12,16 @@ var TSOS;
         currentXPosition;
         currentYPosition;
         buffer;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        cmdHistory;
+        cmdNo;
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", cmdHistory = [], cmdNo = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.cmdHistory = cmdHistory;
+            this.cmdNo = cmdNo;
         }
         init() {
             this.clearScreen();
@@ -39,11 +43,31 @@ var TSOS;
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
-                    // ... and reset our buffer.
+                    // ... and add the command to our commandHistory, increase commandNo and reset our buffer.
+                    this.cmdHistory.push(this.buffer);
+                    this.cmdNo++;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) { // the Backspace key
                     this.removeText();
+                }
+                else if (chr === "up") { // The up arrow key
+                    // Removes line, gets the command from the commandHistory and inserts it into the buffer
+                    if (this.cmdNo !== 0) {
+                        this.removeLine();
+                        this.putText(this.cmdHistory[this.cmdNo]);
+                        this.buffer = this.cmdHistory[this.cmdNo];
+                        this.cmdNo--;
+                    }
+                }
+                else if (chr === "down") { // The down arrow key
+                    // Same as upkey, but in opposite direction
+                    if (this.cmdNo !== this.cmdHistory.length - 1) {
+                        this.removeLine();
+                        this.putText(this.cmdHistory[this.cmdNo]);
+                        this.buffer = this.cmdHistory[this.cmdNo];
+                        this.cmdNo++;
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...
@@ -93,6 +117,18 @@ var TSOS;
             _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
             this.currentXPosition = xBeginnningPos;
             this.buffer = this.buffer.slice(0, -1);
+        }
+        removeLine() {
+            // Calculate the size of the current line ...
+            var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+            var ySet = _DefaultFontSize;
+            // ... then find the beginning of the character to find the area to delete ...
+            var xBeginnningPos = this.currentXPosition - xSet;
+            var yBeginningPos = this.currentYPosition - ySet;
+            // ... then we clear the canvas in the area, set the cursor back to the start, and remove the entire line from the buffer
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
+            this.currentXPosition = xBeginnningPos;
+            this.buffer = "";
         }
         advanceLine() {
             this.currentXPosition = 0;

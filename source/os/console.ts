@@ -13,7 +13,9 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public cmdHistory = [],
+                    public cmdNo = 0) {
         }
 
         public init(): void {
@@ -39,10 +41,28 @@ module TSOS {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
-                    // ... and reset our buffer.
+                    // ... and add the command to our commandHistory, increase commandNo and reset our buffer.
+                    this.cmdHistory.push(this.buffer);
+                    this.cmdNo++;
                     this.buffer = "";
                 } else if (chr === String.fromCharCode(8)) { // the Backspace key
                     this.removeText();
+                } else if (chr === "up") { // The up arrow key
+                    // Removes line, gets the command from the commandHistory and inserts it into the buffer
+                    if (this.cmdNo !== 0) {
+                        this.removeLine();
+                        this.putText(this.cmdHistory[this.cmdNo]);
+                        this.buffer = this.cmdHistory[this.cmdNo];
+                        this.cmdNo--;
+                    }
+                } else if (chr === "down") { // The down arrow key
+                    // Same as upkey, but in opposite direction
+                    if (this.cmdNo !== this.cmdHistory.length - 1) {
+                        this.removeLine();
+                        this.putText(this.cmdHistory[this.cmdNo]);
+                        this.buffer = this.cmdHistory[this.cmdNo];
+                        this.cmdNo++;
+                    }
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -69,7 +89,7 @@ module TSOS {
                 for (let i = 0; i < text.length; i++) {
                     // If we're at the edge already, then we just advance the line
                     if (this.currentXPosition > _Canvas.width - 10) {
-                        this.advanceLine()
+                        this.advanceLine();
                     }
                     // ... then we start drawing the text
                     let ch = text.charAt(i);
@@ -94,6 +114,20 @@ module TSOS {
             _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
             this.currentXPosition = xBeginnningPos;
             this.buffer = this.buffer.slice(0, -1);
+         }
+
+         public removeLine(): void {
+            // Calculate the size of the current line ...
+            var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+            var ySet = _DefaultFontSize; 
+            // ... then find the beginning of the character to find the area to delete ...
+            var xBeginnningPos = this.currentXPosition - xSet;
+            var yBeginningPos = this.currentYPosition - ySet;
+            
+            // ... then we clear the canvas in the area, set the cursor back to the start, and remove the entire line from the buffer
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
+            this.currentXPosition = xBeginnningPos;
+            this.buffer = "";
          }
 
         public advanceLine(): void {
