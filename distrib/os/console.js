@@ -12,15 +12,19 @@ var TSOS;
         currentXPosition;
         currentYPosition;
         buffer;
-        cmdHistory;
+        upStack;
+        downStack;
+        currentCommand;
         cmdNo;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", cmdHistory = [], cmdNo = 0) {
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", upStack = [], downStack = [], currentCommand = "", cmdNo = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
-            this.cmdHistory = cmdHistory;
+            this.upStack = upStack;
+            this.downStack = downStack;
+            this.currentCommand = currentCommand;
             this.cmdNo = cmdNo;
         }
         init() {
@@ -43,30 +47,38 @@ var TSOS;
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
-                    // ... and add the command to our commandHistory, increase commandNo and reset our buffer.
-                    this.cmdHistory.push(this.buffer);
-                    this.cmdNo++;
+                    // ... and then insert the command into our up stack (think like it's storing the command 'in' the up key), then clear the buffer
+                    this.upStack.push(this.buffer);
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) { // the Backspace key
                     this.removeText();
                 }
                 else if (chr === "up") { // The up arrow key
-                    // Removes line, gets the command from the commandHistory and inserts it into the buffer
-                    if (this.cmdNo !== 0) {
+                    // If we have commands in the up stack ...
+                    if (this.upStack.length > 0) {
+                        // ... note the current command as the last entered one, and move it to the down stack ...
+                        this.currentCommand = this.upStack.pop();
+                        this.downStack.push(this.currentCommand);
+                        // ... remove the line, and empty the buffer ...
                         this.removeLine();
-                        this.putText(this.cmdHistory[this.cmdNo]);
-                        this.buffer = this.cmdHistory[this.cmdNo];
-                        this.cmdNo--;
+                        this.buffer = "";
+                        // ... then we print the current command, set the buffer, and then set it to nothing again
+                        _StdOut.putText(this.currentCommand);
+                        this.buffer = this.currentCommand;
+                        this.currentCommand = "";
                     }
                 }
                 else if (chr === "down") { // The down arrow key
-                    // Same as upkey, but in opposite direction
-                    if (this.cmdNo !== this.cmdHistory.length - 1) {
+                    // Same method as the up key, but I don't want to write the same thing again
+                    if (this.downStack.length > 0) {
+                        this.currentCommand = this.downStack.pop();
+                        this.upStack.push(this.currentCommand);
                         this.removeLine();
-                        this.putText(this.cmdHistory[this.cmdNo]);
-                        this.buffer = this.cmdHistory[this.cmdNo];
-                        this.cmdNo++;
+                        this.buffer = "";
+                        _StdOut.putText(this.currentCommand);
+                        this.buffer = this.currentCommand;
+                        this.currentCommand = "";
                     }
                 }
                 else {
