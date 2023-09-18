@@ -38,6 +38,8 @@ var TSOS;
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
+                // Used ChatGPT to generate some switch cases for puncutation, more tedium than hard work
+                // I only used this because it saved time, instead of me having to cross reference ACSII and write up a case each time
             }
             else if ((keyCode == 186) || (keyCode == 187) || (keyCode == 188) || (keyCode == 189) ||
                 (keyCode == 190) || (keyCode == 191) || (keyCode == 219) || (keyCode == 220) ||

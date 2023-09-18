@@ -116,6 +116,8 @@ module TSOS {
             }
          }
 
+
+        // Got the idea to remove text via removing a rectangle the size of the character from CyberCore Hall-of-Fame
         public removeText(): void {
             // Calculate the size of the current character ...
             var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
@@ -130,6 +132,7 @@ module TSOS {
             this.buffer = this.buffer.slice(0, -1);
          }
 
+         // Same as removeText() but instead it measures the entire buffer
          public removeLine(): void {
             // Calculate the size of the current line ...
             var xSet = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
