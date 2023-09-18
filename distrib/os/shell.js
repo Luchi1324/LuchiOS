@@ -337,6 +337,7 @@ var TSOS;
         shellStatus(args) {
             let status;
             if (args.length > 0) {
+                // Noticed the .join from the CyberCore hall of fame, I was going to use a for loop to get the args[i]
                 status = args.join(' ');
                 _StdOut.putText(`Set status to '${status}'`);
                 document.getElementById('divStatus').innerHTML = status;
