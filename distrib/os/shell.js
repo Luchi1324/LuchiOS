@@ -337,7 +337,7 @@ var TSOS;
         shellStatus(args) {
             let status;
             if (args.length > 0) {
-                status = args[0];
+                status = args.join(' ');
                 _StdOut.putText(`Set status to '${status}'`);
                 document.getElementById('divStatus').innerHTML = status;
             }
