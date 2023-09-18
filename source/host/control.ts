@@ -89,8 +89,8 @@ module TSOS {
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
             // ... Create and initialize the memory
-            //_Memory = new Memory();
-            //_Memory.init();
+            _Memory = new Memory();
+            _Memory.init();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
