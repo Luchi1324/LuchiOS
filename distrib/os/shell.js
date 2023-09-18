@@ -54,6 +54,9 @@ var TSOS;
             // load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Validates the code in the User Program Input area.");
             this.commandList[this.commandList.length] = sc;
+            // run <pid>
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs a program in memory.");
+            this.commandList[this.commandList.length] = sc;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
@@ -234,6 +237,9 @@ var TSOS;
                         break;
                     case "load":
                         _StdOut.putText("Validates the code in the User Program Input Area (I assume it executes it but we haven't gotten that far yet.");
+                        break;
+                    case "run":
+                        _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
@@ -330,6 +336,9 @@ var TSOS;
             else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(");
             }
+        }
+        shellRun(args) {
+            // TODO: Create the run <pid>
         }
         shellBSOD(args) {
             _Kernel.krnTrapError('Called from CLS.');
