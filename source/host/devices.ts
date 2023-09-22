@@ -65,18 +65,24 @@ module TSOS {
             // Erases table to allow for new one
             memDisplay.innerHTML = "";
 
-            // Used ChatGPT to generate a snippet to populate the memory table
-            let currentRow: HTMLTableRowElement | null = null;
+            let currentRow: HTMLTableRowElement;
   
             _Memory.memArray.forEach((item, index) => {
-                // Create a new row for the first item and for every 8th item
+                // Creates a new row for each item, and adds a heading row
                 if (index % 8 === 0) {
                     currentRow = memDisplay.insertRow();
+                    let cell = currentRow.insertCell();
+                    cell.textContent = `0x${index.toString(16).toUpperCase()}`;
                 }
         
                 if (currentRow) {
                     const cell = currentRow.insertCell();
-                    cell.textContent = item.toString(16);
+                    // Padding 0s
+                    if (item <= 0x0F) {
+                        cell.textContent = `0${item.toString(16).toUpperCase()}`;
+                    } else {
+                        cell.textContent = item.toString(16).toUpperCase();
+                    }
                 }
             })
         }
