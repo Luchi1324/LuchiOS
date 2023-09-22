@@ -52,6 +52,21 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
             }
         }
+        static hostUpdateMemDisplay() {
+            const memDisplay = document.getElementById("tableMemory");
+            // Used ChatGPT to generate a snippet to populate the memory table
+            let currentRow = null;
+            _Memory.memArray.forEach((item, index) => {
+                // Create a new row for the first item and for every 8th item
+                if (index % 8 === 0) {
+                    currentRow = memDisplay.insertRow();
+                }
+                if (currentRow) {
+                    const cell = currentRow.insertCell();
+                    cell.textContent = item.toString(16);
+                }
+            });
+        }
     }
     TSOS.Devices = Devices;
 })(TSOS || (TSOS = {}));
