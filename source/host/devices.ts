@@ -62,6 +62,9 @@ module TSOS {
         public static hostUpdateMemDisplay(): void {
             const memDisplay = <HTMLTableElement> document.getElementById("tableMemory");
 
+            // Erases table to allow for new one
+            memDisplay.innerHTML = "";
+
             // Used ChatGPT to generate a snippet to populate the memory table
             let currentRow: HTMLTableRowElement | null = null;
   

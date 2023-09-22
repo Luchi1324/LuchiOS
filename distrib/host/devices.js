@@ -54,6 +54,8 @@ var TSOS;
         }
         static hostUpdateMemDisplay() {
             const memDisplay = document.getElementById("tableMemory");
+            // Erases table to allow for new one
+            memDisplay.innerHTML = "";
             // Used ChatGPT to generate a snippet to populate the memory table
             let currentRow = null;
             _Memory.memArray.forEach((item, index) => {
