@@ -330,8 +330,23 @@ var TSOS;
                         break;
                     }
                 }
-                // Simple ternary operator to print if the UPI is valid or not
-                flag ? _StdOut.putText("Valid User Program Input!") : _StdOut.putText("Invalid User Program Input.");
+                // If the characters are not valid, we inform the user first. If they are, then we load them into memory
+                if (flag !== true) {
+                    _StdOut.putText("Invalid User Program Input.");
+                }
+                else {
+                    _StdOut.putText("Valid User Program Input! Loading...");
+                    // Adds inputed Hex code to memory
+                    let inputArray = input.split(' ');
+                    for (let i = 0x000; i < inputArray.length; i++) {
+                        let hexValue = parseInt(inputArray[i], 16);
+                        _StdOut.putText(hexValue);
+                        _Memory.setAddr(i, hexValue);
+                    }
+                    // Refreshes memory table once loaded, then informs user it is loaded
+                    TSOS.Devices.hostUpdateMemDisplay();
+                    _StdOut.putText("Loaded!");
+                }
             }
             else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(");
