@@ -408,7 +408,7 @@ module TSOS {
                     }
                     // Refreshes memory table once loaded, then informs user it is loaded
                     Devices.hostUpdateMemDisplay();
-                    _StdOut.putText("Loaded!")
+                    _StdOut.putText(" Loaded!")
                 }
             } else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(")

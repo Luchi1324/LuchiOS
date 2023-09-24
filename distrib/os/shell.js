@@ -345,7 +345,7 @@ var TSOS;
                     }
                     // Refreshes memory table once loaded, then informs user it is loaded
                     TSOS.Devices.hostUpdateMemDisplay();
-                    _StdOut.putText("Loaded!");
+                    _StdOut.putText(" Loaded!");
                 }
             }
             else {
