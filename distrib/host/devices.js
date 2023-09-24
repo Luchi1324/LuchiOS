@@ -52,6 +52,20 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
             }
         }
+        static hostUpdateCpuDisplay() {
+            const cpuDisplay = document.getElementById("tableCpu");
+            // Erases table to allow for new one, and generates headers
+            cpuDisplay.innerHTML = "<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th><th>isExecuting</th></tr>";
+            let currentRow;
+            let cpuAttr = [_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
+            currentRow = cpuDisplay.insertRow();
+            // For loop from an array of the CPU's attributes
+            // There is definitely a better solution, but this is the neatest I can think of so I don't type out 5 'let cell='s
+            for (let i = 0; i < cpuAttr.length; i++) {
+                let cell = currentRow.insertCell();
+                cell.textContent = `${cpuAttr[i].toString()}`;
+            }
+        }
         static hostUpdateMemDisplay() {
             const memDisplay = document.getElementById("tableMemory");
             // Erases table to allow for new one
@@ -60,6 +74,7 @@ var TSOS;
             _Memory.memArray.forEach((item, index) => {
                 // Creates a new row for each item, and adds a heading row
                 if (index % 8 === 0) {
+                    //currentRow = memDisplay.insertRow();
                     currentRow = memDisplay.insertRow();
                     let cell = currentRow.insertCell();
                     cell.textContent = `0x${index.toString(16).toUpperCase()}`;
