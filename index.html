@@ -82,48 +82,64 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
-      <canvas id="display"
-              width="500px"
-              height="500px"
-              tabindex="3">
-      </canvas>
+   <div class="divLeft">
+      <div id="divConsole" style="margin:4px; width:500px; height:500px;">
+         <canvas id="display"
+               width="500px"
+               height="500px"
+               tabindex="3">
+         </canvas>
+      </div>
+      <div id="divCpu" style="margin-left: 4px; margin-top: 20px; clear:none">
+         <div>
+            <label>
+               CPU
+            </label>
+         </div>
+         <div style="width: fit-content; height: 250px; overflow-y: scroll; float: left;  ">
+            <table id="tableCpu">
+            </table>
+         </div>
+      </div>
    </div>
    
-   <div id="divLog" style="margin-left:520px;">
-      <label>
-         Host Log
-         <br>
-         <textarea name="taHostLog"
-                   id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
+   
+   <div class="divCentre">
+      <div id="divLog">
+         <label>
+            Host Log
+            <br>
+            <textarea name="taHostLog"
+                     id  ="taHostLog"
+                     rows="26"
+                     cols="48"
+            ></textarea>
+         </label>
+      </div>
 
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
-                   rows="8"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-</div>
+      <div id="divUserProgramInput">
+         <label>
+            User Program Input
+            <br>
+            <textarea name="taProgramInput"
+                     id  ="taProgramInput"
+                     rows="8"
+                     cols="48"
+            ></textarea>
+         </label>
+      </div>
 
-<div id="divMemory" style="margin-left:520px;">
-   <div>
-       <label>
-           Memory
-       </label>
-   </div>
-   <div style="width: fit-content; height: 250px; overflow-y: scroll; float: left;">
-       <table id="tableMemory">
-       </table>
+      <div id="divMemory">
+         <div>
+            <label>
+               Memory
+            </label>
+         </div>
+         <div style="width: fit-content; height: 250px; overflow-y: scroll; float: left;  ">
+            <table id="tableMemory">
+            </table>
+         </div>
+      </div>
    </div>
 </div>
 

@@ -43,6 +43,19 @@ td {
   vertical-align: middle;
 }
 
+.divLeft {
+  float: left;
+  margin: 10px;
+  width: 23.33%;
+  min-width: 500px;
+}
+
+.divCentre {
+  float: left;
+  width: 23.33%;
+  margin: 10px;
+}
+
 #display {
   background-color:#DFDBC3;
   border: 2px solid red;
