@@ -9,6 +9,6 @@ Now it is being worked on and developed by yours truly, Luciano Mattoli.
 Current Working Branch
 ================
 
-Working on iProject 2 with this branch
+Working on iProject 2 with this branch, please grade Labs 3, 4, & 5 with this one.
 
 
