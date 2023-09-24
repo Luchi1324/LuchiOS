@@ -40,6 +40,7 @@ module TSOS {
         }
 
         // 6502 Op Code functions
+        // TODO: Add op code functionality once I get memoryAccessor and manager working
 
         public loadAccConst(value: number) { // A9 (LDA)
             this.Acc = value;
@@ -47,12 +48,54 @@ module TSOS {
         }
 
         public loadAccMem(num1: number, num2: number) { // AD (LDA)
-            // TODO: Fix memory, then load Acc with value from memory address and value
             this.PC++;
         }
 
-        public storeAccMem() { // 8D (STA)
-            // TODO: Fix memory, then stoare value in Acc to a memory address
+        public storeAccMem(value: number) { // 8D (STA)
+            this.PC++
+        }
+
+        public addWithCarry() { // 6D (ADC)
+            this.PC++
+        }
+
+        public loadXConst(value: number) { // A2 (LDX)
+            this.PC++
+        }
+
+        public loadXMem() { // AE (LDX)
+            this.PC++
+        }
+
+        public loadYConst(value: number) { // A0 (LDY)
+            this.PC++
+        }
+
+        public loadYMem() { // AC (LDY)
+            this.PC++
+        }
+
+        public noOp() { // EA (NOP)
+            this.PC++
+        }
+
+        public break() {  // 00 (BRK)
+            this.PC++
+        }
+
+        public compByteToX(value: number) { // EC (CPX)
+            this.PC++
+        }
+
+        public branchNifZisZero() { // D0 (BNE)
+            this.PC++
+        }
+
+        public incrementByte() { // EE (INC)
+            this.PC++
+        }
+
+        public sysCall() { // FF (SYS)
             this.PC++
         }
     }
