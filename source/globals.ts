@@ -50,6 +50,9 @@ var _KernelBuffers = null;
 var _StdIn:  TSOS.Console = null; 
 var _StdOut: TSOS.Console = null;
 
+// PCB
+var _PCB: TSOS.ProcessControlBlock;
+
 // UI
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;

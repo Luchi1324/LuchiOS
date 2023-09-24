@@ -94,6 +94,11 @@ module TSOS {
             _Memory.init();
             Devices.hostUpdateMemDisplay();
 
+            // ... Create and initialize the PCB, and PCB display
+            _PCB = new ProcessControlBlock();
+            _PCB.init();
+            Devices.hostUpdatePcbDisplay();
+
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
