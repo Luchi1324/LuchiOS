@@ -6,7 +6,9 @@ module TSOS {
         constructor(
             public pid: number = 0,
             public pc: number = 0,
-            public ir: number = 0,
+            public instructionReg: number = 0,
+            public baseReg: number = 0,
+            public limitReg: number = 0,
             public acc: number = 0,
             public XReg: number = 0,
             public YReg: number = 0,
@@ -18,7 +20,9 @@ module TSOS {
         public init() {
             this.pid = 0;
             this.pc = 0;
-            this.ir = 0x00;
+            this.instructionReg = 0x00;
+            this.baseReg = 0x00;
+            this.limitReg = 0x00;
             this.acc = 0;
             this.XReg = 0;
             this.YReg = 0;
@@ -29,7 +33,9 @@ module TSOS {
         public createPCB() {
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
-            this.ir = 0x00;
+            this.instructionReg = 0x00;
+            this.baseReg = 0x00;
+            this.limitReg = 0x00;
             this.acc = 0;
             this.XReg = 0;
             this.YReg = 0;

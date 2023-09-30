@@ -3,18 +3,22 @@ var TSOS;
     class ProcessControlBlock {
         pid;
         pc;
-        ir;
+        instructionReg;
+        baseReg;
+        limitReg;
         acc;
         XReg;
         YReg;
         ZFlag;
         state;
         static currentPID = 0;
-        constructor(pid = 0, pc = 0, ir = 0, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
+        constructor(pid = 0, pc = 0, instructionReg = 0, baseReg = 0, limitReg = 0, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
         ) {
             this.pid = pid;
             this.pc = pc;
-            this.ir = ir;
+            this.instructionReg = instructionReg;
+            this.baseReg = baseReg;
+            this.limitReg = limitReg;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;
@@ -24,7 +28,9 @@ var TSOS;
         init() {
             this.pid = 0;
             this.pc = 0;
-            this.ir = 0x00;
+            this.instructionReg = 0x00;
+            this.baseReg = 0x00;
+            this.limitReg = 0x00;
             this.acc = 0;
             this.XReg = 0;
             this.YReg = 0;
@@ -34,7 +40,9 @@ var TSOS;
         createPCB() {
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
-            this.ir = 0x00;
+            this.instructionReg = 0x00;
+            this.baseReg = 0x00;
+            this.limitReg = 0x00;
             this.acc = 0;
             this.XReg = 0;
             this.YReg = 0;
