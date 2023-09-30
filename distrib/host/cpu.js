@@ -37,20 +37,52 @@ var TSOS;
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
+            if (this.isExecuting) {
+            }
         }
         // 6502 Op Code functions
+        // TODO: Add op code functionality once I get memoryAccessor and manager working
         loadAccConst(value) {
             this.Acc = value;
             this.PC++;
         }
         loadAccMem(num1, num2) {
-            // TODO: Fix memory, then load Acc with value from memory address and value
             this.PC++;
         }
-        storeAccMem() {
-            // TODO: Fix memory, then stoare value in Acc to a memory address
+        storeAccMem(value) {
+            this.PC++;
+        }
+        addWithCarry() {
+            this.PC++;
+        }
+        loadXConst(value) {
+            this.PC++;
+        }
+        loadXMem() {
+            this.PC++;
+        }
+        loadYConst(value) {
+            this.PC++;
+        }
+        loadYMem() {
+            this.PC++;
+        }
+        noOp() {
+            this.PC++;
+        }
+        break() {
+            this.PC++;
+        }
+        compByteToX(value) {
+            this.PC++;
+        }
+        branchNifZisZero() {
+            this.PC++;
+        }
+        incrementByte() {
+            this.PC++;
+        }
+        sysCall() {
             this.PC++;
         }
     }
