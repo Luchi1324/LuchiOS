@@ -401,13 +401,17 @@ module TSOS {
                 } else {
                     _StdOut.putText("Valid User Program Input! Loading...") 
 
-                    // Adds inputed Hex code to memory
+                    // Coverts input array to hex numbers so it can be loaded as a program...
                     let inputArray = input.split(' ');
+                    let program: number[];
                     for (let i = 0x000; i < inputArray.length; i++) {
                         let hexValue = parseInt(inputArray[i], 16);
-                        _StdOut.putText(hexValue);
-                        _Memory.setAddr(i, hexValue);
+                        //_StdOut.putText(hexValue);
+                        program.push(hexValue);
                     }
+
+                    // ... then we pass said program through the memory manager
+                    _MemoryManager.loadMem(program);
                     // Refreshes memory table once loaded, then informs user it is loaded
                     Devices.hostUpdateMemDisplay();
                     _StdOut.putText(" Loaded!")
