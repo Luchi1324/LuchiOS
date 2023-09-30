@@ -71,7 +71,7 @@ var TSOS;
             // Erases table to allow for new one, and generates headers
             pcbDisplay.innerHTML = "<tr><th>PID</th><th>PC</th><th>IR</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th><th>State</th></tr>";
             let currentRow;
-            let pcbAttr = [_PCB.pid, _PCB.pc, _PCB.ir, _PCB.acc, _PCB.XReg, _PCB.YReg, _PCB.ZFlag, _PCB.state];
+            let pcbAttr = [_PCB.pid, _PCB.pc, _PCB.instructionReg, _PCB.acc, _PCB.XReg, _PCB.YReg, _PCB.ZFlag, _PCB.state];
             currentRow = pcbDisplay.insertRow();
             for (let i = 0; i < pcbAttr.length; i++) {
                 let cell = currentRow.insertCell();
