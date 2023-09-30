@@ -22,7 +22,8 @@ module TSOS {
                     break;
                 }
             }
-        
+            
+            // Now we actually write the program to memory
             for (let i = 0x00; i < program.length; i++) {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
