@@ -402,21 +402,18 @@ module TSOS {
                     _StdOut.putText("Valid User Program Input! Loading...") 
 
                     // Coverts input array to hex numbers so it can be loaded as a program...
-                    // TODO: loop stops after one iteration, look at program.push() further
                     let inputArray = input.split(' ');
-                    let program: number[];
+                    let program: number[] = [];
+
                     for (let i = 0x000; i < inputArray.length; i++) {
-                        let hexValue = parseInt(inputArray[i], 16);
-                        _StdOut.putText(hexValue.toString(16));
-                        program.push(hexValue);
+                        program.push(parseInt(inputArray[i], 16));
                     }
 
-                    _StdOut.putText(program.toString());
                     // ... then we pass said program through the memory manager
                     _MemoryManager.loadMem(program);
                     // Refreshes memory table once loaded, then informs user it is loaded
                     Devices.hostUpdateMemDisplay();
-                    _StdOut.putText(" Loaded!")
+                    _StdOut.putText(" Loaded!");
                 }
             } else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(")

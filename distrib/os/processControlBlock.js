@@ -12,7 +12,7 @@ var TSOS;
         ZFlag;
         state;
         static currentPID = 0;
-        constructor(pid = 0, pc = 0, instructionReg = 0, baseReg = 0, limitReg = 0, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
+        constructor(pid = 0, pc = 0, instructionReg = 0x00, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
         ) {
             this.pid = pid;
             this.pc = pc;

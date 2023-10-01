@@ -6,9 +6,9 @@ module TSOS {
         constructor(
             public pid: number = 0,
             public pc: number = 0,
-            public instructionReg: number = 0,
-            public baseReg: number = 0,
-            public limitReg: number = 0,
+            public instructionReg: number = 0x00,
+            public baseReg: number = 0x00,
+            public limitReg: number = 0x00,
             public acc: number = 0,
             public XReg: number = 0,
             public YReg: number = 0,

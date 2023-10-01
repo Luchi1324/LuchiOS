@@ -13,7 +13,7 @@ module TSOS {
         }
 
         public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]) {
-            for (let i = 0x00; i < 0xFF; i++) {
+            for (let i = 0x00; i <= 0xFF; i++) {
                 // First we find the first empty memory space ...
                 if (_Memory.memArray[i] === 0x00) {
                     // ... then we set the pcb's base register to this location, and set the limitReg to fit the full 0xFF bytes
