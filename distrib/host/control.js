@@ -74,6 +74,8 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             TSOS.Devices.hostUpdateMemDisplay();
+            // ... Create and initialize the memory manager and accessor
+            _MemoryAccessor = new TSOS.MemoryAccessor();
             // ... Create and initialize the PCB, and PCB display
             _PCB = new TSOS.ProcessControlBlock();
             _PCB.init();

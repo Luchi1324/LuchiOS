@@ -94,6 +94,9 @@ module TSOS {
             _Memory.init();
             Devices.hostUpdateMemDisplay();
 
+            // ... Create and initialize the memory manager and accessor
+            _MemoryAccessor = new MemoryAccessor();
+
             // ... Create and initialize the PCB, and PCB display
             _PCB = new ProcessControlBlock();
             _PCB.init();
