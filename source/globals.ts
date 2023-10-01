@@ -14,7 +14,7 @@
 const APP_NAME: string    = "LuchiOS";   // OS named after a very cool dude
 const APP_VERSION: string = "0.4";   // Four is a lucky number for me because of swimming, ironic because I'm from Hong Kong and the character for 4 is similar to death so it's very bad luck.
 
-const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
+const CPU_CLOCK_INTERVAL: number = 500;   // This is in ms (milliseconds) so 1000 = 1 second.
 
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
@@ -29,8 +29,8 @@ var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure th
 
 // Memory, Memory Manager, and Memory Accessor
 var _Memory: TSOS.Memory;
-var _MemoryManager: TSOS.MemoryManager;
 var _MemoryAccessor: TSOS.MemoryAccessor;
+var _MemoryManager: any = null;
 
 var _OSclock: number = 0;  // Page 23.
 
