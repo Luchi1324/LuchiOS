@@ -6,11 +6,16 @@ module TSOS {
             this.pcbArr = [];
         }
 
-        public loadMem(program: number[]): void {
+        public loadMem(program: number[]): number {
+            // Creates new PCB object ...
             let pcb = new ProcessControlBlock();
             pcb.createPCB();
+            // ... then we add it to the pcb array and then allocate the memory
             this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
+
+            // Works with load() function and returns the created PCB's PID
+            return pcb.pid;
         }
 
         public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]): void {

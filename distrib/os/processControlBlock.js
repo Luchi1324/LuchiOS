@@ -27,7 +27,8 @@ var TSOS;
         }
         createPCB() {
             // Creates new PCB, class keeps track of current PID number
-            this.pid = ProcessControlBlock.currentPID++;
+            ProcessControlBlock.currentPID++;
+            this.pid = ProcessControlBlock.currentPID;
             this.pc = 0;
             this.instructionReg = 0x00;
             this.baseReg = 0x00;

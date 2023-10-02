@@ -345,10 +345,13 @@ var TSOS;
                         program.push(parseInt(inputArray[i], 16));
                     }
                     // ... then we pass said program through the memory manager
-                    _MemoryManager.loadMem(program);
+                    let loadedPid = _MemoryManager.loadMem(program);
                     // Refreshes memory table once loaded, then informs user it is loaded
                     TSOS.Devices.hostUpdateMemDisplay();
                     _StdOut.putText(" Loaded!");
+                    // Returns the created PCB's PID
+                    _StdOut.advanceLine();
+                    _StdOut.putText(`PID: ${loadedPid}`);
                 }
             }
             else {

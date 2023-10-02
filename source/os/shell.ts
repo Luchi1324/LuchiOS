@@ -410,10 +410,14 @@ module TSOS {
                     }
 
                     // ... then we pass said program through the memory manager
-                    _MemoryManager.loadMem(program);
+                    let loadedPid = _MemoryManager.loadMem(program);
                     // Refreshes memory table once loaded, then informs user it is loaded
                     Devices.hostUpdateMemDisplay();
                     _StdOut.putText(" Loaded!");
+
+                    // Returns the created PCB's PID
+                    _StdOut.advanceLine();
+                    _StdOut.putText(`PID: ${loadedPid}`);
                 }
             } else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(")
