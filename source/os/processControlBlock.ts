@@ -1,7 +1,7 @@
 module TSOS {
 
     export class ProcessControlBlock {
-        static currentPID: number = 0;
+        static currentPID: number = -1;
 
         constructor(
             public pid: number = 0,
@@ -18,8 +18,6 @@ module TSOS {
         }
 
         public createPCB() {
-            // Refreshes PCB display upon new PCB creation
-            Devices.hostUpdatePcbDisplay(this);
             // Creates new PCB, class keeps track of current PID number
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
@@ -31,6 +29,8 @@ module TSOS {
             this.YReg = 0;
             this.ZFlag = 0;
             this.state = "New";
+            // Refreshes PCB display upon new PCB creation
+            Devices.hostUpdatePcbDisplay(this);
         }
 
         public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string) {

@@ -11,7 +11,7 @@ var TSOS;
         YReg;
         ZFlag;
         state;
-        static currentPID = 0;
+        static currentPID = -1;
         constructor(pid = 0, pc = 0, instructionReg = 0x00, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
         ) {
             this.pid = pid;
@@ -26,8 +26,6 @@ var TSOS;
             this.state = state;
         }
         createPCB() {
-            // Refreshes PCB display upon new PCB creation
-            TSOS.Devices.hostUpdatePcbDisplay(this);
             // Creates new PCB, class keeps track of current PID number
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
@@ -39,6 +37,8 @@ var TSOS;
             this.YReg = 0;
             this.ZFlag = 0;
             this.state = "New";
+            // Refreshes PCB display upon new PCB creation
+            TSOS.Devices.hostUpdatePcbDisplay(this);
         }
         updatePCB(pc, acc, XReg, YReg, ZFlag, state) {
             this.pc = pc;
