@@ -33,6 +33,14 @@ module TSOS {
             this.isExecuting = false;
         }
 
+        public loadProgram(pcb: ProcessControlBlock): void {
+            this.PC = pcb.pc;
+            this.Acc = pcb.acc;
+            this.Xreg = pcb.XReg;
+            this.Yreg = pcb.YReg;
+            this.Zflag = pcb.ZFlag;
+        }
+
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             if (this.isExecuting) {
@@ -41,7 +49,6 @@ module TSOS {
         }
 
         // 6502 Op Code functions
-        // TODO: Add op code functionality once I get memoryAccessor and manager working
 
         public loadAccConst(value: number) { // A9 (LDA)
             this.Acc = value;

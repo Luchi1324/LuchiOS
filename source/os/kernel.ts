@@ -150,7 +150,7 @@ module TSOS {
         //
         // OS Utility Routines
         //
-        public krnTrace(msg: string) {
+        public krnTrace(msg: string): void {
              // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
              if (_Trace) {
                 if (msg === "Idle") {
@@ -166,7 +166,7 @@ module TSOS {
              }
         }
 
-        public krnTrapError(msg) {
+        public krnTrapError(msg): void {
             Control.hostLog("OS ERROR - TRAP: " + msg);
             
             let screen = (<HTMLCanvasElement> document.getElementById('display'));

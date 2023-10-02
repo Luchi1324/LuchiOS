@@ -35,13 +35,19 @@ var TSOS;
             this.Zflag = 0;
             this.isExecuting = false;
         }
+        loadProgram(pcb) {
+            this.PC = pcb.pc;
+            this.Acc = pcb.acc;
+            this.Xreg = pcb.XReg;
+            this.Yreg = pcb.YReg;
+            this.Zflag = pcb.ZFlag;
+        }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
             if (this.isExecuting) {
             }
         }
         // 6502 Op Code functions
-        // TODO: Add op code functionality once I get memoryAccessor and manager working
         loadAccConst(value) {
             this.Acc = value;
             this.PC++;

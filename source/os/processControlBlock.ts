@@ -17,7 +17,7 @@ module TSOS {
             ){
         }
 
-        public createPCB() {
+        public createPCB(): void {
             // Creates new PCB, class keeps track of current PID number
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
@@ -33,7 +33,7 @@ module TSOS {
             Devices.hostUpdatePcbDisplay(this);
         }
 
-        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string) {
+        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string): void {
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;

@@ -5,13 +5,13 @@ module TSOS {
 
         }
 
-        public loadMem(program: number[]) {
+        public loadMem(program: number[]): void {
             let pcb = new ProcessControlBlock();
             pcb.createPCB();
             this.allocateMem(pcb, program);
         }
 
-        public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]) {
+        public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]): void {
             for (let i = 0x00; i <= 0xFF; i++) {
                 // First we find the first empty memory space ...
                 if (_Memory.memArray[i] === 0x00) {
