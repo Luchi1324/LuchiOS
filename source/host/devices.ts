@@ -59,16 +59,17 @@ module TSOS {
             }
         }
 
-        public static hostUpdateCpuDisplay(): void {
+        public static hostUpdateCpuDisplay(init?: boolean): void {
             // HTML Context
             const cpuDisplay = <HTMLTableElement> document.getElementById("tableCpu");
             let currentRow: HTMLTableRowElement;
 
-            // Updates current row based on the global _CPU's attributes
+            // Removes previous row if the row is already initialized, then updates current row based on the global _CPU's attributes
+            if (init !== true) { cpuDisplay.deleteRow(1); }
             let cpuAttr = [_CPU.PC, _CPU.instruReg, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
             currentRow = cpuDisplay.insertRow(1);
             for (let i = 0; i < cpuAttr.length; i++) {
-                let cell = currentRow.insertCell(i);
+                let cell = currentRow.insertCell();
                 cell.textContent = `${cpuAttr[i].toString()}`;
             }
         }
