@@ -3,7 +3,6 @@ var TSOS;
     class ProcessControlBlock {
         pid;
         pc;
-        instructionReg;
         baseReg;
         limitReg;
         acc;
@@ -12,11 +11,9 @@ var TSOS;
         ZFlag;
         state;
         static currentPID = -1;
-        constructor(pid = 0, pc = 0, instructionReg = 0x00, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "" // New, Ready, Resident, Executing, Terminated
-        ) {
+        constructor(pid = 0, pc = 0, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "") {
             this.pid = pid;
             this.pc = pc;
-            this.instructionReg = instructionReg;
             this.baseReg = baseReg;
             this.limitReg = limitReg;
             this.acc = acc;
@@ -30,7 +27,6 @@ var TSOS;
             ProcessControlBlock.currentPID++;
             this.pid = ProcessControlBlock.currentPID;
             this.pc = 0;
-            this.instructionReg = 0x00;
             this.baseReg = 0x00;
             this.limitReg = 0x00;
             this.acc = 0;
@@ -41,13 +37,14 @@ var TSOS;
             // Refreshes PCB display upon new PCB creation
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }
-        updatePCB(pc, acc, XReg, YReg, ZFlag, state) {
+        updatePCB(pc, acc, XReg, YReg, ZFlag) {
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;
             this.ZFlag = ZFlag;
-            this.state = state;
+            // Refreshes PCB display upon PCB update
+            TSOS.Devices.hostUpdatePcbDisplay(this);
         }
     }
     TSOS.ProcessControlBlock = ProcessControlBlock;

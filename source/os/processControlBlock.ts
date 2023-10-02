@@ -6,14 +6,13 @@ module TSOS {
         constructor(
             public pid: number = 0,
             public pc: number = 0,
-            public instructionReg: number = 0x00,
             public baseReg: number = 0x00,
             public limitReg: number = 0x00,
             public acc: number = 0,
             public XReg: number = 0,
             public YReg: number = 0,
             public ZFlag: number = 0,
-            public state: string = "" // New, Ready, Resident, Executing, Terminated
+            public state: string = ""
             ){
         }
 
@@ -22,7 +21,6 @@ module TSOS {
             ProcessControlBlock.currentPID++
             this.pid = ProcessControlBlock.currentPID;
             this.pc = 0;
-            this.instructionReg = 0x00;
             this.baseReg = 0x00;
             this.limitReg = 0x00;
             this.acc = 0;
@@ -34,13 +32,14 @@ module TSOS {
             Devices.hostUpdatePcbDisplay(this);
         }
 
-        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string): void {
+        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number): void {
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;
             this.ZFlag = ZFlag;
-            this.state = state;
+            // Refreshes PCB display upon PCB update
+            Devices.hostUpdatePcbDisplay(this);
         }
 
     }

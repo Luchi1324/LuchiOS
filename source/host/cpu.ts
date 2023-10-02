@@ -16,94 +16,135 @@ module TSOS {
     export class Cpu {
 
         constructor(public PC: number = 0,
+                    public instruReg: number = 0,
                     public Acc: number = 0,
                     public Xreg: number = 0,
                     public Yreg: number = 0,
                     public Zflag: number = 0,
-                    public isExecuting: boolean = false) {
+                    public isExecuting: boolean = false,
+                    public currentPCB = null) {
 
         }
 
         public init(): void {
             this.PC = 0;
+            this.instruReg = 0;
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
+            this.currentPCB = null;
         }
 
-        public loadProgram(pcb: ProcessControlBlock): void {
-            this.PC = pcb.pc;
-            this.Acc = pcb.acc;
-            this.Xreg = pcb.XReg;
-            this.Yreg = pcb.YReg;
-            this.Zflag = pcb.ZFlag;
+        public runProgram(pid: number): void {
+            // First we find if our PCB exists...
+            //if (_MemoryManager.pcbArr.pid.indexOf(pid) === -1) {
+                // ... then we load our PCB into the CPU, set the instruction register, and then execute the program
+                this.currentPCB = _MemoryManager.pcbArr[pid];
+                this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+
+                // Our CPU is now executing a program, so it 'isExecuting'
+                this.isExecuting = true;
+
+            //}
         }
 
         public cycle(): void {
-            _Kernel.krnTrace('CPU cycle');
             if (this.isExecuting) {
-                
+                _Kernel.krnTrace('CPU cycle');
+                // Fetches instruction
+                let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+                alert(instruction.toString(16));
+                // Executes appropiate function based on OP code
+                switch (instruction) {
+                    case 0xA9:
+                        this.loadAccConst();
+                        break;
+                    case 0xAD:
+                        this.loadAccMem();
+                        break;
+                    case 0x00:
+                        this.breakOp();
+                        break;
+                    default:
+                        _StdOut.putText("Invalid instruction found. Go study assembly");
+                        break;
+                }
             }
+
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            Devices.hostUpdateCpuDisplay();
         }
 
         // 6502 Op Code functions
 
-        public loadAccConst(value: number) { // A9 (LDA)
-            this.Acc = value;
+        private loadAccConst() { // A9 (LDA)
+            this.PC++;
+            this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
         }
 
-        public loadAccMem(num1: number, num2: number) { // AD (LDA)
+        private loadAccMem() { // AD (LDA)
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.Acc = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
         }
 
-        public storeAccMem(value: number) { // 8D (STA)
+        private storeAccMem(value: number) { // 8D (STA)
             this.PC++
         }
 
-        public addWithCarry() { // 6D (ADC)
+        private addWithCarry() { // 6D (ADC)
             this.PC++
         }
 
-        public loadXConst(value: number) { // A2 (LDX)
+        private loadXConst(value: number) { // A2 (LDX)
             this.PC++
         }
 
-        public loadXMem() { // AE (LDX)
+        private loadXMem() { // AE (LDX)
             this.PC++
         }
 
-        public loadYConst(value: number) { // A0 (LDY)
+        private loadYConst(value: number) { // A0 (LDY)
             this.PC++
         }
 
-        public loadYMem() { // AC (LDY)
+        private loadYMem() { // AC (LDY)
             this.PC++
         }
 
-        public noOp() { // EA (NOP)
+        private noOp() { // EA (NOP)
             this.PC++
         }
 
-        public break() {  // 00 (BRK)
+        private breakOp() {  // 00 (BRK)
+            this.isExecuting = false;
+            this.currentPCB.state = "Terminated";
+            this.currentPCB = null;
+            this.PC = 0;
+            this.Acc = 0;
+            this.Xreg = 0;
+            this.Yreg = 0;
+
+        }
+
+        private compByteToX(value: number) { // EC (CPX)
             this.PC++
         }
 
-        public compByteToX(value: number) { // EC (CPX)
+        private branchNifZisZero() { // D0 (BNE)
             this.PC++
         }
 
-        public branchNifZisZero() { // D0 (BNE)
+        private incrementByte() { // EE (INC)
             this.PC++
         }
 
-        public incrementByte() { // EE (INC)
-            this.PC++
-        }
-
-        public sysCall() { // FF (SYS)
+        private sysCall() { // FF (SYS)
             this.PC++
         }
     }

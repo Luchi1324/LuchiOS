@@ -57,7 +57,7 @@ var TSOS;
             const cpuDisplay = document.getElementById("tableCpu");
             let currentRow;
             // Updates current row based on the global _CPU's attributes
-            let cpuAttr = [_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
+            let cpuAttr = [_CPU.PC, _CPU.instruReg, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
             currentRow = cpuDisplay.insertRow(1);
             for (let i = 0; i < cpuAttr.length; i++) {
                 let cell = currentRow.insertCell(i);
@@ -69,7 +69,7 @@ var TSOS;
             const pcbDisplay = document.getElementById("tablePcb");
             let currentRow;
             // Inserts new row with the attributes of a new PCB object
-            let pcbAttr = [TSOS.ProcessControlBlock.currentPID, pcb.pc, pcb.instructionReg, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
+            let pcbAttr = [TSOS.ProcessControlBlock.currentPID, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             currentRow = pcbDisplay.insertRow();
             for (let i = 0; i < pcbAttr.length; i++) {
                 let cell = currentRow.insertCell();
