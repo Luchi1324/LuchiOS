@@ -25,18 +25,6 @@ var TSOS;
             this.ZFlag = ZFlag;
             this.state = state;
         }
-        /* public init() {
-            this.pid = 0;
-            this.pc = 0;
-            this.instructionReg = 0x00;
-            this.baseReg = 0x00;
-            this.limitReg = 0x00;
-            this.acc = 0;
-            this.XReg = 0;
-            this.YReg = 0;
-            this.ZFlag = 0;
-            this.state = "";
-        } */
         createPCB() {
             // Refreshes PCB display upon new PCB creation
             TSOS.Devices.hostUpdatePcbDisplay(this);
