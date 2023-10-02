@@ -325,7 +325,7 @@ var TSOS;
             // No point in running the function if the field is empty
             if (input.length != 0) {
                 for (let i = 0; i < input.length; i++) {
-                    let ch = input[i];
+                    let ch = input[i].toUpperCase();
                     // Curses taught me about the .indexOf, could've prevented a lot of nested loops with that in the past
                     if (hex.indexOf(ch) === -1) {
                         flag = false;
