@@ -61,8 +61,6 @@ module TSOS {
 
         public static hostUpdateCpuDisplay(): void {
             const cpuDisplay = <HTMLTableElement> document.getElementById("tableCpu");
-            // Erases table to allow for new one, and generates headers
-            cpuDisplay.innerHTML = "<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th><th>isExecuting</th></tr>";
 
             let currentRow: HTMLTableRowElement;
             let cpuAttr = [_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
@@ -77,15 +75,14 @@ module TSOS {
             }
         }
 
-        public static hostUpdatePcbDisplay(): void {
+        public static hostUpdatePcbDisplay(pcb: ProcessControlBlock): void {
             const pcbDisplay = <HTMLTableElement> document.getElementById("tablePcb");
-            // Erases table to allow for new one, and generates headers
-            pcbDisplay.innerHTML = "<tr><th>PID</th><th>PC</th><th>IR</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th><th>State</th></tr>";
 
             let currentRow: HTMLTableRowElement;
-            let pcbAttr = [_PCB.pid, _PCB.pc, _PCB.instructionReg, _PCB.acc, _PCB.XReg, _PCB.YReg, _PCB.ZFlag, _PCB.state];
 
+            let pcbAttr = [ProcessControlBlock.currentPID, pcb.pc, pcb.instructionReg, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             currentRow = pcbDisplay.insertRow();
+
             for (let i = 0; i < pcbAttr.length; i++) {
                 let cell = currentRow.insertCell();
                 cell.textContent = `${pcbAttr[i].toString()}`;

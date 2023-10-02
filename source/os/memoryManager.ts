@@ -7,9 +7,8 @@ module TSOS {
 
         public loadMem(program: number[]) {
             let pcb = new ProcessControlBlock();
+            pcb.createPCB();
             this.allocateMem(pcb, program);
-
-            Devices.hostUpdatePcbDisplay();
         }
 
         public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]) {

@@ -97,10 +97,6 @@ module TSOS {
             // ... Create and initialize the memory manager and accessor
             _MemoryAccessor = new MemoryAccessor();
 
-            // ... Create and initialize the PCB, and PCB display
-            _PCB = new ProcessControlBlock();
-            _PCB.init();
-            Devices.hostUpdatePcbDisplay();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

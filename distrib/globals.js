@@ -41,8 +41,6 @@ var _KernelBuffers = null;
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;
-// PCB
-var _PCB;
 // UI
 var _Console;
 var _OsShell;

@@ -5,8 +5,8 @@ var TSOS;
         }
         loadMem(program) {
             let pcb = new TSOS.ProcessControlBlock();
+            pcb.createPCB();
             this.allocateMem(pcb, program);
-            TSOS.Devices.hostUpdatePcbDisplay();
         }
         allocateMem(pcb, program) {
             for (let i = 0x00; i <= 0xFF; i++) {

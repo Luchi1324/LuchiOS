@@ -17,20 +17,10 @@ module TSOS {
             ){
         }
 
-        public init() {
-            this.pid = 0;
-            this.pc = 0;
-            this.instructionReg = 0x00;
-            this.baseReg = 0x00;
-            this.limitReg = 0x00;
-            this.acc = 0;
-            this.XReg = 0;
-            this.YReg = 0;
-            this.ZFlag = 0;
-            this.state = "";
-        }
-
         public createPCB() {
+            // Refreshes PCB display upon new PCB creation
+            Devices.hostUpdatePcbDisplay(this);
+            // Creates new PCB, class keeps track of current PID number
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
             this.instructionReg = 0x00;
@@ -43,12 +33,13 @@ module TSOS {
             this.state = "New";
         }
 
-        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number) {
+        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string) {
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;
             this.ZFlag = ZFlag;
+            this.state = state;
         }
 
     }

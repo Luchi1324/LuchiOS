@@ -25,7 +25,7 @@ var TSOS;
             this.ZFlag = ZFlag;
             this.state = state;
         }
-        init() {
+        /* public init() {
             this.pid = 0;
             this.pc = 0;
             this.instructionReg = 0x00;
@@ -36,8 +36,11 @@ var TSOS;
             this.YReg = 0;
             this.ZFlag = 0;
             this.state = "";
-        }
+        } */
         createPCB() {
+            // Refreshes PCB display upon new PCB creation
+            TSOS.Devices.hostUpdatePcbDisplay(this);
+            // Creates new PCB, class keeps track of current PID number
             this.pid = ProcessControlBlock.currentPID++;
             this.pc = 0;
             this.instructionReg = 0x00;
@@ -49,12 +52,13 @@ var TSOS;
             this.ZFlag = 0;
             this.state = "New";
         }
-        updatePCB(pc, acc, XReg, YReg, ZFlag) {
+        updatePCB(pc, acc, XReg, YReg, ZFlag, state) {
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;
             this.ZFlag = ZFlag;
+            this.state = state;
         }
     }
     TSOS.ProcessControlBlock = ProcessControlBlock;
