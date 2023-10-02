@@ -1,13 +1,15 @@
 module TSOS {
 
     export class MemoryManager {
+        public pcbArr: ProcessControlBlock[];
         constructor() {
-
+            this.pcbArr = [];
         }
 
         public loadMem(program: number[]): void {
             let pcb = new ProcessControlBlock();
             pcb.createPCB();
+            this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
         }
 

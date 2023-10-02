@@ -1,11 +1,14 @@
 var TSOS;
 (function (TSOS) {
     class MemoryManager {
+        pcbArr;
         constructor() {
+            this.pcbArr = [];
         }
         loadMem(program) {
             let pcb = new TSOS.ProcessControlBlock();
             pcb.createPCB();
+            this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
         }
         allocateMem(pcb, program) {
