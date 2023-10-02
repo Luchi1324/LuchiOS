@@ -359,7 +359,13 @@ var TSOS;
             }
         }
         shellRun(args) {
-            // TODO: Create the run <pid>
+            if (args.length > 0) {
+                let pid = parseInt(args[0]);
+                _CPU.runProgram(pid);
+            }
+            else {
+                _StdOut.putText("Usage: run <pid> Please supply a PID.");
+            }
         }
         shellBSOD(args) {
             _Kernel.krnTrapError('Called from CLS.');

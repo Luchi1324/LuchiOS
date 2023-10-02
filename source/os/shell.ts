@@ -425,7 +425,12 @@ module TSOS {
         }
 
         public shellRun(args: string[]) {
-            // TODO: Create the run <pid>
+            if (args.length > 0) {
+                let pid = parseInt(args[0]);
+                _CPU.runProgram(pid);
+            } else {
+                _StdOut.putText("Usage: run <pid> Please supply a PID.")
+            }
         }
 
         public shellBSOD(args: string[]) {
