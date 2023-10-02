@@ -53,20 +53,22 @@ var TSOS;
             }
         }
         static hostUpdateCpuDisplay() {
+            // HTML Context
             const cpuDisplay = document.getElementById("tableCpu");
             let currentRow;
+            // Updates current row based on the global _CPU's attributes
             let cpuAttr = [_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
-            currentRow = cpuDisplay.insertRow();
-            // For loop from an array of the CPU's attributes
-            // There is definitely a better solution, but this is the neatest I can think of so I don't type out 5 'let cell='s
+            currentRow = cpuDisplay.insertRow(1);
             for (let i = 0; i < cpuAttr.length; i++) {
-                let cell = currentRow.insertCell();
+                let cell = currentRow.insertCell(i);
                 cell.textContent = `${cpuAttr[i].toString()}`;
             }
         }
         static hostUpdatePcbDisplay(pcb) {
+            // HTML Context
             const pcbDisplay = document.getElementById("tablePcb");
             let currentRow;
+            // Inserts new row with the attributes of a new PCB object
             let pcbAttr = [TSOS.ProcessControlBlock.currentPID, pcb.pc, pcb.instructionReg, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             currentRow = pcbDisplay.insertRow();
             for (let i = 0; i < pcbAttr.length; i++) {
@@ -82,7 +84,6 @@ var TSOS;
             _Memory.memArray.forEach((item, index) => {
                 // Creates a new row for each item, and adds a heading row
                 if (index % 8 === 0) {
-                    //currentRow = memDisplay.insertRow();
                     currentRow = memDisplay.insertRow();
                     let cell = currentRow.insertCell();
                     cell.textContent = `0x${index.toString(16).toUpperCase()}`;
