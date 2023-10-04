@@ -41,7 +41,7 @@ module TSOS {
             this.ZFlag = ZFlag;
             this.state = state;
             // Refreshes PCB display upon PCB update
-            //Devices.hostUpdatePcbDisplay(this);
+            Devices.hostUpdatePcbDisplay(this);
         }
 
     }

@@ -57,35 +57,35 @@ var TSOS;
                 _Kernel.krnTrace('CPU cycle');
                 // Fetches instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+                this.instruReg = instruction;
                 // Executes appropiate function based on OP code
                 switch (instruction) {
                     case 0xA9:
-                        alert('A9');
                         this.loadAccConst();
                         break;
                     case 0xAD:
                         this.loadAccMem();
                         break;
                     case 0x00:
-                        alert('00');
                         this.breakOp();
                         break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
                         break;
                 }
-                this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
             }
+            TSOS.Devices.hostUpdateCpuDisplay();
+            // If single step is enabled, CPU stops executing per cycle until step is pressed
             if (this.singleStep === true) {
                 this.isExecuting = false;
             }
-            TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions
         loadAccConst() {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadAccMem() {
             this.PC++;
@@ -93,6 +93,7 @@ var TSOS;
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         storeAccMem(value) {
             this.PC++;
@@ -117,12 +118,8 @@ var TSOS;
         }
         breakOp() {
             this.isExecuting = false;
-            this.currentPCB.state = "Terminated";
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
         }
         compByteToX(value) {
             this.PC++;

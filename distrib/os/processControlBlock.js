@@ -46,7 +46,7 @@ var TSOS;
             this.ZFlag = ZFlag;
             this.state = state;
             // Refreshes PCB display upon PCB update
-            //Devices.hostUpdatePcbDisplay(this);
+            TSOS.Devices.hostUpdatePcbDisplay(this);
         }
     }
     TSOS.ProcessControlBlock = ProcessControlBlock;
