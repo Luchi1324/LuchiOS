@@ -42,21 +42,20 @@ var TSOS;
             this.currentPCB = null;
         }
         runProgram(pid) {
-            // First we find if our PCB exists...
-            //if (_MemoryManager.pcbArr.pid.indexOf(pid) === -1) {
             // ... then we load our PCB into the CPU, set the instruction register, and then execute the program
             this.currentPCB = _MemoryManager.pcbArr[pid];
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            //this.currentPCB.updatePCB(this.currentPCB.PC, this.currentPCB.acc, this.currentPCB.XReg, this.currentPCB.YReg, this.currentPCB.ZFlag, "Executing");
             // Our CPU is now executing a program, so it 'isExecuting'
+            this.currentPCB.state = "Executing";
             this.isExecuting = true;
-            //}
         }
         cycle() {
-            if (this.isExecuting) {
+            if (this.isExecuting && this.currentPCB !== null) {
+                TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
                 _Kernel.krnTrace('CPU cycle');
                 // Fetches instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
-                alert(instruction.toString(16));
+                //alert(instruction.toString(16));
                 // Executes appropiate function based on OP code
                 switch (instruction) {
                     case 0xA9:

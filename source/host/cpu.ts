@@ -14,7 +14,6 @@
 module TSOS {
 
     export class Cpu {
-
         constructor(public PC: number = 0,
                     public instruReg: number = 0,
                     public Acc: number = 0,
@@ -38,24 +37,23 @@ module TSOS {
         }
 
         public runProgram(pid: number): void {
-            // First we find if our PCB exists...
-            //if (_MemoryManager.pcbArr.pid.indexOf(pid) === -1) {
-                // ... then we load our PCB into the CPU, set the instruction register, and then execute the program
-                this.currentPCB = _MemoryManager.pcbArr[pid];
-                this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            // ... then we load our PCB into the CPU, set the instruction register, and then execute the program
+            this.currentPCB = _MemoryManager.pcbArr[pid];
+            //this.currentPCB.updatePCB(this.currentPCB.PC, this.currentPCB.acc, this.currentPCB.XReg, this.currentPCB.YReg, this.currentPCB.ZFlag, "Executing");
 
-                // Our CPU is now executing a program, so it 'isExecuting'
-                this.isExecuting = true;
-
-            //}
+            // Our CPU is now executing a program, so it 'isExecuting'
+            this.currentPCB.state = "Executing";
+            this.isExecuting = true;
         }
 
         public cycle(): void {
-            if (this.isExecuting) {
+            if (this.isExecuting && this.currentPCB !== null) {
+                Devices.hostUpdatePcbDisplay(this.currentPCB);
                 _Kernel.krnTrace('CPU cycle');
                 // Fetches instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
-                alert(instruction.toString(16));
+                //alert(instruction.toString(16));
+
                 // Executes appropiate function based on OP code
                 switch (instruction) {
                     case 0xA9:

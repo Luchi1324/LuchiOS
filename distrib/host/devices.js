@@ -71,7 +71,6 @@ var TSOS;
             // HTML Context
             const pcbDisplay = document.getElementById("tablePcb");
             let currentRow;
-            // Inserts new row with the attributes of a new PCB object
             let pcbAttr = [TSOS.ProcessControlBlock.currentPID, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             currentRow = pcbDisplay.insertRow();
             for (let i = 0; i < pcbAttr.length; i++) {

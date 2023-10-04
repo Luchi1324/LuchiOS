@@ -78,14 +78,14 @@ module TSOS {
             // HTML Context
             const pcbDisplay = <HTMLTableElement> document.getElementById("tablePcb");
             let currentRow: HTMLTableRowElement;
-
-            // Inserts new row with the attributes of a new PCB object
+            
             let pcbAttr = [ProcessControlBlock.currentPID, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             currentRow = pcbDisplay.insertRow();
             for (let i = 0; i < pcbAttr.length; i++) {
                 let cell = currentRow.insertCell();
                 cell.textContent = `${pcbAttr[i].toString()}`;
             }
+            
         }
 
         public static hostUpdateMemDisplay(): void {
