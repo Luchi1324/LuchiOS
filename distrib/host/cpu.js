@@ -21,7 +21,8 @@ var TSOS;
         Zflag;
         isExecuting;
         currentPCB;
-        constructor(PC = 0, instruReg = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, currentPCB = null) {
+        singleStep;
+        constructor(PC = 0, instruReg = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, currentPCB = null, singleStep = false) {
             this.PC = PC;
             this.instruReg = instruReg;
             this.Acc = Acc;
@@ -30,6 +31,7 @@ var TSOS;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
             this.currentPCB = currentPCB;
+            this.singleStep = singleStep;
         }
         init() {
             this.PC = 0;
@@ -46,33 +48,37 @@ var TSOS;
             this.currentPCB = _MemoryManager.pcbArr[pid];
             //this.currentPCB.updatePCB(this.currentPCB.PC, this.currentPCB.acc, this.currentPCB.XReg, this.currentPCB.YReg, this.currentPCB.ZFlag, "Executing");
             // Our CPU is now executing a program, so it 'isExecuting'
-            this.currentPCB.state = "Executing";
+            //this.currentPCB.state = "Executing";
+            //Devices.hostUpdatePcbDisplay(this.currentPCB);
             this.isExecuting = true;
         }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
-                TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
                 _Kernel.krnTrace('CPU cycle');
                 // Fetches instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
-                //alert(instruction.toString(16));
                 // Executes appropiate function based on OP code
                 switch (instruction) {
                     case 0xA9:
+                        alert('A9');
                         this.loadAccConst();
                         break;
                     case 0xAD:
                         this.loadAccMem();
                         break;
                     case 0x00:
+                        alert('00');
                         this.breakOp();
                         break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
                         break;
                 }
+                this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
             }
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            if (this.singleStep === true) {
+                this.isExecuting = false;
+            }
             TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions

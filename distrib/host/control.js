@@ -100,8 +100,14 @@ var TSOS;
             // page from its cache, which is not what we want.
         }
         static hostBtnSingleStepMode_click(btn) {
+            // 'Toggles' the boolean value for the CPU object
+            _CPU.singleStep = !(_CPU.singleStep);
+            // Enables the step button, and informs the user that it is on
+            document.getElementById("btnStep").disabled = !(_CPU.singleStep);
+            btn.value = (_CPU.singleStep) ? 'Single Step: On' : 'Single Step: Off';
         }
         static hostBtnStep_click(btn) {
+            _CPU.isExecuting = true;
         }
     }
     TSOS.Control = Control;

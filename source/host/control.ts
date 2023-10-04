@@ -125,11 +125,15 @@ module TSOS {
         }
 
         public static hostBtnSingleStepMode_click(btn): void {
-
+            // 'Toggles' the boolean value for the CPU object
+            _CPU.singleStep = !(_CPU.singleStep);
+            // Enables the step button, and informs the user that it is on
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = !(_CPU.singleStep);
+            btn.value = (_CPU.singleStep) ? 'Single Step: On' : 'Single Step: Off';
         }
 
         public static hostBtnStep_click(btn): void {
-
+            _CPU.isExecuting = true;
         }
     }
 }

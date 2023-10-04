@@ -21,7 +21,8 @@ module TSOS {
                     public Yreg: number = 0,
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
-                    public currentPCB = null) {
+                    public currentPCB = null,
+                    public singleStep = false) {
 
         }
 
@@ -42,36 +43,41 @@ module TSOS {
             //this.currentPCB.updatePCB(this.currentPCB.PC, this.currentPCB.acc, this.currentPCB.XReg, this.currentPCB.YReg, this.currentPCB.ZFlag, "Executing");
 
             // Our CPU is now executing a program, so it 'isExecuting'
-            this.currentPCB.state = "Executing";
+            //this.currentPCB.state = "Executing";
+            //Devices.hostUpdatePcbDisplay(this.currentPCB);
             this.isExecuting = true;
         }
 
         public cycle(): void {
             if (this.isExecuting && this.currentPCB !== null) {
-                Devices.hostUpdatePcbDisplay(this.currentPCB);
                 _Kernel.krnTrace('CPU cycle');
                 // Fetches instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
-                //alert(instruction.toString(16));
 
                 // Executes appropiate function based on OP code
                 switch (instruction) {
                     case 0xA9:
+                        alert('A9');
                         this.loadAccConst();
                         break;
                     case 0xAD:
                         this.loadAccMem();
                         break;
                     case 0x00:
+                        alert('00');
                         this.breakOp();
                         break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
                         break;
                 }
+                this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
             }
 
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            if (this.singleStep === true) {
+                this.isExecuting = false;
+            }
+
             Devices.hostUpdateCpuDisplay();
         }
 
