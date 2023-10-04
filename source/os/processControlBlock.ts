@@ -32,16 +32,16 @@ module TSOS {
             Devices.hostUpdatePcbDisplay(this);
         }
 
-        public updatePCB(pc?: number, acc?: number, XReg?: number, YReg?: number, ZFlag?: number, state?: string): void {
-            // General update function, ternary operators allow for all parameters to be made optional
-            typeof pc !== null ? this.pc = pc : this.pc = this.pc;
-            typeof acc !== null ? this.acc = acc : this.acc = this.acc;
-            typeof XReg !== null ? this.XReg = XReg : this.XReg = this.XReg;
-            typeof YReg !== null ? this.XReg = YReg : this.XReg = this.XReg;
-            typeof ZFlag !== null ? this.ZFlag = ZFlag : this.ZFlag = this.ZFlag;
-            typeof state !== null ? this.state = state : this.state = this.state;
+        public updatePCB(pc: number, acc: number, XReg?: number, YReg?: number, ZFlag?: number, state?: string): void {
+            // General update function, if null is passed then we keep the current values in the CPU registers
+            this.pc = pc;
+            this.acc = acc;
+            this.XReg = XReg;
+            this.XReg = YReg;
+            this.ZFlag = ZFlag;
+            this.state = state;
             // Refreshes PCB display upon PCB update
-            Devices.hostUpdatePcbDisplay(this);
+            //Devices.hostUpdatePcbDisplay(this);
         }
 
     }
