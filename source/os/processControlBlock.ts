@@ -1,7 +1,7 @@
 module TSOS {
 
     export class ProcessControlBlock {
-        static currentPID: number = -1;
+        public static currentPID: number = -1;
 
         constructor(
             public pid: number = 0,
