@@ -71,7 +71,8 @@ td {
 }
 
 .normal_button {
-  width: 100px;
+  width: fit-content;
+  padding: 5px 8px;
 }
 
 .footerText {
