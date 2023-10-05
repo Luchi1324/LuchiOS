@@ -51,11 +51,11 @@ module TSOS {
         public cycle(): void {
             if (this.isExecuting && this.currentPCB !== null) {
                 _Kernel.krnTrace('CPU cycle');
-                // Fetches instruction
+                // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
 
-                // Executes appropiate function based on OP code
+                // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
                     case 0xA9:
                         this.loadAccConst();
@@ -63,11 +63,45 @@ module TSOS {
                     case 0xAD:
                         this.loadAccMem();
                         break;
+                    case 0x8D:
+                        this.storeAccMem();
+                        break;
+                    case 0x6D:
+                        this.addWithCarry();
+                        break;
+                    case 0xA2:
+                        this.loadXConst();
+                        break;
+                    case 0xAE:
+                        this.loadXMem();
+                        break;
+                    case 0xA0:
+                        this.loadYConst();
+                        break;
+                    case 0xAC:
+                        this.loadYMem();
+                        break;
+                    case 0xEA:
+                        this.PC++;
+                        break;
+                    case 0xEC:
+                        this.compByteToX();
+                        break;
+                    case 0xD0:
+                        this.branchNifZisZero();
+                        break;
+                    case 0xEE:
+                        this.incrementByte();
+                        break;
                     case 0x00:
                         this.breakOp();
                         break;
+                    case 0xFF:
+                        this.sysCall();
+                        break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
+                        this.isExecuting = false;
                         break;
                 }
             }
@@ -98,54 +132,117 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private storeAccMem(value: number) { // 8D (STA)
+        private storeAccMem() { // 8D (STA)
             this.PC++
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++
+            _MemoryAccessor.writeMem(this.currentPCB, addr, this.Acc);
+            this.PC++
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private addWithCarry() { // 6D (ADC)
-            this.PC++
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.Acc += _MemoryAccessor.readMem(this.currentPCB, addr);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadXConst(value: number) { // A2 (LDX)
-            this.PC++
+        private loadXConst() { // A2 (LDX)
+            this.PC++;
+            this.Xreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private loadXMem() { // AE (LDX)
-            this.PC++
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.Xreg = _MemoryAccessor.readMem(this.currentPCB, addr);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadYConst(value: number) { // A0 (LDY)
-            this.PC++
+        private loadYConst() { // A0 (LDY)
+            this.PC++;
+            this.Yreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private loadYMem() { // AC (LDY)
-            this.PC++
-        }
-
-        private noOp() { // EA (NOP)
-            this.PC++
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            this.Yreg = _MemoryAccessor.readMem(this.currentPCB, addr);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private breakOp() {  // 00 (BRK)
             this.isExecuting = false;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
+            _MemoryManager.clearMem();
         }
 
-        private compByteToX(value: number) { // EC (CPX)
-            this.PC++
+        private compByteToX() { // EC (CPX)
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            if (this.Xreg === _MemoryAccessor.readMem(this.currentPCB, this.PC)) {
+                this.Zflag = 1;
+            } else {
+                this.Zflag = 0;
+            }
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private branchNifZisZero() { // D0 (BNE)
-            this.PC++
+            this.PC++;
+            if (this.Zflag === 0) {
+                let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+                this.PC++;
+                let branch = _MemoryAccessor.readMem(this.currentPCB, addr);
+                this.PC += branch;
+            } else {
+                this.PC++;
+            }
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private incrementByte() { // EE (INC)
-            this.PC++
+            this.PC++;
+            let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+            this.PC++;
+            let val = _MemoryAccessor.readMem(this.currentPCB, addr);
+            val++;
+            _MemoryAccessor.writeMem(this.currentPCB, addr, val);
+            this.PC++;
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         private sysCall() { // FF (SYS)
-            this.PC++
+            if (this.Xreg === 1) {
+                this.PC++;
+                _StdOut.putText(this.Yreg.toString());
+            } else if (this.Xreg === 2) {
+                let str = '';
+                let addr = this.Yreg;
+                let val = _MemoryAccessor.readMem(this.currentPCB, addr);
+                while (val !== 0x00) {
+                    let char = String.fromCharCode(val);
+                    str += char.toString();
+                    addr++;
+                    val = _MemoryAccessor.readMem(this.currentPCB, addr);
+                }
+                _StdOut.putText(str);
+            }
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
     }
 }
