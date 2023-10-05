@@ -33,7 +33,6 @@ var TSOS;
         // clearMem ^ 2, this is a bandaid solution until I can think of something smarter
         clearMem() {
             _MemoryAccessor.clearMem();
-            TSOS.Devices.hostUpdateMemDisplay();
         }
     }
     TSOS.MemoryManager = MemoryManager;
