@@ -72,10 +72,24 @@ var TSOS;
             const pcbDisplay = document.getElementById("tablePcb");
             let currentRow;
             let pcbAttr = [TSOS.ProcessControlBlock.currentPID, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
-            currentRow = pcbDisplay.insertRow();
-            for (let i = 0; i < pcbAttr.length; i++) {
-                let cell = currentRow.insertCell();
-                cell.textContent = `${pcbAttr[i].toString()}`;
+            // If the PCB being inserted is not a new one ...
+            if (TSOS.ProcessControlBlock.currentPID === pcbAttr[0] && pcbAttr[6] != "New") {
+                // ... then we remove the old one ...
+                pcbDisplay.deleteRow(TSOS.ProcessControlBlock.currentPID + 1);
+                // ... and insert the most recent version of the PCB
+                currentRow = pcbDisplay.insertRow(TSOS.ProcessControlBlock.currentPID + 1);
+                for (let i = 0; i < pcbAttr.length; i++) {
+                    let cell = currentRow.insertCell();
+                    cell.textContent = `${pcbAttr[i].toString()}`;
+                }
+                // else we just insert a newer row for the new PCB
+            }
+            else {
+                currentRow = pcbDisplay.insertRow();
+                for (let i = 0; i < pcbAttr.length; i++) {
+                    let cell = currentRow.insertCell();
+                    cell.textContent = `${pcbAttr[i].toString()}`;
+                }
             }
         }
         static hostUpdateMemDisplay() {
