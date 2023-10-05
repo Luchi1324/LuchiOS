@@ -13,6 +13,10 @@ var TSOS;
         writeMem(pcb, addr, value) {
             _Memory.setAddr(pcb.baseReg + addr, value);
         }
+        // Clears memory by reininitlaizing it
+        clearMem() {
+            _Memory.init();
+        }
     }
     TSOS.MemoryAccessor = MemoryAccessor;
 })(TSOS || (TSOS = {}));

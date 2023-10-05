@@ -30,6 +30,10 @@ var TSOS;
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
         }
+        // clearMem ^ 2, this is a bandaid solution until I can think of something smarter
+        clearMem() {
+            _MemoryAccessor.clearMem();
+        }
     }
     TSOS.MemoryManager = MemoryManager;
 })(TSOS || (TSOS = {}));

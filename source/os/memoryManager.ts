@@ -34,5 +34,10 @@ module TSOS {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
         }
+
+        // clearMem ^ 2, this is a bandaid solution until I can think of something smarter
+        public clearMem(): void {
+            _MemoryAccessor.clearMem();
+        }
     }
 }

@@ -15,5 +15,10 @@ module TSOS {
         public writeMem(pcb: TSOS.ProcessControlBlock, addr: number, value: number): void {
             _Memory.setAddr(pcb.baseReg + addr, value);
         }
+
+        // Clears memory by reininitlaizing it
+        public clearMem(): void {
+            _Memory.init();
+        }
     }
 }
