@@ -109,6 +109,7 @@ var TSOS;
                 }
             }
             TSOS.Devices.hostUpdateCpuDisplay();
+            TSOS.Devices.hostUpdateMemDisplay();
             // If single step is enabled, CPU stops executing per cycle until step is pressed
             if (this.singleStep === true) {
                 this.isExecuting = false;
@@ -177,7 +178,7 @@ var TSOS;
             this.isExecuting = false;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
-            _MemoryManager.clearMem();
+            //_MemoryManager.clearMem();
         }
         compByteToX() {
             this.PC++;

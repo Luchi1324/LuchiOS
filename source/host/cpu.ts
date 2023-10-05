@@ -107,6 +107,7 @@ module TSOS {
             }
 
             Devices.hostUpdateCpuDisplay();
+            Devices.hostUpdateMemDisplay();
 
             // If single step is enabled, CPU stops executing per cycle until step is pressed
             if (this.singleStep === true) {
@@ -186,7 +187,7 @@ module TSOS {
             this.isExecuting = false;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
-            _MemoryManager.clearMem();
+            //_MemoryManager.clearMem();
         }
 
         private compByteToX() { // EC (CPX)
