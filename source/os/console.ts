@@ -98,7 +98,7 @@ module TSOS {
                         _StdOut.putText(this.buffer);
                     } 
                 } else if (chr === "ctrl+c") { // Ctrl + C
-                    //alert("Ctrl + C Pressed!")
+                    _CPU.killProgram();
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

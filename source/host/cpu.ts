@@ -38,14 +38,14 @@ module TSOS {
         }
 
         public runProgram(pid: number): void {
-            // ... then we load our PCB into the CPU, set the instruction register, and then execute the program
+            // ... then we load our PCB into the CPU and then execute the program
             this.currentPCB = _MemoryManager.pcbArr[pid];
-            //this.currentPCB.updatePCB(this.currentPCB.PC, this.currentPCB.acc, this.currentPCB.XReg, this.currentPCB.YReg, this.currentPCB.ZFlag, "Executing");
-
-            // Our CPU is now executing a program, so it 'isExecuting'
-            //this.currentPCB.state = "Executing";
-            //Devices.hostUpdatePcbDisplay(this.currentPCB);
             this.isExecuting = true;
+        }
+
+        public killProgram(): void {
+            // Used for ctrl-c until I better understand interrupts. Right now, it just uses the BRK op code as it 'breaks' the current program
+            this.breakOp();
         }
 
         public cycle(): void {
@@ -187,7 +187,7 @@ module TSOS {
             this.isExecuting = false;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
-            //_MemoryManager.clearMem();
+            _MemoryManager.clearMem();
         }
 
         private compByteToX() { // EC (CPX)

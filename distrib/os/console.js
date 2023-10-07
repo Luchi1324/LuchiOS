@@ -103,7 +103,7 @@ var TSOS;
                     }
                 }
                 else if (chr === "ctrl+c") { // Ctrl + C
-                    //alert("Ctrl + C Pressed!")
+                    _CPU.killProgram();
                 }
                 else {
                     // This is a "normal" character, so ...
