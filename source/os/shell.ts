@@ -451,7 +451,8 @@ module TSOS {
         public shellStatus(args: string[]) {
             let status: string;
             if (args.length > 0) {
-                status = args[0]
+                // Noticed the .join from the CyberCore hall of fame, I was going to use a for loop to get the args[i]
+                status = args.join(' ');
                 _StdOut.putText(`Set status to '${status}'`)
                 document.getElementById('divStatus').innerHTML = status;
             } else {
