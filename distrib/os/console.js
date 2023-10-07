@@ -102,6 +102,9 @@ var TSOS;
                         _StdOut.putText(this.buffer);
                     }
                 }
+                else if (chr === "ctrl+c") { // Ctrl + C
+                    //alert("Ctrl + C Pressed!")
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -109,7 +112,6 @@ var TSOS;
                     // ... and add it to our buffer.
                     this.buffer += chr;
                 }
-                // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }
         }
         putText(text) {
