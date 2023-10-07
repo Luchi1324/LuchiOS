@@ -317,7 +317,6 @@ var TSOS;
             }
         }
         shellLoad(args) {
-            let hex = [' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
             let flag = true;
             // I don't remember where I found the <HTMLInputElement> but it was the only thing that got this stupid .value working
             // This took nearly an hour alone, the text is starting to dance on my screen
@@ -325,9 +324,18 @@ var TSOS;
             // No point in running the function if the field is empty
             if (input.length != 0) {
                 for (let i = 0; i < input.length; i++) {
-                    let ch = input[i].toUpperCase();
-                    // Curses taught me about the .indexOf, could've prevented a lot of nested loops with that in the past
-                    if (hex.indexOf(ch) === -1) {
+                    //let ch = input[i].toUpperCase();
+                    let chCode = input.charCodeAt(i);
+                    // Skip spaces (ChatGPT gave me this idea, everything else is my own)
+                    if (chCode === 32) {
+                        continue;
+                    }
+                    // If the character is not a valid hexadecimal digit ...
+                    if (!(chCode >= 48 && chCode <= 57) && // 0-9
+                        !(chCode >= 65 && chCode <= 70) && // A-F
+                        !(chCode >= 97 && chCode <= 102) // a-f
+                    ) {
+                        // We break the loop and change the flag to false, signaling an invalid input
                         flag = false;
                         break;
                     }
