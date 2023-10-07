@@ -22,7 +22,8 @@ module TSOS {
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
                     public currentPCB = null,
-                    public singleStep = false) {
+                    public singleStep = false,
+                    public stepPulse = false) {
 
         }
 
@@ -54,6 +55,7 @@ module TSOS {
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
+                Devices.hostUpdateCpuDisplay();
 
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
@@ -108,11 +110,6 @@ module TSOS {
 
             Devices.hostUpdateCpuDisplay();
             Devices.hostUpdateMemDisplay();
-
-            // If single step is enabled, CPU stops executing per cycle until step is pressed
-            if (this.singleStep === true) {
-                this.isExecuting = false;
-            }
         }
 
         // 6502 Op Code functions
@@ -234,13 +231,14 @@ module TSOS {
             } else if (this.Xreg === 2) {
                 let str = '';
                 let addr = this.Yreg;
-                let val = _MemoryAccessor.readMem(this.currentPCB, addr);
-                while (val !== 0x00) {
-                    let char = String.fromCharCode(val);
-                    str += char.toString();
-                    addr++;
+                let val;
+                do {
+                    //let char = String.fromCharCode(val);
                     val = _MemoryAccessor.readMem(this.currentPCB, addr);
-                }
+                    addr++;
+                    //str += char.toString();
+                    str += String.fromCharCode(val);
+                } while (val !== 0x00);
                 _StdOut.putText(str);
             }
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");

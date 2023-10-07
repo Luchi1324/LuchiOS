@@ -22,7 +22,8 @@ var TSOS;
         isExecuting;
         currentPCB;
         singleStep;
-        constructor(PC = 0, instruReg = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, currentPCB = null, singleStep = false) {
+        stepPulse;
+        constructor(PC = 0, instruReg = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, currentPCB = null, singleStep = false, stepPulse = false) {
             this.PC = PC;
             this.instruReg = instruReg;
             this.Acc = Acc;
@@ -32,6 +33,7 @@ var TSOS;
             this.isExecuting = isExecuting;
             this.currentPCB = currentPCB;
             this.singleStep = singleStep;
+            this.stepPulse = stepPulse;
         }
         init() {
             this.PC = 0;
@@ -58,6 +60,7 @@ var TSOS;
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
+                TSOS.Devices.hostUpdateCpuDisplay();
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
                     case 0xA9:
@@ -110,10 +113,6 @@ var TSOS;
             }
             TSOS.Devices.hostUpdateCpuDisplay();
             TSOS.Devices.hostUpdateMemDisplay();
-            // If single step is enabled, CPU stops executing per cycle until step is pressed
-            if (this.singleStep === true) {
-                this.isExecuting = false;
-            }
         }
         // 6502 Op Code functions
         loadAccConst() {
@@ -224,13 +223,14 @@ var TSOS;
             else if (this.Xreg === 2) {
                 let str = '';
                 let addr = this.Yreg;
-                let val = _MemoryAccessor.readMem(this.currentPCB, addr);
-                while (val !== 0x00) {
-                    let char = String.fromCharCode(val);
-                    str += char.toString();
-                    addr++;
+                let val;
+                do {
+                    //let char = String.fromCharCode(val);
                     val = _MemoryAccessor.readMem(this.currentPCB, addr);
-                }
+                    addr++;
+                    //str += char.toString();
+                    str += String.fromCharCode(val);
+                } while (val !== 0x00);
                 _StdOut.putText(str);
             }
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");

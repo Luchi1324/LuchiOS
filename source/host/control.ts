@@ -133,7 +133,7 @@ module TSOS {
         }
 
         public static hostBtnStep_click(btn): void {
-            _CPU.isExecuting = true;
+            _CPU.stepPulse = true;
         }
     }
 }

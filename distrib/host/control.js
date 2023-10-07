@@ -107,7 +107,7 @@ var TSOS;
             btn.value = (_CPU.singleStep) ? 'Single Step: On' : 'Single Step: Off';
         }
         static hostBtnStep_click(btn) {
-            _CPU.isExecuting = true;
+            _CPU.stepPulse = true;
         }
     }
     TSOS.Control = Control;
