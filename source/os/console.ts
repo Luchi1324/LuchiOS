@@ -77,6 +77,26 @@ module TSOS {
                         this.buffer = this.currentCommand;
                         this.currentCommand = "";
                     }
+                } else if (chr === "tab") { // The tab key
+                    // Stores the current user input so we can check if it matches any commands in the OS
+                    let previousBuffer = this.buffer;
+                    let tabResults = this.getTabCmd(previousBuffer);
+
+                    // If we have just one result ...
+                    if (tabResults.length === 1) {
+                        // ... we just insert it in place of the current line ...
+                        this.removeLine();
+                        this.buffer = tabResults[0];
+                        _StdOut.putText(tabResults[0]);
+                    } else if (tabResults.length > 1) {
+                        // ... or we just print out a list of the possible commands the user can enter
+                        // kinda like the cisco iOS
+                        this.advanceLine();
+                        _StdOut.putText(tabResults.join(' '));
+                        this.advanceLine();
+                        _OsShell.putPrompt();
+                        _StdOut.putText(this.buffer);
+                    } 
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -158,13 +178,27 @@ module TSOS {
             // Fixes scrolling, only does so if current Y Position surpasses height
             if (this.currentYPosition > _Canvas.height) {
                 // Calculates offset from current position () and captures the current canvas ...
-                let offset = this.currentYPosition - _Canvas.height + _FontHeightMargin
+                let offset = this.currentYPosition - _Canvas.height + _FontHeightMargin;
                 let screenData = _DrawingContext.getImageData(0, 0, _Canvas.width, this.currentYPosition + _FontHeightMargin);
                 // ... then clears the screen and redraws the canvas
                 this.clearScreen();
                 _DrawingContext.putImageData(screenData, 0, -offset);
                 this.currentYPosition -= offset;
             }
+        }
+
+        public getTabCmd(cmdStr: string): string[] {
+            let cmds: string[] = [];
+            // We iterate through the shell's stored commands ...
+            for (let i = 0; i < _OsShell.commandList.length; i++) {
+                // ... if the passed string matches any of the stored commands ...
+                if (_OsShell.commandList[i].command.indexOf(cmdStr) !== -1) {
+                    // ... we add the matched command to a list of strings ...
+                    cmds.push(_OsShell.commandList[i].command);
+                }
+            }
+            // ... then we return the list of commands we found
+            return cmds;
         }
     }
  }
