@@ -64,7 +64,7 @@ var TSOS;
             currentRow = cpuDisplay.insertRow(1);
             for (let i = 0; i < cpuAttr.length; i++) {
                 let cell = currentRow.insertCell();
-                cell.textContent = `${cpuAttr[i].toString()}`;
+                typeof cpuAttr[i] === 'number' ? cell.textContent = `${cpuAttr[i].toString(16).toUpperCase()}` : cell.textContent = `${cpuAttr[i].toString()}`;
             }
         }
         static hostUpdatePcbDisplay(pcb) {
@@ -80,7 +80,7 @@ var TSOS;
                 currentRow = pcbDisplay.insertRow(TSOS.ProcessControlBlock.currentPID + 1);
                 for (let i = 0; i < pcbAttr.length; i++) {
                     let cell = currentRow.insertCell();
-                    cell.textContent = `${pcbAttr[i].toString()}`;
+                    typeof pcbAttr[i] === 'number' ? cell.textContent = `${pcbAttr[i].toString(16).toUpperCase()}` : cell.textContent = `${pcbAttr[i].toString()}`;
                 }
                 // else we just insert a newer row for the new PCB
             }
