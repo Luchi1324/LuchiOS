@@ -103,12 +103,13 @@ module TSOS {
                         break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
+                        _StdOut.advanceLine();
+                        _OsShell.putPrompt();
                         this.isExecuting = false;
                         break;
                 }
             }
 
-            Devices.hostUpdateCpuDisplay();
             Devices.hostUpdateMemDisplay();
         }
 

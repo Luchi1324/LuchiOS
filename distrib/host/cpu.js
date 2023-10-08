@@ -107,11 +107,12 @@ var TSOS;
                         break;
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
+                        _StdOut.advanceLine();
+                        _OsShell.putPrompt();
                         this.isExecuting = false;
                         break;
                 }
             }
-            TSOS.Devices.hostUpdateCpuDisplay();
             TSOS.Devices.hostUpdateMemDisplay();
         }
         // 6502 Op Code functions
