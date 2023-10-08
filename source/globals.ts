@@ -27,7 +27,7 @@ const KEYBOARD_IRQ: number = 1;
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
-// Memory, Memory Manager, and Memory Accessor
+// Memory and Memory Accessor
 var _Memory: TSOS.Memory;
 var _MemoryAccessor: TSOS.MemoryAccessor;
 var _MemoryManager: any = null;

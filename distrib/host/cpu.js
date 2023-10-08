@@ -46,7 +46,7 @@ var TSOS;
             this.currentPCB = null;
         }
         runProgram(pid) {
-            // ... then we load our PCB into the CPU and then execute the program
+            // We load our PCB into the CPU and then execute the program
             this.currentPCB = _MemoryManager.pcbArr[pid];
             this.isExecuting = true;
         }
@@ -116,6 +116,9 @@ var TSOS;
             TSOS.Devices.hostUpdateMemDisplay();
         }
         // 6502 Op Code functions
+        // All of the functions follow a similar procedure, and is private since only the CPU needs these functions
+        // Everytime the CPU reads a memory address or does something, the program counter goes up by one 
+        // At the end of every function, we update the current PCB to accurately represent it in the OS
         loadAccConst() {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
@@ -198,8 +201,8 @@ var TSOS;
             if (this.Zflag === 0) {
                 let branch = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.PC += branch;
-                // Got this modulo from Cybercore hall of fame
-                // This fixes it, but I have no idea why
+                // Got this modulo from Cybercore hall of fame, fixes it, but I have no idea why
+                // TODO: Understand why the hell this works
                 this.PC = this.PC % 0x100;
             }
             this.PC++;

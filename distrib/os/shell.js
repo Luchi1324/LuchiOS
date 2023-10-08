@@ -324,37 +324,32 @@ var TSOS;
             // No point in running the function if the field is empty
             if (input.length != 0) {
                 for (let i = 0; i < input.length; i++) {
-                    //let ch = input[i].toUpperCase();
                     let chCode = input.charCodeAt(i);
                     // Skip spaces (ChatGPT gave me this idea, everything else is my own)
                     if (chCode === 32) {
                         continue;
                     }
-                    // If the character is not a valid hexadecimal digit ...
+                    // Check for invalid characters
                     if (!(chCode >= 48 && chCode <= 57) && // 0-9
                         !(chCode >= 65 && chCode <= 70) && // A-F
                         !(chCode >= 97 && chCode <= 102) // a-f
                     ) {
-                        // We break the loop and change the flag to false, signaling an invalid input
                         flag = false;
                         break;
                     }
                 }
-                // If the characters are not valid, we inform the user first. If they are, then we load them into memory
                 if (flag !== true) {
                     _StdOut.putText("Invalid User Program Input.");
                 }
                 else {
                     _StdOut.putText("Valid User Program Input! Loading...");
-                    // Coverts input array to hex numbers so it can be loaded as a program...
+                    // Coverts input array to hex numbers so it can be loaded as a program
                     let inputArray = input.split(' ');
                     let program = [];
                     for (let i = 0x000; i < inputArray.length; i++) {
                         program.push(parseInt(inputArray[i], 16));
                     }
-                    // ... then we pass said program through the memory manager
                     let loadedPid = _MemoryManager.loadMem(program);
-                    // Refreshes memory table once loaded, then informs user it is loaded
                     TSOS.Devices.hostUpdateMemDisplay();
                     _StdOut.putText(" Loaded!");
                     // Returns the created PCB's PID

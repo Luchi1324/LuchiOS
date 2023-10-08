@@ -95,7 +95,7 @@ module TSOS {
             _Memory.init();
             Devices.hostUpdateMemDisplay();
 
-            // ... Create and initialize the memory manager and accessor
+            // ... Create and initialize the memory accessor
             _MemoryAccessor = new MemoryAccessor();
 
 

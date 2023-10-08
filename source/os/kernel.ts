@@ -80,7 +80,7 @@ module TSOS {
                 // TODO (maybe): Implement a priority queue based on the IRQ number/id to enforce interrupt priority.
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
-            } else if (_CPU.isExecuting && (!_CPU.singleStep || _CPU.stepPulse)) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
+            } else if (_CPU.isExecuting && (!_CPU.singleStep || _CPU.stepPulse)) { // If there are no interrupts, and single step is off or a 'stepPulse' is sent, then run one CPU cycle if there is anything being processed.
                 _CPU.stepPulse = false;
                 _CPU.cycle();
             } else {                       // If there are no interrupts and there is nothing being executed then just be idle.
@@ -170,6 +170,7 @@ module TSOS {
         public krnTrapError(msg): void {
             Control.hostLog("OS ERROR - TRAP: " + msg);
             
+            // Paint the screen blue, and print the OS error
             let screen = (<HTMLCanvasElement> document.getElementById('display'));
             _DrawingContext.fillStyle = "blue";
             _DrawingContext.fillRect(0, 0, screen.width, screen.height);

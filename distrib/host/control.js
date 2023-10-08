@@ -75,7 +75,7 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             TSOS.Devices.hostUpdateMemDisplay();
-            // ... Create and initialize the memory manager and accessor
+            // ... Create and initialize the memory accessor
             _MemoryAccessor = new TSOS.MemoryAccessor();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

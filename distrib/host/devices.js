@@ -56,10 +56,11 @@ var TSOS;
             // HTML Context
             const cpuDisplay = document.getElementById("tableCpu");
             let currentRow;
-            // Removes previous row if the row is already initialized, then updates current row based on the global _CPU's attributes
+            // Removes previous row if the row is already initialized ...
             if (init !== true) {
                 cpuDisplay.deleteRow(1);
             }
+            // ... then updates current row based on the global _CPU's attributes
             let cpuAttr = [_CPU.PC, _CPU.instruReg, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting];
             currentRow = cpuDisplay.insertRow(1);
             for (let i = 0; i < cpuAttr.length; i++) {
@@ -82,13 +83,14 @@ var TSOS;
                     let cell = currentRow.insertCell();
                     typeof pcbAttr[i] === 'number' ? cell.textContent = `${pcbAttr[i].toString(16).toUpperCase()}` : cell.textContent = `${pcbAttr[i].toString()}`;
                 }
-                // else we just insert a newer row for the new PCB
+                // ... else we just insert a newer row for the new PCB
             }
             else {
                 currentRow = pcbDisplay.insertRow();
                 for (let i = 0; i < pcbAttr.length; i++) {
                     let cell = currentRow.insertCell();
-                    cell.textContent = `${pcbAttr[i].toString()}`;
+                    typeof pcbAttr[i] === 'number' ? cell.textContent = `${pcbAttr[i].toString(16).toUpperCase()}` : cell.textContent = `${pcbAttr[i].toString()}`;
+                    ;
                 }
             }
         }

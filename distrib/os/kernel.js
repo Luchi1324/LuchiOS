@@ -68,7 +68,7 @@ var TSOS;
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
-            else if (_CPU.isExecuting && (!_CPU.singleStep || _CPU.stepPulse)) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
+            else if (_CPU.isExecuting && (!_CPU.singleStep || _CPU.stepPulse)) { // If there are no interrupts, and single step is off or a 'stepPulse' is sent, then run one CPU cycle if there is anything being processed.
                 _CPU.stepPulse = false;
                 _CPU.cycle();
             }
@@ -149,6 +149,7 @@ var TSOS;
         }
         krnTrapError(msg) {
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
+            // Paint the screen blue, and print the OS error
             let screen = document.getElementById('display');
             _DrawingContext.fillStyle = "blue";
             _DrawingContext.fillRect(0, 0, screen.width, screen.height);
