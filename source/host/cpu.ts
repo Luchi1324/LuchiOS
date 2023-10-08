@@ -192,7 +192,7 @@ module TSOS {
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            if (this.Xreg === _MemoryAccessor.readMem(this.currentPCB, this.PC)) {
+            if (this.Xreg === _MemoryAccessor.readMem(this.currentPCB, addr)) {
                 this.Zflag = 1;
             } else {
                 this.Zflag = 0;
@@ -204,9 +204,9 @@ module TSOS {
         private branchNifZisZero() { // D0 (BNE)
             this.PC++;
             if (this.Zflag === 0) {
-                let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
+                let branch = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.PC++;
-                let branch = _MemoryAccessor.readMem(this.currentPCB, addr);
+                //let branch = _MemoryAccessor.readMem(this.currentPCB, addr);
                 this.PC += branch;
             } else {
                 this.PC++;
@@ -232,15 +232,14 @@ module TSOS {
             } else if (this.Xreg === 2) {
                 let str = '';
                 let addr = this.Yreg;
-                let val;
+                let val = 0;
                 do {
-                    //let char = String.fromCharCode(val);
                     val = _MemoryAccessor.readMem(this.currentPCB, addr);
-                    addr++;
-                    //str += char.toString();
+                    addr += 1;
                     str += String.fromCharCode(val);
                 } while (val !== 0x00);
                 _StdOut.putText(str);
+                this.PC++;
             }
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
