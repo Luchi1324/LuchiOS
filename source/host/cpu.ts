@@ -55,7 +55,6 @@ module TSOS {
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
-                Devices.hostUpdateCpuDisplay();
 
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
@@ -110,6 +109,7 @@ module TSOS {
                 }
             }
 
+            Devices.hostUpdateCpuDisplay();
             Devices.hostUpdateMemDisplay();
         }
 
@@ -182,10 +182,10 @@ module TSOS {
         }
 
         private breakOp() {  // 00 (BRK)
-            this.isExecuting = false;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             this.currentPCB = null;
             _MemoryManager.clearMem();
+            this.isExecuting = false;
         }
 
         private compByteToX() { // EC (CPX)
@@ -205,12 +205,12 @@ module TSOS {
             this.PC++;
             if (this.Zflag === 0) {
                 let branch = _MemoryAccessor.readMem(this.currentPCB, this.PC);
-                this.PC++;
-                //let branch = _MemoryAccessor.readMem(this.currentPCB, addr);
                 this.PC += branch;
-            } else {
-                this.PC++;
+                // Got this modulo from Cybercore hall of fame
+                // This fixes it, but I have no idea why
+                this.PC = this.PC % 0x100;
             }
+            this.PC++;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
