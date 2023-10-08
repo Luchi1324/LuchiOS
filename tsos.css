@@ -32,23 +32,31 @@ h3 {
 
 table {
   border-spacing: 10px;
-  padding: 5px;
+  border-collapse: collapse;
+  padding: 10px;
+  font-family: monospace;
 }
 
 th {
   width: 20px;
   height: 10px;
-  background: #d2d2d2;
+  background: #fff4f4;
   text-align: center;
   vertical-align: middle;
+  padding: 4px;
 }
 
 td {
   width: 20px;
   height: 10px;
-  background: #d2d2d2;
+  background: #ffffff;
   text-align: center;
   vertical-align: middle;
+  padding: 4px;
+}
+
+tr {
+  border: 1px solid #aaa;
 }
 
 .divLeft {
