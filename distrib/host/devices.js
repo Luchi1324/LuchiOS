@@ -94,26 +94,45 @@ var TSOS;
                 }
             }
         }
-        static hostUpdateMemDisplay() {
+        static highlightMemCell(row, addr) {
+            const cells = row.getElementsByTagName('td');
+            for (let i = 0; i < cells.length; i++) {
+                const cell = cells[i];
+                cell.classList.remove('highlight'); // Remove highlight class from all cells
+            }
+            if (addr >= 0x00 && addr < cells.length) {
+                const currentCell = cells[addr];
+                currentCell.classList.add('highlight'); // Add highlight class to the current cell
+            }
+        }
+        static hostUpdateMemDisplay(access, addr) {
             const memDisplay = document.getElementById("tableMemory");
             // Erases table to allow for new one
             memDisplay.innerHTML = "";
             let currentRow;
             _Memory.memArray.forEach((item, index) => {
                 // Creates a new row for each item, and adds a heading row
+                // I created this on my own originally, but I used ChatGPT to 'enhance' it by adding the 'th' element for the header rows.
                 if (index % 8 === 0) {
-                    currentRow = memDisplay.insertRow();
-                    let cell = currentRow.insertCell();
+                    currentRow = document.createElement('tr'); // Create a new table row
+                    const cell = document.createElement('th'); // Create a table header cell for the index
                     cell.textContent = `0x${index.toString(16).toUpperCase()}`;
+                    currentRow.appendChild(cell);
+                    memDisplay.appendChild(currentRow); // Append the heading row to the table
                 }
                 if (currentRow) {
-                    const cell = currentRow.insertCell();
+                    const cell = document.createElement('td'); // Create a table data cell for the item
                     // Padding 0s
                     if (item <= 0x0F) {
                         cell.textContent = `0${item.toString(16).toUpperCase()}`;
                     }
                     else {
                         cell.textContent = item.toString(16).toUpperCase();
+                    }
+                    currentRow.appendChild(cell); // Append the data cell to the current row
+                    if (access === true) {
+                        const columnIndex = addr % 8;
+                        this.highlightMemCell(currentRow, addr);
                     }
                 }
             });

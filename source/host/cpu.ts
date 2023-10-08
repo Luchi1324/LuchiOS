@@ -55,6 +55,7 @@ module TSOS {
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
+                Devices.hostUpdateMemDisplay(true, this.PC);
 
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {

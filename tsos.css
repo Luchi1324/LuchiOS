@@ -59,6 +59,11 @@ tr {
   border: 1px solid #aaa;
 }
 
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
+
 .divLeft {
   float: left;
   margin: 10px;
