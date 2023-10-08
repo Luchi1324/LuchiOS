@@ -4,7 +4,7 @@ var TSOS;
         constructor() {
         }
         // Reads memory from a location based on it's relative PCB base register
-        // Not particaruly useful now, but just future proofing when we need to load more than one program. 
+        // Not particularly useful now, but just future proofing when we need to load more than one program. 
         // It should make loops easier (i.e. just using one loop that starts at 0x00 for everything instead of setting a new loop based on the PCB's base register)
         readMem(pcb, addr) {
             return _Memory.getAddr(pcb.baseReg + addr);
@@ -13,7 +13,7 @@ var TSOS;
         writeMem(pcb, addr, value) {
             _Memory.setAddr(pcb.baseReg + addr, value);
         }
-        // Clears memory by reininitlaizing it
+        // Clears memory by reinitializing it
         clearMem() {
             _Memory.init();
             TSOS.Devices.hostUpdateMemDisplay();
