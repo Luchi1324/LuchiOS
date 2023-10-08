@@ -367,14 +367,15 @@ module TSOS {
         public shellWhereAmI(args: string[]) {
             // Navigator code used from Chrome documentation and https://www.w3schools.com/jsref/prop_nav_geolocation.asp
             // Please give me the 5 marks I missed for this ;-;
-            if (navigator.geolocation) {
+            _StdOut.putText('You are on your computer, on planet earth.');
+            /*if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     _StdOut.putText('You are on your computer, on planet earth. But here are specifics if you\'re into that kinda stuff.');
                     _StdOut.putText(`Your current position is latitude: ${position.coords.latitude}, longtitude: ${position.coords.longitude}`)
                 });
             } else {
                 _StdOut.putText("Your browser does not support geolocation. Either you're a privacy nut, or you haven't upgraded past Internet Explorer.");
-            }
+            }*/
         }
 
         public shellLoad(args: string[]) {
