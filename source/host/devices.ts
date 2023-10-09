@@ -101,6 +101,7 @@ module TSOS {
             }
         }
 
+        // TODO: Get the highlight cell functionality working
         public static highlightMemCell(row: HTMLTableRowElement, addr: number) {
             const cells = row.getElementsByTagName('td');
             for (let i = 0; i < cells.length; i++) {

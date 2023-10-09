@@ -94,6 +94,7 @@ var TSOS;
                 }
             }
         }
+        // TODO: Get the highlight cell functionality working
         static highlightMemCell(row, addr) {
             const cells = row.getElementsByTagName('td');
             for (let i = 0; i < cells.length; i++) {
