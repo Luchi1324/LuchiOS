@@ -5,15 +5,22 @@ module TSOS {
         }
 
         // Reads memory from a location based on it's relative PCB base register
-        // Not particularly useful now, but just future proofing when we need to load more than one program. 
-        // It should make loops easier (i.e. just using one loop that starts at 0x00 for everything instead of setting a new loop based on the PCB's base register)
+        // If the address being accessed exceeds the limit register of the PCB, we return -1 which is treated as a memory access error
         public readMem(pcb: TSOS.ProcessControlBlock, addr: number): number {
-            return _Memory.getAddr(pcb.baseReg + addr);
+            if (!(pcb.baseReg + addr > pcb.limitReg)) {
+                return _Memory.getAddr(pcb.baseReg + addr);
+            } else {
+                return -1;
+            }
         }
 
         // Writes memory to a location based on it's relative PCB base register
         public writeMem(pcb: TSOS.ProcessControlBlock, addr: number, value: number): void {
-            _Memory.setAddr(pcb.baseReg + addr, value);
+            if (!(pcb.baseReg + addr > pcb.limitReg)) {
+                _Memory.setAddr(pcb.baseReg + addr, value);
+            } else {
+                _Kernel.krnTrace("Memory access error");
+            }
         }
 
         // Clears memory by reinitializing it

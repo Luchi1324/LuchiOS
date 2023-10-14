@@ -19,8 +19,8 @@ module TSOS {
         }
 
         public allocateMem(pcb: TSOS.ProcessControlBlock, program: number[]): void {
-            for (let i = 0x00; i <= 0xFF; i++) {
-                // First we find the first empty memory space ...
+            for (let i = 0x00; i < 0x300; i += 0x100) {
+                // First we find if the beginning of the memory segment is empty
                 if (_Memory.memArray[i] === 0x00) {
                     // ... then we set the pcb's base register to this location, and set the limitReg to fit the full 0xFF bytes
                     pcb.baseReg = i;
@@ -29,8 +29,8 @@ module TSOS {
                 }
             }
             
-            // Now we actually write the program to memory
-            for (let i = 0x00; i < program.length; i++) {
+            // Now we actually write the program to memory, starting at the PCB's 
+            for (let i = pcb.baseReg; i < program.length; i++) {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
         }
