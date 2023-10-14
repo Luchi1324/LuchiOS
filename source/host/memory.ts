@@ -2,7 +2,7 @@ module TSOS {
 
     export class Memory {
 
-        constructor(public memArray = new Array<number>(0x100)) {
+        constructor(public memArray = new Array<number>(0x300)) {
         }
 
         // Fills the main memory with empty values upon initialization

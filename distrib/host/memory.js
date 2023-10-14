@@ -2,7 +2,7 @@ var TSOS;
 (function (TSOS) {
     class Memory {
         memArray;
-        constructor(memArray = new Array(0x100)) {
+        constructor(memArray = new Array(0x300)) {
             this.memArray = memArray;
         }
         // Fills the main memory with empty values upon initialization
