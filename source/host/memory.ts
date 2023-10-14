@@ -18,7 +18,7 @@ module TSOS {
 
         // Sets the value of a given address
         public setAddr(addr: number, value: number) {
-            if (addr <= 0xFF) {
+            if (value <= 0xFF) {
                 this.memArray[addr] = value;
             }
         }

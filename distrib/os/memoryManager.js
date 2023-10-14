@@ -25,8 +25,8 @@ var TSOS;
                     break;
                 }
             }
-            // Now we actually write the program to memory, starting at the PCB's 
-            for (let i = pcb.baseReg; i < program.length; i++) {
+            // Now we actually write the program to memory, starting at the PCB's
+            for (let i = 0; i < program.length; i++) {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
         }

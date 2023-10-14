@@ -7,17 +7,20 @@ module TSOS {
         // Reads memory from a location based on it's relative PCB base register
         // If the address being accessed exceeds the limit register of the PCB, we return -1 which is treated as a memory access error
         public readMem(pcb: TSOS.ProcessControlBlock, addr: number): number {
-            if (!(pcb.baseReg + addr > pcb.limitReg)) {
+            if (pcb.baseReg + addr < pcb.limitReg) {
                 return _Memory.getAddr(pcb.baseReg + addr);
             } else {
-                return -1;
+                _Kernel.krnTrace("Memory access error");
+                return;
             }
         }
 
         // Writes memory to a location based on it's relative PCB base register
         public writeMem(pcb: TSOS.ProcessControlBlock, addr: number, value: number): void {
-            if (!(pcb.baseReg + addr > pcb.limitReg)) {
-                _Memory.setAddr(pcb.baseReg + addr, value);
+            if (pcb.baseReg + addr < pcb.limitReg) {
+                if (value <= 0xFF) {
+                    _Memory.setAddr(pcb.baseReg + addr, value);
+                }
             } else {
                 _Kernel.krnTrace("Memory access error");
             }

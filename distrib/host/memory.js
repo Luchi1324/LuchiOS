@@ -16,7 +16,7 @@ var TSOS;
         }
         // Sets the value of a given address
         setAddr(addr, value) {
-            if (addr <= 0xFF) {
+            if (value <= 0xFF) {
                 this.memArray[addr] = value;
             }
         }
