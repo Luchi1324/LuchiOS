@@ -116,7 +116,6 @@ var TSOS;
                 }
             }
             TSOS.Devices.hostUpdateCpuDisplay();
-            TSOS.Devices.hostUpdateMemDisplay();
         }
         // 6502 Op Code functions
         // All of the functions follow a similar procedure, and is private since only the CPU needs these functions

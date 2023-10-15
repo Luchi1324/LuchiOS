@@ -113,7 +113,6 @@ module TSOS {
             }
 
             Devices.hostUpdateCpuDisplay();
-            Devices.hostUpdateMemDisplay();
         }
 
         // 6502 Op Code functions

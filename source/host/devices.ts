@@ -132,6 +132,7 @@ module TSOS {
                     memDisplay.appendChild(currentRow); // Append the heading row to the table
                 }
                 if (currentRow) {
+                    const columnIndex = addr % 8;
                     const cell = document.createElement('td'); // Create a table data cell for the item
                     // Padding 0s
                     if (item <= 0x0F) {
@@ -141,9 +142,8 @@ module TSOS {
                     }
                     currentRow.appendChild(cell); // Append the data cell to the current row
 
-                    if (access === true) {
-                        const columnIndex = addr % 8;
-                        this.highlightMemCell(currentRow, addr);
+                    if (access === true && addr !== undefined && index === addr) {
+                        this.highlightMemCell(currentRow, columnIndex);
                     }
                 }
             })
