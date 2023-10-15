@@ -10,7 +10,7 @@ var TSOS;
                 return _Memory.getAddr(pcb.baseReg + addr);
             }
             else {
-                _Kernel.krnTrace("Memory access error");
+                _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 return;
             }
         }
@@ -22,7 +22,8 @@ var TSOS;
                 }
             }
             else {
-                _Kernel.krnTrace("Memory access error");
+                _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
+                _StdOut.putText(`Memory access error from process ${pcb.pid}`);
             }
         }
         // Clears memory by reinitializing it

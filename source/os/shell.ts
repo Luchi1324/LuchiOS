@@ -412,13 +412,15 @@ module TSOS {
                     for (let i = 0x000; i < inputArray.length; i++) {
                         program.push(parseInt(inputArray[i], 16));
                     }
-                    let loadedPid = _MemoryManager.loadMem(program);
-                    Devices.hostUpdateMemDisplay();
-                    _StdOut.putText(" Loaded!");
-
-                    // Returns the created PCB's PID
-                    _StdOut.advanceLine();
-                    _StdOut.putText(`PID: ${loadedPid}`);
+                    let loadedMem = _MemoryManager.loadMem(program);
+                    if (loadedMem === true) {
+                        let loadedPid = ProcessControlBlock.currentPID;
+                        Devices.hostUpdateMemDisplay();
+                        _StdOut.putText(" Loaded!");
+                        // Returns the created PCB's PID
+                        _StdOut.advanceLine();
+                        _StdOut.putText(`PID: ${loadedPid}`);
+                    }
                 }
             } else {
                 _StdOut.putText("User Program Input is empty. Don't leave it empty :(")

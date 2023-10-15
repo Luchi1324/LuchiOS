@@ -349,12 +349,15 @@ var TSOS;
                     for (let i = 0x000; i < inputArray.length; i++) {
                         program.push(parseInt(inputArray[i], 16));
                     }
-                    let loadedPid = _MemoryManager.loadMem(program);
-                    TSOS.Devices.hostUpdateMemDisplay();
-                    _StdOut.putText(" Loaded!");
-                    // Returns the created PCB's PID
-                    _StdOut.advanceLine();
-                    _StdOut.putText(`PID: ${loadedPid}`);
+                    let loadedMem = _MemoryManager.loadMem(program);
+                    if (loadedMem === true) {
+                        let loadedPid = TSOS.ProcessControlBlock.currentPID;
+                        TSOS.Devices.hostUpdateMemDisplay();
+                        _StdOut.putText(" Loaded!");
+                        // Returns the created PCB's PID
+                        _StdOut.advanceLine();
+                        _StdOut.putText(`PID: ${loadedPid}`);
+                    }
                 }
             }
             else {

@@ -13,7 +13,7 @@ var TSOS;
             this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
             // Works with load() function and returns the created PCB's PID
-            return pcb.pid;
+            return true;
         }
         allocateMem(pcb, program) {
             for (let i = 0x00; i < 0x300; i += 0x100) {
