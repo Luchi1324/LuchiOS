@@ -11,7 +11,7 @@ module TSOS {
                 return _Memory.getAddr(pcb.baseReg + addr);
             } else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
-                return;
+                return 0x00;
             }
         }
 
@@ -24,6 +24,7 @@ module TSOS {
             } else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 _StdOut.putText(`Memory access error from process ${pcb.pid}`);
+                _CPU.killProgram();
             }
         }
 

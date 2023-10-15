@@ -11,7 +11,7 @@ var TSOS;
             }
             else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
-                return;
+                return 0x00;
             }
         }
         // Writes memory to a location based on it's relative PCB base register
@@ -24,6 +24,7 @@ var TSOS;
             else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 _StdOut.putText(`Memory access error from process ${pcb.pid}`);
+                _CPU.killProgram();
             }
         }
         // Clears memory by reinitializing it

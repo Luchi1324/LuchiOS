@@ -47,6 +47,8 @@ module TSOS {
         public killProgram(): void {
             // Used for ctrl-c until I better understand interrupts. Right now, it just uses the BRK op code as it 'breaks' the current program
             this.breakOp();
+            _StdOut.advanceLine();
+            _OsShell.putPrompt();
         }
 
         public cycle(): void {

@@ -53,6 +53,8 @@ var TSOS;
         killProgram() {
             // Used for ctrl-c until I better understand interrupts. Right now, it just uses the BRK op code as it 'breaks' the current program
             this.breakOp();
+            _StdOut.advanceLine();
+            _OsShell.putPrompt();
         }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {

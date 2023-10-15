@@ -14,7 +14,6 @@ module TSOS {
             this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
 
-            // Works with load() function and returns the created PCB's PID
             return true;
         }
 
@@ -29,7 +28,7 @@ module TSOS {
                 }
             }
             
-            // Now we actually write the program to memory, starting at the PCB's
+            // Now we actually write the program to memory
             for (let i = 0; i < program.length; i++) {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }

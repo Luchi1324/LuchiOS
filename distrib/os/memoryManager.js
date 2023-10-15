@@ -12,7 +12,6 @@ var TSOS;
             // ... then we add it to the pcb array and then allocate the memory
             this.pcbArr.push(pcb);
             this.allocateMem(pcb, program);
-            // Works with load() function and returns the created PCB's PID
             return true;
         }
         allocateMem(pcb, program) {
@@ -25,7 +24,7 @@ var TSOS;
                     break;
                 }
             }
-            // Now we actually write the program to memory, starting at the PCB's
+            // Now we actually write the program to memory
             for (let i = 0; i < program.length; i++) {
                 _MemoryAccessor.writeMem(pcb, i, program[i]);
             }
