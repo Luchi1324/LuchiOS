@@ -101,20 +101,21 @@ module TSOS {
             }
         }
 
-        // TODO: Get the highlight cell functionality working
-        public static highlightMemCell(row: HTMLTableRowElement, addr: number) {
-            const cells = row.getElementsByTagName('td');
-            for (let i = 0; i < cells.length; i++) {
-                const cell = cells[i];
-                cell.classList.remove('highlight'); // Remove highlight class from all cells
+        public static highlightMemCell(row: HTMLTableRowElement, addr: number, adjacent?: string) {
+            let cells = row.getElementsByTagName('td');
+            if (adjacent !== undefined) {
+                for (let i = 0; i < cells.length; i++) {
+                    let cell = cells[i];
+                    cell.classList.remove('highlight', adjacent); // Remove highlight class from all cells
+                }
             }
         
             if (addr >= 0x00 && addr < cells.length) {
-                const currentCell = cells[addr];
-                currentCell.classList.add('highlight'); // Add highlight class to the current cell
+                let currentCell = cells[addr];
+                currentCell.classList.add('highlight', adjacent); // Add highlight class to the current cell
             }
         }
-
+        
         public static hostUpdateMemDisplay(access?: boolean, addr?: number): void {
             const memDisplay = <HTMLTableElement> document.getElementById("tableMemory");
             // Erases table to allow for new one
@@ -144,6 +145,15 @@ module TSOS {
 
                     if (access === true && addr !== undefined && index === addr) {
                         this.highlightMemCell(currentRow, columnIndex);
+
+                        // TODO: Fix adjacent cells not highlighting, look at how it is called per CPU cycle?
+                        let opCode = cell.textContent;
+                        let adjacentCells = OPCODE_HIGHLIGHT_MAPPING[opCode];
+                        //if (adjacentCells > 0) {
+                        //    for (let i = 1; i <= adjacentCells; i++) {
+                        //        this.highlightMemCell(currentRow, columnIndex + i, 'highlight-adjacent');
+                        //    }
+                        //}
                     }
                 }
             })

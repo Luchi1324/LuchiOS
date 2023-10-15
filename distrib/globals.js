@@ -16,6 +16,22 @@ const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 seco
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
+const OPCODE_HIGHLIGHT_MAPPING = {
+    "A9": 1,
+    "AD": 1,
+    "8D": 2,
+    "6D": 2,
+    "A2": 1,
+    "AE": 2,
+    "A0": 1,
+    "AC": 2,
+    "EA": 0,
+    "00": 1,
+    "EC": 2,
+    "D0": 1,
+    "EE": 3,
+    "FF": 0
+};
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.

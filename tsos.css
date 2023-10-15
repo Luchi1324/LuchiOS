@@ -64,6 +64,10 @@ tr {
   font-weight: bold;
 }
 
+.highlight-adjacent {
+  background-color: lightblue; /* You can choose a different style if desired */
+}
+
 .divLeft {
   float: left;
   margin: 10px;
