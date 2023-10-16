@@ -44,6 +44,7 @@ module TSOS {
             this.isExecuting = true;
         }
 
+        // TODO: Make this a Kernel process, and allow it to be invoked in the shell
         public killProgram(): void {
             // Used for ctrl-c until I better understand interrupts. Right now, it just uses the BRK op code as it 'breaks' the current program
             this.breakOp();
@@ -99,6 +100,8 @@ module TSOS {
                         break;
                     case 0x00:
                         this.breakOp();
+                        _StdOut.advanceLine();
+                        _OsShell.putPrompt();
                         break;
                     case 0xFF:
                         this.sysCall();
