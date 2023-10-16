@@ -2,7 +2,7 @@ module TSOS {
 
     export class MemoryManager {
         public pcbArr: ProcessControlBlock[];
-        public segMap;
+        public segMap: Object;
 
         constructor() {
             this.pcbArr = [];
@@ -34,7 +34,6 @@ module TSOS {
                 if (this.segMap[i] === true) {
                     continue;
                 // ... and if is not allocated then we set the PCB's base and limit registers ...
-                //} else if (_Memory.memArray[i] === 0x00) {
                 } else if (this.segMap[i] === false) {
                     this.segMap[i] = true;
                     pcb.baseReg = i;

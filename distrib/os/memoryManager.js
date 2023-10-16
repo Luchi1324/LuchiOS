@@ -31,7 +31,6 @@ var TSOS;
                 if (this.segMap[i] === true) {
                     continue;
                     // ... and if is not allocated then we set the PCB's base and limit registers ...
-                    //} else if (_Memory.memArray[i] === 0x00) {
                 }
                 else if (this.segMap[i] === false) {
                     this.segMap[i] = true;
