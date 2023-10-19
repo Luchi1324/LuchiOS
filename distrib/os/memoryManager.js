@@ -8,7 +8,8 @@ var TSOS;
             this.segMap = {
                 0x000: false,
                 0x100: false,
-                0x200: false
+                0x200: false,
+                0x300: 'allAllocated'
             };
         }
         loadMem(program) {
@@ -26,7 +27,7 @@ var TSOS;
         }
         // TODO: Fix allocateMem not handing all segments being allocated already properly
         allocateMem(pcb, program) {
-            for (let i = 0x00; i < 0x300; i += 0x100) {
+            for (let i = 0x000; i <= 0x300; i += 0x100) {
                 // First we check if the memory segment has been allocated already ...
                 if (this.segMap[i] === true) {
                     continue;
@@ -39,8 +40,7 @@ var TSOS;
                     break;
                     // ... otherwise they're all allocated and we exit the function before anything is written.
                 }
-                else {
-                    alert('All memory allocated');
+                else if (this.segMap[i] === 'allAllocated') {
                     return false;
                 }
             }

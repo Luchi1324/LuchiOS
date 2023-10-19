@@ -4,13 +4,14 @@ var TSOS;
         constructor() {
         }
         // Reads memory from a location based on it's relative PCB base register
-        // If the address being accessed exceeds the limit register of the PCB, we return -1 which is treated as a memory access error
+        // If the address being accessed exceeds the limit register of the PCB, we return 0x00
         readMem(pcb, addr) {
             if (pcb.baseReg + addr < pcb.limitReg) {
                 return _Memory.getAddr(pcb.baseReg + addr);
             }
             else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
+                _StdOut.putText(`Memory access error from process ${pcb.pid}`);
                 return 0x00;
             }
         }
