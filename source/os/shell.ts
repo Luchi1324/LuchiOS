@@ -100,7 +100,8 @@ module TSOS {
             // clearmem
             sc = new ShellCommand(this.shellClearMem,
                                   "clearmem",
-                                  "- Clears everyting stored in memory.")
+                                  "- Clears everyting stored in memory.");
+            this.commandList[this.commandList.length] = sc;
 
             // prompt <string>
             sc = new ShellCommand(this.shellPrompt,
