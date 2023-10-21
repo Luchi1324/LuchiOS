@@ -57,13 +57,15 @@ var TSOS;
             // run <pid>
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs a program in memory.");
             this.commandList[this.commandList.length] = sc;
+            // clearmem
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears everyting stored in memory.");
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
             // date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
-            // date
+            // whereami
             sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Displays your current position.");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
@@ -236,10 +238,12 @@ var TSOS;
                         _StdOut.putText("Performs rot13 obfuscation on an entered string. It will output the obfuscated string (You can put it back in to reverse it!)");
                         break;
                     case "load":
-                        _StdOut.putText("Validates the code in the User Program Input Area (I assume it executes it but we haven't gotten that far yet.");
+                        _StdOut.putText("Validates the code in the User Program Input Area");
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                    case "clearmem":
+                        _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
@@ -368,6 +372,10 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.");
             }
+        }
+        shellClearMem(args) {
+            _StdOut.putText("Clearing Memory...");
+            _MemoryManager.clearMem();
         }
         shellBSOD(args) {
             _Kernel.krnTrapError('Called from CLS.');

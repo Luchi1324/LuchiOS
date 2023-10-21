@@ -93,9 +93,14 @@ module TSOS {
 
             // run <pid>
             sc = new ShellCommand(this.shellRun,
-                                "run",
-                                "<pid> - Runs a program in memory.");
+                                  "run",
+                                  "<pid> - Runs a program in memory.");
             this.commandList[this.commandList.length] = sc;
+
+            // clearmem
+            sc = new ShellCommand(this.shellClearMem,
+                                  "clearmem",
+                                  "- Clears everyting stored in memory.")
 
             // prompt <string>
             sc = new ShellCommand(this.shellPrompt,
@@ -109,7 +114,7 @@ module TSOS {
                                   "- Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
 
-            // date
+            // whereami
             sc = new ShellCommand(this.shellWhereAmI,
                                   "whereami",
                                   "- Displays your current position.");
@@ -297,10 +302,12 @@ module TSOS {
                         _StdOut.putText("Performs rot13 obfuscation on an entered string. It will output the obfuscated string (You can put it back in to reverse it!)");
                         break;
                     case "load":
-                        _StdOut.putText("Validates the code in the User Program Input Area (I assume it executes it but we haven't gotten that far yet.");
+                        _StdOut.putText("Validates the code in the User Program Input Area");
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                    case "clearmem":
+                        _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
@@ -429,6 +436,11 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.")
             }
+        }
+
+        public shellClearMem(args: string[]) {
+            _StdOut.putText("Clearing Memory...");
+            _MemoryManager.clearMem();
         }
 
         public shellBSOD(args: string[]) {
