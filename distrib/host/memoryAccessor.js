@@ -28,11 +28,6 @@ var TSOS;
                 _CPU.killProgram();
             }
         }
-        // Clears memory by reinitializing it
-        clearMem() {
-            _Memory.init();
-            TSOS.Devices.hostUpdateMemDisplay();
-        }
     }
     TSOS.MemoryAccessor = MemoryAccessor;
 })(TSOS || (TSOS = {}));

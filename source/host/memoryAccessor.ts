@@ -30,9 +30,9 @@ module TSOS {
         }
 
         // Clears memory by reinitializing it
-        public clearMem(): void {
-            _Memory.init();
-            Devices.hostUpdateMemDisplay();
-        }
+        //public clearMem(): void {
+        //    _Memory.init();
+        //    Devices.hostUpdateMemDisplay();
+        //}
     }
 }

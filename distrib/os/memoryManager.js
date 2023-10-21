@@ -50,9 +50,16 @@ var TSOS;
             }
             return true;
         }
-        // clearMem ^ 2, this is a bandaid solution until I can think of something smarter
         clearMem() {
-            _MemoryAccessor.clearMem();
+            // Create a temp PCB to use the MA, then we undo the currentPID increment so it is written over when we actually create another PCB
+            let tempPcb = new TSOS.ProcessControlBlock();
+            tempPcb.createPCB();
+            TSOS.ProcessControlBlock.currentPID -= 1;
+            tempPcb.limitReg = 0x301;
+            for (let i = 0; i < 0x300; i++) {
+                _MemoryAccessor.writeMem(tempPcb, i, 0x000);
+            }
+            TSOS.Devices.hostUpdateMemDisplay();
         }
     }
     TSOS.MemoryManager = MemoryManager;
