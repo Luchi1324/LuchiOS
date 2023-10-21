@@ -43,6 +43,5 @@ module TSOS {
             // Refreshes PCB display upon PCB update
             Devices.hostUpdatePcbDisplay(this);
         }
-
     }
 }

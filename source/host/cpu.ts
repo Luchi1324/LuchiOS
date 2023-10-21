@@ -101,7 +101,7 @@ module TSOS {
                     case 0x00:
                         this.breakOp();
                         _StdOut.advanceLine();
-                        _OsShell.putPrompt();
+                        //_OsShell.putPrompt();
                         break;
                     case 0xFF:
                         this.sysCall();
@@ -109,7 +109,7 @@ module TSOS {
                     default:
                         _StdOut.putText("Invalid instruction found. Go study assembly");
                         _StdOut.advanceLine();
-                        _OsShell.putPrompt();
+                        //_OsShell.putPrompt();
                         this.isExecuting = false;
                         break;
                 }
@@ -191,8 +191,8 @@ module TSOS {
 
         private breakOp() {  // 00 (BRK)
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
+            _MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
-            _MemoryManager.clearMem();
             this.isExecuting = false;
         }
 

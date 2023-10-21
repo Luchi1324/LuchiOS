@@ -7,6 +7,7 @@ var TSOS;
         // If the address being accessed exceeds the limit register of the PCB, we return 0x00
         readMem(pcb, addr) {
             if (pcb.baseReg + addr < pcb.limitReg) {
+                alert(_Memory.getAddr(pcb.baseReg + addr));
                 return _Memory.getAddr(pcb.baseReg + addr);
             }
             else {
