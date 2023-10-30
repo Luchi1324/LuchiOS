@@ -8,7 +8,7 @@ module TSOS {
         // If the address being accessed exceeds the limit register of the PCB, we return 0x00
         public readMem(pcb: TSOS.ProcessControlBlock, addr: number): number {
             if (pcb.baseReg + addr < pcb.limitReg) {
-                alert(_Memory.getAddr(pcb.baseReg + addr));
+                //alert(_Memory.getAddr(pcb.baseReg + addr));
                 return _Memory.getAddr(pcb.baseReg + addr);
             } else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);

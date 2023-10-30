@@ -169,7 +169,7 @@ module TSOS {
         }
 
         public krnKillTask() {
-            _CPU.instruReg = 0x00;
+            _CPU.breakOp();
             _StdOut.advanceLine();
             _OsShell.putPrompt();
         }

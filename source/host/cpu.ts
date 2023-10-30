@@ -120,17 +120,17 @@ module TSOS {
 
         // 6502 Op Code functions
 
-        // All of the functions follow a similar procedure, and is private since only the CPU needs these functions
+        // All of the functions follow a similar procedure
         // Everytime the CPU reads a memory address or does something, the program counter goes up by one 
         // At the end of every function, we update the current PCB to accurately represent it in the OS
-        private loadAccConst() { // A9 (LDA)
+        public loadAccConst() { // A9 (LDA)
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadAccMem() { // AD (LDA)
+        public loadAccMem() { // AD (LDA)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -139,7 +139,7 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private storeAccMem() { // 8D (STA)
+        public storeAccMem() { // 8D (STA)
             this.PC++
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++
@@ -148,7 +148,7 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private addWithCarry() { // 6D (ADC)
+        public addWithCarry() { // 6D (ADC)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -157,14 +157,14 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadXConst() { // A2 (LDX)
+        public loadXConst() { // A2 (LDX)
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadXMem() { // AE (LDX)
+        public loadXMem() { // AE (LDX)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -173,14 +173,14 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadYConst() { // A0 (LDY)
+        public loadYConst() { // A0 (LDY)
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private loadYMem() { // AC (LDY)
+        public loadYMem() { // AC (LDY)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -189,14 +189,14 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private breakOp() {  // 00 (BRK)
+        public breakOp() {  // 00 (BRK)
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Terminated");
             _MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             this.isExecuting = false;
         }
 
-        private compByteToX() { // EC (CPX)
+        public compByteToX() { // EC (CPX)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -209,7 +209,7 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private branchNifZisZero() { // D0 (BNE)
+        public branchNifZisZero() { // D0 (BNE)
             this.PC++;
             if (this.Zflag === 0) {
                 let branch = _MemoryAccessor.readMem(this.currentPCB, this.PC);
@@ -222,7 +222,7 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private incrementByte() { // EE (INC)
+        public incrementByte() { // EE (INC)
             this.PC++;
             let addr = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
@@ -233,7 +233,7 @@ module TSOS {
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
-        private sysCall() { // FF (SYS)
+        public sysCall() { // FF (SYS)
             if (this.Xreg === 1) {
                 this.PC++;
                 _StdOut.putText(this.Yreg.toString());

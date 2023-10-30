@@ -121,7 +121,7 @@ var TSOS;
             TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions
-        // All of the functions follow a similar procedure, and is private since only the CPU needs these functions
+        // All of the functions follow a similar procedure
         // Everytime the CPU reads a memory address or does something, the program counter goes up by one 
         // At the end of every function, we update the current PCB to accurately represent it in the OS
         loadAccConst() {
