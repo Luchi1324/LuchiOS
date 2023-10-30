@@ -1,12 +1,14 @@
 module TSOS {
 
     export class MemoryManager {
-        public pcbArr: ProcessControlBlock[];
+        public residentTasks: ProcessControlBlock[];
+        public readyTasks: Queue;
         public segMap: Object;
         public currSeg: number;
 
         constructor() {
-            this.pcbArr = [];
+            this.residentTasks = [];
+            this.readyTasks = new Queue();
             this.currSeg = 0;
             this.segMap = {
                 0x000: false,
@@ -22,7 +24,7 @@ module TSOS {
             // ... and if the memory can be allocated
             if (this.canBeAllocated(program) === true) {
                 pcb.createPCB();
-                this.pcbArr.push(pcb);
+                this.residentTasks.push(pcb);
                 this.allocateMem(pcb, program)
                 return true;
             } else {
@@ -76,8 +78,8 @@ module TSOS {
 
         // Clears all of the memory, and their associated PCBs by clearing each segment
         public clearMem(): void {
-            for (let i in this.pcbArr) {
-                this.clearMemSeg(this.pcbArr[i]);
+            for (let i in this.residentTasks) {
+                this.clearMemSeg(this.residentTasks[i]);
             }
             Devices.hostUpdateMemDisplay();
         }
