@@ -66,7 +66,8 @@ module TSOS {
 
         // Clears a segment of memory associated with a PCB
         public clearMemSeg(pcb: TSOS.ProcessControlBlock): void {
-            for (let i = pcb.baseReg; i < pcb.limitReg; i++) {
+            alert(pcb.baseReg);
+            for (let i = 0x00; i < 0xFF; i++) {
                 _MemoryAccessor.writeMem(pcb, i, 0x00);
             }
 
