@@ -51,12 +51,12 @@ var TSOS;
             this.isExecuting = true;
         }
         // TODO: Make this a Kernel process, and allow it to be invoked in the shell
-        killProgram() {
+        /* public killProgram(): void {
             // Used for ctrl-c until I better understand interrupts. Right now, it just uses the BRK op code as it 'breaks' the current program
             this.breakOp();
             _StdOut.advanceLine();
             _OsShell.putPrompt();
-        }
+        } */
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
                 _Kernel.krnTrace('CPU cycle');

@@ -132,6 +132,7 @@ module TSOS {
             // Or do it elsewhere in the Kernel. We don't really need this.
         }
 
+
         //
         // System Calls... that generate software interrupts via tha Application Programming Interface library routines.
         //
@@ -164,8 +165,15 @@ module TSOS {
                 } else {
                     Control.hostLog(msg, "OS");
                 }
-             }
+            }
         }
+
+        public krnKillTask() {
+            _CPU.instruReg = 0x00;
+            _StdOut.advanceLine();
+            _OsShell.putPrompt();
+        }
+
 
         public krnTrapError(msg): void {
             Control.hostLog("OS ERROR - TRAP: " + msg);

@@ -26,7 +26,7 @@ var TSOS;
             else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 _StdOut.putText(`Memory access error from process ${pcb.pid}`);
-                _CPU.killProgram();
+                _Kernel.krnKillTask();
             }
         }
     }

@@ -147,6 +147,11 @@ var TSOS;
                 }
             }
         }
+        krnKillTask() {
+            _CPU.instruReg = 0x00;
+            _StdOut.advanceLine();
+            _OsShell.putPrompt();
+        }
         krnTrapError(msg) {
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // Paint the screen blue, and print the OS error
