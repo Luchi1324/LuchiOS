@@ -40,7 +40,7 @@ module TSOS {
 
         public runProgram(pid: number): void {
             // We load our PCB into the CPU and then execute the program
-            this.currentPCB = _MemoryManager.pcbArr[pid];
+            this.currentPCB = _MemoryManager.residentTasks[pid];
             this.isExecuting = true;
         }
 

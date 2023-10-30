@@ -47,7 +47,7 @@ var TSOS;
         }
         runProgram(pid) {
             // We load our PCB into the CPU and then execute the program
-            this.currentPCB = _MemoryManager.pcbArr[pid];
+            this.currentPCB = _MemoryManager.residentTasks[pid];
             this.isExecuting = true;
         }
         // TODO: Make this a Kernel process, and allow it to be invoked in the shell
