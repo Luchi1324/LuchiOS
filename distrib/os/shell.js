@@ -378,6 +378,12 @@ var TSOS;
                 _StdOut.putText("Usage: run <pid> Please supply a PID.");
             }
         }
+        /* public shellKill(args: string[]) {
+            if (args.length > 0) {
+                let pid = parseInt(args[0]);
+                _Kernel.krnKillTask()
+            }
+        } */
         shellPs(args) {
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
                 _StdOut.putText(`PID: ${_MemoryManager.residentTasks[i].pid} -- State: ${_MemoryManager.residentTasks[i].state}`);

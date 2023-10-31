@@ -2,12 +2,10 @@ var TSOS;
 (function (TSOS) {
     class MemoryManager {
         residentTasks;
-        readyTasks;
         segMap;
         currSeg;
         constructor() {
             this.residentTasks = [];
-            this.readyTasks = new TSOS.Queue();
             this.currSeg = 0;
             this.segMap = {
                 0x000: false,
@@ -21,9 +19,14 @@ var TSOS;
             let pcb = new TSOS.ProcessControlBlock();
             // ... and if the memory can be allocated
             if (this.canBeAllocated(program) === true) {
+                // PCB is 'new' when it is created ...
                 pcb.createPCB();
+                // ... but when we add it to the resident tasks list and after it is loaded ...
                 this.residentTasks.push(pcb);
                 this.allocateMem(pcb, program);
+                // ... then the PCB is now a 'resident'
+                pcb.state = "Resident";
+                TSOS.Devices.hostUpdatePcbDisplay(pcb);
                 return true;
             }
             else {

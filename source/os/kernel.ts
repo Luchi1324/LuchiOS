@@ -38,6 +38,10 @@ module TSOS {
             // Initialize the memory manager
             _MemoryManager = new MemoryManager();
 
+            // Initialize the scheduler and dispatcher
+            _Scheduler = new Scheduler();
+            _Dispatcher = new Dispatcher();
+
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
@@ -74,6 +78,8 @@ module TSOS {
                that it has to look for interrupts and process them if it finds any.                          
             */
 
+            _Scheduler.scheduleRR();
+            
             // Check for an interrupt, if there are any. Page 560
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
@@ -120,6 +126,9 @@ module TSOS {
                 case KEYBOARD_IRQ:
                     _krnKeyboardDriver.isr(params);   // Kernel mode device driver
                     _StdIn.handleInput();
+                    break;
+                case CONTEXT_SWITCH_IRQ:
+                    _Dispatcher.contextSwitch();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

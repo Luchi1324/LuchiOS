@@ -43,5 +43,12 @@ module TSOS {
             // Refreshes PCB display upon PCB update
             Devices.hostUpdatePcbDisplay(this);
         }
+
+        public terminatePCB(): void {
+            _Kernel.krnKillTask();
+            this.state = "Terminated";
+            // Refreshes PCB display upon PCB termination
+            Devices.hostUpdatePcbDisplay(this);
+        }
     }
 }

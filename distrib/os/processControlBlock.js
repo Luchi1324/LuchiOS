@@ -48,6 +48,12 @@ var TSOS;
             // Refreshes PCB display upon PCB update
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }
+        terminatePCB() {
+            _Kernel.krnKillTask();
+            this.state = "Terminated";
+            // Refreshes PCB display upon PCB termination
+            TSOS.Devices.hostUpdatePcbDisplay(this);
+        }
     }
     TSOS.ProcessControlBlock = ProcessControlBlock;
 })(TSOS || (TSOS = {}));
