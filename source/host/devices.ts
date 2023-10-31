@@ -80,13 +80,13 @@ module TSOS {
             const pcbDisplay = <HTMLTableElement> document.getElementById("tablePcb");
             let currentRow: HTMLTableRowElement;
             
-            let pcbAttr = [ProcessControlBlock.currentPID, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
+            let pcbAttr = [pcb.pid, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             // If the PCB being inserted is not a new one ...
-            if (ProcessControlBlock.currentPID === pcbAttr[0] && pcbAttr[6] != "New") {
+            if (pcbAttr[6] != "New") {
                 // ... then we remove the old one ...
-                pcbDisplay.deleteRow(ProcessControlBlock.currentPID + 1);
+                pcbDisplay.deleteRow(pcb.pid + 1);
                 // ... and insert the most recent version of the PCB
-                currentRow = pcbDisplay.insertRow(ProcessControlBlock.currentPID + 1);
+                currentRow = pcbDisplay.insertRow(pcb.pid + 1);
                 for (let i = 0; i < pcbAttr.length; i++) {
                     let cell = currentRow.insertCell();
                     typeof pcbAttr[i] === 'number' ? cell.textContent = `${pcbAttr[i].toString(16).toUpperCase()}` : cell.textContent = `${pcbAttr[i].toString()}`;
