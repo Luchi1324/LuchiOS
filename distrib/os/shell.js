@@ -70,6 +70,8 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Displays your current position.");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Prints PID and states of all processes");
+            this.commandList[this.commandList.length] = sc;
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
             this.putPrompt();
@@ -245,6 +247,8 @@ var TSOS;
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
+                    case "ps":
+                        _StdOut.putText("Prints out the PIDs and states of all processes");
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
@@ -372,6 +376,12 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.");
+            }
+        }
+        shellPs(args) {
+            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                _StdOut.putText(`PID: ${_MemoryManager.residentTasks[i].pid} -- State: ${_MemoryManager.residentTasks[i].state}`);
+                _StdOut.advanceLine();
             }
         }
         shellClearMem(args) {
