@@ -137,7 +137,7 @@ module TSOS {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadAccMem() { // AD (LDA)
@@ -146,7 +146,7 @@ module TSOS {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public storeAccMem() { // 8D (STA)
@@ -155,7 +155,7 @@ module TSOS {
             this.PC++
             _MemoryAccessor.writeMem(this.currentPCB, addr, this.Acc);
             this.PC++
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public addWithCarry() { // 6D (ADC)
@@ -164,14 +164,14 @@ module TSOS {
             this.PC++;
             this.Acc += _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadXConst() { // A2 (LDX)
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadXMem() { // AE (LDX)
@@ -180,14 +180,14 @@ module TSOS {
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadYConst() { // A0 (LDY)
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadYMem() { // AC (LDY)
@@ -196,7 +196,7 @@ module TSOS {
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public breakOp() {  // 00 (BRK)
@@ -217,7 +217,7 @@ module TSOS {
                 this.Zflag = 0;
             }
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public branchNifZisZero() { // D0 (BNE)
@@ -230,7 +230,7 @@ module TSOS {
                 this.PC = this.PC % 0x100;
             }
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public incrementByte() { // EE (INC)
@@ -241,7 +241,7 @@ module TSOS {
             val++;
             _MemoryAccessor.writeMem(this.currentPCB, addr, val);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public sysCall() { // FF (SYS)
@@ -260,7 +260,7 @@ module TSOS {
                 _StdOut.putText(str);
                 this.PC++;
             }
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
     }
 }
