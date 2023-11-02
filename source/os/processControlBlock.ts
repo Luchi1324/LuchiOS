@@ -45,7 +45,7 @@ module TSOS {
         }
 
         public terminatePCB(): void {
-            _Kernel.krnKillTask();
+            _Kernel.krnKillTask(this.pid);
             this.state = "Terminated";
             // Refreshes PCB display upon PCB termination
             Devices.hostUpdatePcbDisplay(this);

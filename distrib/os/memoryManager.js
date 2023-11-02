@@ -64,13 +64,11 @@ var TSOS;
         }
         // Clears a segment of memory associated with a PCB
         clearMemSeg(pcb) {
-            alert(pcb.baseReg);
             for (let i = 0x00; i < 0xFF; i++) {
                 _MemoryAccessor.writeMem(pcb, i, 0x00);
             }
-            // Marks segment as unallocated, and terminates the PCB associated
+            // Marks segment as unallocated
             this.segMap[pcb.baseReg] = false;
-            pcb.updatePCB(0, 0, 0, 0, 0, "Terminated");
             TSOS.Devices.hostUpdateMemDisplay();
         }
         // Clears all of the memory, and their associated PCBs by clearing each segment

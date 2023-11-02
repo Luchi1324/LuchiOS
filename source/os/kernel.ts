@@ -177,10 +177,16 @@ module TSOS {
             }
         }
 
-        public krnKillTask() {
-            _CPU.breakOp();
-            _StdOut.advanceLine();
-            _OsShell.putPrompt();
+        public krnKillTask(pid: number) {
+            let pcb = _MemoryManager.residentTasks[pid];
+            pcb.processState = "Terminated";
+            Devices.hostUpdatePcbDisplay(pcb)
+            _MemoryManager.clearMemSeg(pcb);
+            Devices.hostUpdateMemDisplay();
+            
+            if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
+                _CPU.isExecuting = false;
+            }
         }
 
 

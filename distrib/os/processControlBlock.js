@@ -49,7 +49,7 @@ var TSOS;
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }
         terminatePCB() {
-            _Kernel.krnKillTask();
+            _Kernel.krnKillTask(this.pid);
             this.state = "Terminated";
             // Refreshes PCB display upon PCB termination
             TSOS.Devices.hostUpdatePcbDisplay(this);

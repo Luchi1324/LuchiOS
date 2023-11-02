@@ -98,7 +98,7 @@ module TSOS {
                         _StdOut.putText(this.buffer);
                     } 
                 } else if (chr === "ctrl+c") { // Ctrl + C
-                    _Kernel.krnKillTask();
+                    _Kernel.krnKillTask(_CPU.currentPCB.pid);
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

@@ -69,14 +69,12 @@ module TSOS {
 
         // Clears a segment of memory associated with a PCB
         public clearMemSeg(pcb: TSOS.ProcessControlBlock): void {
-            alert(pcb.baseReg);
             for (let i = 0x00; i < 0xFF; i++) {
                 _MemoryAccessor.writeMem(pcb, i, 0x00);
             }
 
-            // Marks segment as unallocated, and terminates the PCB associated
+            // Marks segment as unallocated
             this.segMap[pcb.baseReg] = false;
-            pcb.updatePCB(0, 0, 0, 0, 0, "Terminated");
             Devices.hostUpdateMemDisplay();
         }
 

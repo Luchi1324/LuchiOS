@@ -13,6 +13,7 @@ module TSOS {
             } else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 _StdOut.putText(`Memory access error from process ${pcb.pid}`);
+                //_StdOut.advanceLine();
                 return 0x00;
             }
         }
@@ -26,7 +27,9 @@ module TSOS {
             } else {
                 _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
                 _StdOut.putText(`Memory access error from process ${pcb.pid}`);
-                _Kernel.krnKillTask();
+                //_StdOut.advanceLine();
+                //_Kernel.krnKillTask(pcb.pid);
+                pcb.terminatePCB();
             }
         }
     }

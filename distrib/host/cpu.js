@@ -194,9 +194,13 @@ var TSOS;
         breakOp() {
             //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
             this.currentPCB.terminatePCB();
-            _MemoryManager.clearMemSeg(this.currentPCB);
+            //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
-            this.isExecuting = false;
+            _Scheduler.executingPCB = this.currentPCB;
+            _Scheduler.quantaCount = 0;
+            if (_Scheduler.readyQueue.getSize() === 0) {
+                this.isExecuting = false;
+            }
         }
         compByteToX() {
             this.PC++;

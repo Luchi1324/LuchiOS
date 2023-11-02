@@ -154,10 +154,15 @@ var TSOS;
                 }
             }
         }
-        krnKillTask() {
-            _CPU.breakOp();
-            _StdOut.advanceLine();
-            _OsShell.putPrompt();
+        krnKillTask(pid) {
+            let pcb = _MemoryManager.residentTasks[pid];
+            pcb.processState = "Terminated";
+            TSOS.Devices.hostUpdatePcbDisplay(pcb);
+            _MemoryManager.clearMemSeg(pcb);
+            TSOS.Devices.hostUpdateMemDisplay();
+            if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
+                _CPU.isExecuting = false;
+            }
         }
         krnTrapError(msg) {
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
