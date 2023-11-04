@@ -112,7 +112,7 @@ module TSOS {
             // date
             sc = new ShellCommand(this.shellDate,
                                   "date",
-                                  "- Displays the current date and time");
+                                  "- Displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
 
             // whereami
@@ -123,9 +123,13 @@ module TSOS {
             // ps  - list the running processes and their IDs
             sc = new ShellCommand(this.shellPs,
                                   "ps",
-                                  "- Prints PID and states of all processes");
+                                  "- Prints PID and states of all processes.");
             this.commandList[this.commandList.length] = sc;
             // kill <id> - kills the specified process id.
+            sc = new ShellCommand(this.shellKill,
+                                  "kill",
+                                  "<pid> - Kills a process that is currently executing.");
+            this.commandList[this.commandList.length] = sc;
 
             // Display the initial prompt.
             this.putPrompt();
@@ -311,6 +315,8 @@ module TSOS {
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                    case "kill":
+                        _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.")
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "ps":
@@ -445,12 +451,14 @@ module TSOS {
             }
         }
 
-        /* public shellKill(args: string[]) {
+        public shellKill(args: string[]) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                _Kernel.krnKillTask()
+                _Kernel.krnKillTask(pid);
+            } else {
+                _StdOut.putText("Usage: kill <pid> Please supply a PID.")
             }
-        } */
+        }
 
         public shellPs(args: string[]) {
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {

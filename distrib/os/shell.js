@@ -64,15 +64,17 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
             // date
-            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
             // whereami
             sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Displays your current position.");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
-            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Prints PID and states of all processes");
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Prints PID and states of all processes.");
             this.commandList[this.commandList.length] = sc;
             // kill <id> - kills the specified process id.
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<pid> - Kills a process that is currently executing.");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -245,6 +247,8 @@ var TSOS;
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                    case "kill":
+                        _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "ps":
@@ -378,12 +382,15 @@ var TSOS;
                 _StdOut.putText("Usage: run <pid> Please supply a PID.");
             }
         }
-        /* public shellKill(args: string[]) {
+        shellKill(args) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                _Kernel.krnKillTask()
+                _Kernel.krnKillTask(pid);
             }
-        } */
+            else {
+                _StdOut.putText("Usage: kill <pid> Please supply a PID.");
+            }
+        }
         shellPs(args) {
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
                 _StdOut.putText(`PID: ${_MemoryManager.residentTasks[i].pid} -- State: ${_MemoryManager.residentTasks[i].state}`);
