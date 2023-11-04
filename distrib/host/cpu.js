@@ -47,6 +47,7 @@ var TSOS;
         }
         // Used for context switching
         loadProgram(pcb) {
+            alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -67,13 +68,16 @@ var TSOS;
             this.isExecuting = true;
         }
         runAllPrograms() {
+            let pcb = null;
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                let pcb = _MemoryManager.residentTasks[i];
-                pcb.state = "Ready";
-                TSOS.Devices.hostUpdatePcbDisplay(pcb);
-                _MemoryManager.readyQueue.enqueue(pcb);
+                if (_MemoryManager.residentTasks[i].state === "Resident") {
+                    pcb = _MemoryManager.residentTasks[i];
+                    pcb.state = "Ready";
+                    TSOS.Devices.hostUpdatePcbDisplay(pcb);
+                    _MemoryManager.readyQueue.enqueue(pcb);
+                }
             }
-            this.isExecuting = true;
+            _Scheduler.scheduleRR();
         }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
@@ -207,7 +211,8 @@ var TSOS;
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             _Scheduler.executingPCB = this.currentPCB;
-            _Scheduler.quantaCount = 0;
+            _Scheduler.scheduleRR();
+            //_Scheduler.quantaCount = 0;
             if (_Scheduler.readyQueue.getSize() === 0) {
                 this.isExecuting = false;
             }

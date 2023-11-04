@@ -40,6 +40,7 @@ module TSOS {
 
         // Used for context switching
         public loadProgram(pcb: ProcessControlBlock): void {
+            alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -63,13 +64,16 @@ module TSOS {
         }
 
         public runAllPrograms(): void {
+            let pcb: ProcessControlBlock = null;
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                let pcb = _MemoryManager.residentTasks[i];
-                pcb.state = "Ready";
-                Devices.hostUpdatePcbDisplay(pcb);
-                _MemoryManager.readyQueue.enqueue(pcb);
+                if (_MemoryManager.residentTasks[i].state === "Resident") {
+                    pcb = _MemoryManager.residentTasks[i];
+                    pcb.state = "Ready";
+                    Devices.hostUpdatePcbDisplay(pcb);
+                    _MemoryManager.readyQueue.enqueue(pcb);
+                }
             }
-            this.isExecuting = true;
+            _Scheduler.scheduleRR();
         }
 
         public cycle(): void {
@@ -216,7 +220,8 @@ module TSOS {
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             _Scheduler.executingPCB = this.currentPCB;
-            _Scheduler.quantaCount = 0;
+            _Scheduler.scheduleRR();
+            //_Scheduler.quantaCount = 0;
 
             if (_Scheduler.readyQueue.getSize() === 0) {
                 this.isExecuting = false;
