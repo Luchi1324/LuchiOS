@@ -5,7 +5,13 @@ var TSOS;
         quantum;
         quantaCount;
         executingPCB;
-        constructor() {
+        constructor(readyQueue = new TSOS.Queue(), quantum = 6, quantaCount = 1, executingPCB = null) {
+            this.readyQueue = readyQueue;
+            this.quantum = quantum;
+            this.quantaCount = quantaCount;
+            this.executingPCB = executingPCB;
+        }
+        init() {
             this.readyQueue = new TSOS.Queue();
             this.quantum = 6;
             this.quantaCount = 1;

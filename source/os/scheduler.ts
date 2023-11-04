@@ -1,11 +1,12 @@
 module TSOS {
     export class Scheduler {
-        public readyQueue: Queue;
-        public quantum: number;
-        public quantaCount: number;
-        public executingPCB: ProcessControlBlock;
+        constructor(public readyQueue: Queue = new Queue(),
+                    public quantum: number = 6,
+                    public quantaCount: number = 1,
+                    public executingPCB = null){
+        }
 
-        constructor() {
+        public init(): void {
             this.readyQueue = new Queue();
             this.quantum = 6;
             this.quantaCount = 1;

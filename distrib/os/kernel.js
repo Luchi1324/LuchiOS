@@ -33,6 +33,7 @@ var TSOS;
             _MemoryManager = new TSOS.MemoryManager();
             // Initialize the scheduler and dispatcher
             _Scheduler = new TSOS.Scheduler();
+            _Scheduler.init();
             _Dispatcher = new TSOS.Dispatcher();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");

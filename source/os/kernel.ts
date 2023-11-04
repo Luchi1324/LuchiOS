@@ -40,6 +40,7 @@ module TSOS {
 
             // Initialize the scheduler and dispatcher
             _Scheduler = new Scheduler();
+            _Scheduler.init();
             _Dispatcher = new Dispatcher();
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
