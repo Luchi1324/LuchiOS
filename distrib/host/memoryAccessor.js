@@ -11,9 +11,7 @@ var TSOS;
                 return _Memory.getAddr(pcb.baseReg + addr);
             }
             else {
-                _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
-                _StdOut.putText(`Memory access error from process ${pcb.pid}`);
-                //_StdOut.advanceLine();
+                _Kernel.krnTrace(`[R]Memory access error from process ${pcb.pid}`);
                 return 0x00;
             }
         }
@@ -25,10 +23,7 @@ var TSOS;
                 }
             }
             else {
-                _Kernel.krnTrace(`Memory access error from process ${pcb.pid}`);
-                _StdOut.putText(`Memory access error from process ${pcb.pid}`);
-                //_StdOut.advanceLine();
-                //_Kernel.krnKillTask(pcb.pid);
+                _Kernel.krnTrace(`[W]Memory access error from process ${pcb.pid}`);
                 pcb.terminatePCB();
             }
         }
