@@ -291,6 +291,7 @@ module TSOS {
         public shellMan(args: string[]) {
             if (args.length > 0) {
                 var topic = args[0];
+                topic = args.join(' ');
                 switch (topic) {
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
@@ -308,10 +309,10 @@ module TSOS {
                         _StdOut.putText("Cls clears the screen and resets the cursor once entered.");
                         break;
                     case "man":
-                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, don't use it a third time.");
+                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you called it twice, don't call it a third time.");
                         break;
-                    case "man":
-                        _StdOut.putText("I warned you. Now this computer is going to crash after 3 seconds. Have a good day :)");
+                    case "man man":
+                        _StdOut.putText("I warned you. Now this computer is going to crash after 3 seconds. Fuck around and find out :)");
                         setTimeout(() => {
                             _Kernel.krnTrapError('You called man three times, you fucked around and found out.')
                         }, 3000);
