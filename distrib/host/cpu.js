@@ -77,7 +77,7 @@ var TSOS;
                     _Scheduler.readyQueue.enqueue(pcb);
                 }
             }
-            _Scheduler.scheduleRR();
+            this.isExecuting = true;
         }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
@@ -141,7 +141,7 @@ var TSOS;
                         break;
                 }
             }
-            _Scheduler.scheduleRR();
+            //_Scheduler.scheduleRR();
             TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions
@@ -212,7 +212,6 @@ var TSOS;
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             _Scheduler.executingPCB = this.currentPCB;
-            //_Scheduler.scheduleRR();
             //_Scheduler.quantaCount = 0;
             if (_Scheduler.readyQueue.getSize() === 0) {
                 this.isExecuting = false;

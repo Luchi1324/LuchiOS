@@ -73,7 +73,7 @@ module TSOS {
                     _Scheduler.readyQueue.enqueue(pcb);
                 }
             }
-            _Scheduler.scheduleRR();
+            this.isExecuting = true;
         }
 
         public cycle(): void {
@@ -139,7 +139,7 @@ module TSOS {
                         break;
                 }
             }
-            _Scheduler.scheduleRR();
+            //_Scheduler.scheduleRR();
             Devices.hostUpdateCpuDisplay();
         }
 
@@ -220,7 +220,6 @@ module TSOS {
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             _Scheduler.executingPCB = this.currentPCB;
-            //_Scheduler.scheduleRR();
             //_Scheduler.quantaCount = 0;
 
             if (_Scheduler.readyQueue.getSize() === 0) {
