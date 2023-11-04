@@ -47,7 +47,7 @@ var TSOS;
         }
         // Used for context switching
         loadProgram(pcb) {
-            alert("Loading program!");
+            //alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -141,6 +141,7 @@ var TSOS;
                         break;
                 }
             }
+            _Scheduler.scheduleRR();
             TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions

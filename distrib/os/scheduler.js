@@ -18,18 +18,18 @@ var TSOS;
             this.executingPCB = null;
         }
         scheduleRR() {
-            alert("Scheduling!");
+            //alert("Scheduling!");
             // If we don't have a process executing and it is in the ready queue ...
             if (this.executingPCB === null && this.readyQueue.getSize() > 0) {
                 // ... then we load it into the CPU
-                alert("Loading!");
+                //alert("Loading!");
                 this.executingPCB = this.readyQueue.dequeue();
                 _CPU.loadProgram(this.executingPCB);
             }
             else if (this.readyQueue.getSize() > 0) {
                 // Otherwise if we have reached our Quantum ...
                 if (this.quantaCount % this.quantum === 0) {
-                    alert("Interrupting!");
+                    //alert("Interrupting!");
                     _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
                 }
             }

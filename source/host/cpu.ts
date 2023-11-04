@@ -40,7 +40,7 @@ module TSOS {
 
         // Used for context switching
         public loadProgram(pcb: ProcessControlBlock): void {
-            alert("Loading program!");
+            //alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -139,7 +139,7 @@ module TSOS {
                         break;
                 }
             }
-
+            _Scheduler.scheduleRR();
             Devices.hostUpdateCpuDisplay();
         }
 

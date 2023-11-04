@@ -11,19 +11,22 @@ var TSOS;
                 let oldTask = _Scheduler.executingPCB;
                 let nextTask = _Scheduler.readyQueue.dequeue();
                 // Logging context switch to the kernel trace
-                _Kernel.krnTrace(`Switching from PID ${oldTask.pid} to PID ${nextTask.pidts}`);
+                _Kernel.krnTrace(`Switching from PID ${oldTask.pid} to PID ${nextTask.pid}`);
                 _Scheduler.executingPCB = nextTask;
                 _CPU.loadProgram(nextTask);
                 // If the CPU is executing and a context switch is called ...
             }
             else if (_Scheduler.readyQueue.getSize() > 0) {
                 // ... then we update the current process and shove it back in the ready queue...
-                _Scheduler.executingPCB.state = "Ready";
-                _Scheduler.readyQueue.enqueue(_Scheduler.executingPCB);
-                TSOS.Devices.hostUpdatePcbDisplay(_Scheduler.executingPCB);
+                let oldTask = _Scheduler.executingPCB;
+                oldTask.state = "Ready";
+                _Scheduler.readyQueue.enqueue(oldTask);
+                TSOS.Devices.hostUpdatePcbDisplay(oldTask);
                 // ... and get the next one and load it into the CPU.
                 let nextTask = _Scheduler.readyQueue.dequeue();
                 _Scheduler.executingPCB = nextTask;
+                // Logging context switch to the kernel trace
+                _Kernel.krnTrace(`Switching from PID ${oldTask.pid} to PID ${nextTask.pid}`);
                 _CPU.loadProgram(nextTask);
             }
         }
