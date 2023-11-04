@@ -302,7 +302,13 @@ module TSOS {
                         _StdOut.putText("Cls clears the screen and resets the cursor once entered.");
                         break;
                     case "man":
-                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, it won't work a third time.");
+                        _StdOut.putText("Put a topic after man and it will display the MANual page for said topic. Also you just used the command twice, don't use it a third time.");
+                        break;
+                    case "man":
+                        _StdOut.putText("I warned you. Now this computer is going to crash after 3 seconds. Have a good day :)");
+                        setTimeout(() => {
+                            _Kernel.krnTrapError('You called man three times, you fucked around and found out.')
+                        }, 3000);
                         break;
                     case "trace":
                         _StdOut.putText("Enables or disables the OS trace. Enter this followed by 'on' or 'off' to enable or disable this respectively.");
@@ -315,6 +321,8 @@ module TSOS {
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                    case "runall":
+                        _StdOut.putText("Runs all programs currently loaded in memory.")
                     case "kill":
                         _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.")
                     case "clearmem":
@@ -449,6 +457,10 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.")
             }
+        }
+
+        public shellRunAll(args: string[]) {
+            _CPU.runAllPrograms();
         }
 
         public shellKill(args: string[]) {
