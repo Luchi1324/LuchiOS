@@ -490,7 +490,7 @@ module TSOS {
         }
 
         public shellKillAll(args: string[]) {
-            if (!(_CPU.isExecuting)) {
+            if (_CPU.isExecuting) {
                 for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
                     _Kernel.krnKillTask(_MemoryManager.residentTasks[i].pid);
                 }
