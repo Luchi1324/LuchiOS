@@ -212,7 +212,7 @@ var TSOS;
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
             _Scheduler.executingPCB = this.currentPCB;
-            _Scheduler.scheduleRR();
+            //_Scheduler.scheduleRR();
             //_Scheduler.quantaCount = 0;
             if (_Scheduler.readyQueue.getSize() === 0) {
                 this.isExecuting = false;

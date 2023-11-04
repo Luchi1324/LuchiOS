@@ -28,7 +28,8 @@ module TSOS {
                     _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
                 }
             } else {
-                _StdOut.putText("There is nothing in the ready queue to schedule.")
+                _StdOut.putText("There is nothing in the ready queue to schedule.");
+                _StdOut.advanceLine();
             }
         }
     }

@@ -35,6 +35,7 @@ var TSOS;
             }
             else {
                 _StdOut.putText("There is nothing in the ready queue to schedule.");
+                _StdOut.advanceLine();
             }
         }
     }
