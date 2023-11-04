@@ -57,6 +57,9 @@ var TSOS;
             // run <pid>
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs a program in memory.");
             this.commandList[this.commandList.length] = sc;
+            // runall
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all the programs in memory.");
+            this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears everyting stored in memory.");
             this.commandList[this.commandList.length] = sc;

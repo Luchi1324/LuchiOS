@@ -97,6 +97,12 @@ module TSOS {
                                   "<pid> - Runs a program in memory.");
             this.commandList[this.commandList.length] = sc;
 
+            // runall
+            sc = new ShellCommand(this.shellRunAll,
+                                  "runall",
+                                  "- Runs all the programs in memory.");
+            this.commandList[this.commandList.length] = sc;
+
             // clearmem
             sc = new ShellCommand(this.shellClearMem,
                                   "clearmem",
