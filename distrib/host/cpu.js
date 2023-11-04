@@ -66,12 +66,22 @@ var TSOS;
             TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
             this.isExecuting = true;
         }
+        runAllPrograms() {
+            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                let pcb = _MemoryManager.residentTasks[i];
+                pcb.state = "Ready";
+                TSOS.Devices.hostUpdatePcbDisplay(pcb);
+                _MemoryManager.readyQueue.enqueue(pcb);
+            }
+            this.isExecuting = true;
+        }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
                 _Kernel.krnTrace('CPU cycle');
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
+                _Scheduler.quantaCount++;
                 TSOS.Devices.hostUpdateMemDisplay(true, this.PC);
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
