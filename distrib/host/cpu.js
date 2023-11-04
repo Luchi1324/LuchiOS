@@ -74,7 +74,7 @@ var TSOS;
                     pcb = _MemoryManager.residentTasks[i];
                     pcb.state = "Ready";
                     TSOS.Devices.hostUpdatePcbDisplay(pcb);
-                    _MemoryManager.readyQueue.enqueue(pcb);
+                    _Scheduler.readyQueue.enqueue(pcb);
                 }
             }
             _Scheduler.scheduleRR();
