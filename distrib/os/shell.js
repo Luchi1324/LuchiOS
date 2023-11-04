@@ -263,27 +263,37 @@ var TSOS;
                         break;
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
+                        break;
                     case "runall":
                         _StdOut.putText("Runs all programs currently loaded in memory.");
+                        break;
                     case "quantum":
                         _StdOut.putText("Sets the quantum for the Round Robin scheduler. Enter this followed by the quantum number.");
+                        break;
                     case "kill":
                         _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
+                        break;
                     case "killall":
                         _StdOut.putText("Kills all processes currently executing or ready in the CPU.");
+                        break;
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
+                        break;
                     case "ps":
                         _StdOut.putText("Prints out the PIDs and states of all processes");
+                        break;
                     case "prompt":
                         _StdOut.putText("Changes the shell input character with a given string. Enter 'prompt' followed by your string of choice.");
                         break;
                     case "date":
                         _StdOut.putText("Outputs the current date and time in MM/DD/YYYY HH:MM.SS.");
+                        break;
                     case "whereami":
                         _StdOut.putText("Outputs the current location of your comouter in lattitude and longitude.");
+                        break;
                     case "bsod":
                         _StdOut.putText("Forces the Kernal to capture a non-existent error, and triggers the screen nobody wants to see.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
