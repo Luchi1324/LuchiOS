@@ -60,6 +60,9 @@ var TSOS;
             // runall
             sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
+            // quantum
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - Sets the quantum for the Round Robin Scheduler.");
+            this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears everyting stored in memory.");
             this.commandList[this.commandList.length] = sc;
@@ -262,6 +265,8 @@ var TSOS;
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
                     case "runall":
                         _StdOut.putText("Runs all programs currently loaded in memory.");
+                    case "quantum":
+                        _StdOut.putText("Sets the quantum for the Round Robin scheduler. Enter this followed by the quantum number.");
                     case "kill":
                         _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
                     case "killall":
@@ -401,6 +406,15 @@ var TSOS;
         }
         shellRunAll(args) {
             _CPU.runAllPrograms();
+        }
+        shellQuantum(args) {
+            if (args.length > 0) {
+                let quantum = parseInt(args[0]);
+                _Scheduler.quantum = quantum;
+            }
+            else {
+                _StdOut.putText("Usage: quantum <int> Please supply a number to specify the quantum.");
+            }
         }
         shellKill(args) {
             if (args.length > 0) {
