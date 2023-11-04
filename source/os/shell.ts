@@ -126,15 +126,23 @@ module TSOS {
                                   "whereami",
                                   "- Displays your current position.");
             this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             sc = new ShellCommand(this.shellPs,
                                   "ps",
                                   "- Prints PID and states of all processes.");
             this.commandList[this.commandList.length] = sc;
-            // kill <id> - kills the specified process id.
+
+            // kill <id> - kills the specified process id
             sc = new ShellCommand(this.shellKill,
                                   "kill",
                                   "<pid> - Kills a process that is currently executing.");
+            this.commandList[this.commandList.length] = sc;
+
+            // killall - kills all the processes currently executing or ready
+            sc = new ShellCommand(this.shellKillAll,
+                                  "killall",
+                                  "- Kills all of the processes executing or ready.")
             this.commandList[this.commandList.length] = sc;
 
             // Display the initial prompt.
@@ -329,9 +337,11 @@ module TSOS {
                     case "run":
                         _StdOut.putText("Runs a program that is already in memory. Enter this followed by the pid.");
                     case "runall":
-                        _StdOut.putText("Runs all programs currently loaded in memory.")
+                        _StdOut.putText("Runs all programs currently loaded in memory.");
                     case "kill":
-                        _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.")
+                        _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
+                    case "killall":
+                        _StdOut.putText("Kills all processes currently executing or ready in the CPU.")
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "ps":
@@ -476,6 +486,16 @@ module TSOS {
                 _Kernel.krnKillTask(pid);
             } else {
                 _StdOut.putText("Usage: kill <pid> Please supply a PID.")
+            }
+        }
+
+        public shellKillAll(args: string[]) {
+            if (!(_CPU.isExecuting)) {
+                for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                    _Kernel.krnKillTask(_MemoryManager.residentTasks[i].pid);
+                }
+            } else {
+                _StdOut.putText("There are no processes running to kill.");
             }
         }
 

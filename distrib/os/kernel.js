@@ -162,6 +162,7 @@ var TSOS;
             TSOS.Devices.hostUpdateMemDisplay();
             if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
                 _CPU.isExecuting = false;
+                _CPU.init();
             }
         }
         krnTrapError(msg) {

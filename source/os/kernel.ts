@@ -185,6 +185,7 @@ module TSOS {
             
             if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
                 _CPU.isExecuting = false;
+                _CPU.init();
             }
         }
 

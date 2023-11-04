@@ -75,8 +75,11 @@ var TSOS;
             // ps  - list the running processes and their IDs
             sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Prints PID and states of all processes.");
             this.commandList[this.commandList.length] = sc;
-            // kill <id> - kills the specified process id.
+            // kill <id> - kills the specified process id
             sc = new TSOS.ShellCommand(this.shellKill, "kill", "<pid> - Kills a process that is currently executing.");
+            this.commandList[this.commandList.length] = sc;
+            // killall - kills all the processes currently executing or ready
+            sc = new TSOS.ShellCommand(this.shellKillAll, "killall", "- Kills all of the processes executing or ready.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -261,6 +264,8 @@ var TSOS;
                         _StdOut.putText("Runs all programs currently loaded in memory.");
                     case "kill":
                         _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
+                    case "killall":
+                        _StdOut.putText("Kills all processes currently executing or ready in the CPU.");
                     case "clearmem":
                         _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
                     case "ps":
@@ -404,6 +409,16 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: kill <pid> Please supply a PID.");
+            }
+        }
+        shellKillAll(args) {
+            if (!(_CPU.isExecuting)) {
+                for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                    _Kernel.krnKillTask(_MemoryManager.residentTasks[i].pid);
+                }
+            }
+            else {
+                _StdOut.putText("There are no processes running to kill.");
             }
         }
         shellPs(args) {
