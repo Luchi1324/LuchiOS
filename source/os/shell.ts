@@ -356,7 +356,7 @@ module TSOS {
                         _StdOut.putText("Kills all processes currently executing or ready in the CPU.");
                         break;
                     case "clearmem":
-                        _StdOut.putText("Erases everything currently stored in memory. Warning: this will break any program/s that are currently executing.");
+                        _StdOut.putText("Erases everything currently stored in memory.");
                         break;
                     case "ps":
                         _StdOut.putText("Prints out the PIDs and states of all processes");
@@ -534,8 +534,12 @@ module TSOS {
         }
 
         public shellClearMem(args: string[]) {
-            _StdOut.putText("Clearing Memory...");
-            _MemoryManager.clearMem();
+            if (_CPU.isExecuting !== true) {
+                _StdOut.putText("Clearing Memory...");
+                _MemoryManager.clearMem();
+            } else {
+                _StdOut.putText("Cannot clear memory while the CPU is executing.")
+            }
         }
 
         public shellBSOD(args: string[]) {
