@@ -24,7 +24,7 @@ var TSOS;
             }
             else {
                 // TODO: Insert more code to handle empty ready queue
-                _StdOut.putText("There are no processes in the ready queue.");
+                _Kernel.krnTrace("All processes have been completed.");
             }
         }
         quantaCheck() {
