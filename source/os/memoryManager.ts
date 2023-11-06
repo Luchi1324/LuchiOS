@@ -75,7 +75,6 @@ module TSOS {
 
             // Marks segment as unallocated, and clears position in resident task list
             this.segMap[pcb.baseReg] = false;
-            this.residentTasks = this.residentTasks.filter(item => item !== pcb);
             Devices.hostUpdateMemDisplay();
         }
 

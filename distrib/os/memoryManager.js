@@ -69,7 +69,6 @@ var TSOS;
             }
             // Marks segment as unallocated, and clears position in resident task list
             this.segMap[pcb.baseReg] = false;
-            this.residentTasks = this.residentTasks.filter(item => item !== pcb);
             TSOS.Devices.hostUpdateMemDisplay();
         }
         // Clears all of the memory, and their associated PCBs by clearing each segment

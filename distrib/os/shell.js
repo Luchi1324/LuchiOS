@@ -408,8 +408,11 @@ var TSOS;
         shellRun(args) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                //_CPU.runProgram(pid);
+                // Once our task is 'ready', it is no longer a resident ...
                 _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
+                // ... so we remove it from the residentTasks array
+                delete _MemoryManager.residentTasks[pid];
+                _MemoryManager.residentTasks[pid].state = "Ready";
                 _Scheduler.scheduleRR();
             }
             else {
@@ -417,7 +420,19 @@ var TSOS;
             }
         }
         shellRunAll(args) {
-            _CPU.runAllPrograms();
+            let pcb = null;
+            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                if (_MemoryManager.residentTasks[i].state === "Resident") {
+                    pcb = _MemoryManager.residentTasks[i];
+                    TSOS.Devices.hostUpdatePcbDisplay(pcb);
+                    // Once our task is 'ready', it is no longer a resident ...
+                    _Scheduler.readyQueue.enqueue(pcb);
+                    // ... so we remove it from the residentTasks array
+                    delete _MemoryManager.residentTasks[pcb.pid];
+                    pcb.state = "Ready";
+                }
+            }
+            _Scheduler.scheduleRR();
         }
         shellQuantum(args) {
             if (args.length > 0) {
