@@ -70,7 +70,7 @@ var TSOS;
         }
         static hostUpdatePcbDisplay(pcb) {
             // HTML Context
-            const pcbDisplay = document.getElementById("tablePcb");
+            const pcbDisplay = document.getElementById("tableProcess");
             let currentRow;
             let pcbAttr = [pcb.pid, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             // If the PCB being inserted is not a new one ...

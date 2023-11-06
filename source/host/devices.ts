@@ -77,7 +77,7 @@ module TSOS {
 
         public static hostUpdatePcbDisplay(pcb: ProcessControlBlock): void {
             // HTML Context
-            const pcbDisplay = <HTMLTableElement> document.getElementById("tablePcb");
+            const pcbDisplay = <HTMLTableElement> document.getElementById("tableProcess");
             let currentRow: HTMLTableRowElement;
             
             let pcbAttr = [pcb.pid, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
