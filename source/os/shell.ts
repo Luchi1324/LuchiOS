@@ -502,6 +502,7 @@ module TSOS {
             if (args.length > 0) {
                 let quantum = parseInt(args[0]);
                 _Scheduler.quantum = quantum;
+                _StdOut.putText(`Set Round Robin quantum to ${_Scheduler.quantum}`);
             } else {
                 _StdOut.putText("Usage: quantum <int> Please supply a number to specify the quantum.");
             }
