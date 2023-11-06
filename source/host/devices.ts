@@ -81,7 +81,6 @@ module TSOS {
             let currentRow: HTMLTableRowElement;
             
             let pcbAttr = [pcb.pid, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
-            //alert(`PID: ${pcbAttr[0]}, PC: ${pcbAttr[1]}, Acc: ${pcbAttr[2]}, X: ${pcbAttr[3]}, Y: ${pcbAttr[4]}, Z: ${pcbAttr[5]}, State: ${pcbAttr[6]}`);
             // If the PCB being inserted is not a new one ...
             if (pcbAttr[6] != "New") {
                 // ... then we remove the old one ...

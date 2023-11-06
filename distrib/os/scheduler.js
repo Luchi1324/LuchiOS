@@ -18,13 +18,16 @@ var TSOS;
             this.executingPCB = null;
         }
         scheduleRR() {
-            // If we don't have a process executing and it is in the ready queue ...
+            // If we have a process in the ready queue ...
             if (this.readyQueue.getSize() > 0) {
+                // ... we generate our interrupt to trigger a context switch.
                 _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
             }
             else {
                 // TODO: Insert more code to handle empty ready queue
                 _Kernel.krnTrace("All processes have been completed.");
+                // Once we have finsihed executing everything, then we erase the PCB list
+                //_PCBList = [];
             }
         }
         quantaCheck() {

@@ -489,10 +489,11 @@ module TSOS {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
                 // Once our task is 'ready', it is no longer a resident ...
-                _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
-                // ... so we remove it from the residentTasks array
-                delete _MemoryManager.residentTasks[pid];
                 _MemoryManager.residentTasks[pid].state = "Ready";
+                // ... so we queue it in the 'ready' queue
+                _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
+                // ... and remove it from the 'resident' list
+                //_MemoryManager.residentTasks.splice(pid, 1);
                 _Scheduler.scheduleRR();
             } else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.")
@@ -504,12 +505,12 @@ module TSOS {
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
                 if (_MemoryManager.residentTasks[i].state === "Resident") {
                     pcb = _MemoryManager.residentTasks[i];
+                    pcb.state = "Ready";
                     Devices.hostUpdatePcbDisplay(pcb);
                     // Once our task is 'ready', it is no longer a resident ...
                     _Scheduler.readyQueue.enqueue(pcb);
                     // ... so we remove it from the residentTasks array
-                    delete _MemoryManager.residentTasks[pcb.pid];
-                    pcb.state = "Ready";
+                    //_MemoryManager.residentTasks.splice(pcb.pid, 1);
                 }
             }
             _Scheduler.scheduleRR();

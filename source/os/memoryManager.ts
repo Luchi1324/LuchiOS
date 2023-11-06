@@ -23,7 +23,8 @@ module TSOS {
             if (this.canBeAllocated(program) === true) {
                 // PCB is 'new' when it is created ...
                 pcb.createPCB();
-                // ... but when we add it to the resident tasks list and after it is loaded ...
+                // ... but when we add it to the resident tasks list, global PCB list and after it is loaded ...
+                //_PCBList.push(pcb);
                 this.residentTasks.push(pcb);
                 this.allocateMem(pcb, program)
                 // ... then the PCB is now a 'resident'
@@ -73,7 +74,7 @@ module TSOS {
                 _MemoryAccessor.writeMem(pcb, i, 0x00);
             }
 
-            // Marks segment as unallocated, and clears position in resident task list
+            // Marks segment as unallocated, and clears position in global PCB list
             this.segMap[pcb.baseReg] = false;
             Devices.hostUpdateMemDisplay();
         }
@@ -83,6 +84,9 @@ module TSOS {
             for (let i in this.residentTasks) {
                 this.clearMemSeg(this.residentTasks[i]);
             }
+            /*for (let i in _PCBList) {
+                this.clearMemSeg(_PCBList[i]);
+            }*/
             Devices.hostUpdateMemDisplay();
         }
     }
