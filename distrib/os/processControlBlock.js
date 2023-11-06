@@ -38,11 +38,11 @@ var TSOS;
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }
         updatePCB(pc, acc, XReg, YReg, ZFlag, state) {
-            // General update function, if null is passed then we keep the current values in the CPU registers
+            // General update function
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
-            this.XReg = YReg;
+            this.YReg = YReg;
             this.ZFlag = ZFlag;
             this.state = state;
             // Refreshes PCB display upon PCB update

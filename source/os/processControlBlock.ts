@@ -32,12 +32,12 @@ module TSOS {
             Devices.hostUpdatePcbDisplay(this);
         }
 
-        public updatePCB(pc: number, acc: number, XReg?: number, YReg?: number, ZFlag?: number, state?: string): void {
-            // General update function, if null is passed then we keep the current values in the CPU registers
+        public updatePCB(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number, state: string): void {
+            // General update function
             this.pc = pc;
             this.acc = acc;
             this.XReg = XReg;
-            this.XReg = YReg;
+            this.YReg = YReg;
             this.ZFlag = ZFlag;
             this.state = state;
             // Refreshes PCB display upon PCB update
