@@ -60,27 +60,6 @@ var TSOS;
                 this.isExecuting = true;
             }
         }
-        runProgram(pid) {
-            // We load our PCB into the CPU and then execute the program
-            this.currentPCB = _MemoryManager.residentTasks[pid];
-            this.currentPCB.state = "Executing";
-            TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
-            this.isExecuting = true;
-        }
-        x;
-        runAllPrograms() {
-            let pcb = null;
-            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                if (_MemoryManager.residentTasks[i].state === "Resident") {
-                    pcb = _MemoryManager.residentTasks[i];
-                    pcb.state = "Ready";
-                    TSOS.Devices.hostUpdatePcbDisplay(pcb);
-                    _Scheduler.readyQueue.enqueue(pcb);
-                }
-            }
-            //this.isExecuting = true;
-            _Scheduler.scheduleRR();
-        }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
                 _Kernel.krnTrace('CPU cycle');
@@ -208,11 +187,9 @@ var TSOS;
             this.PC++;
             this.isExecuting = false;
             this.currentPCB.terminatePCB();
-            //this.currentPCB = null;
-            // Schedule the next task
             _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
-            _OsShell.putPrompt();
             this.currentPCB = null;
+            // Schedule the next task
             _Scheduler.scheduleRR();
         }
         compByteToX() {

@@ -54,28 +54,6 @@ module TSOS {
                 this.isExecuting = true;
             }
         }
-        
-        public runProgram(pid: number): void {
-            // We load our PCB into the CPU and then execute the program
-            this.currentPCB = _MemoryManager.residentTasks[pid];
-            this.currentPCB.state = "Executing";
-            Devices.hostUpdatePcbDisplay(this.currentPCB);
-            this.isExecuting = true;
-        }
-        x
-        public runAllPrograms(): void {
-            let pcb: ProcessControlBlock = null;
-            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                if (_MemoryManager.residentTasks[i].state === "Resident") {
-                    pcb = _MemoryManager.residentTasks[i];
-                    pcb.state = "Ready";
-                    Devices.hostUpdatePcbDisplay(pcb);
-                    _Scheduler.readyQueue.enqueue(pcb);
-                }
-            }
-            //this.isExecuting = true;
-            _Scheduler.scheduleRR();
-        }
 
         public cycle(): void {
             if (this.isExecuting && this.currentPCB !== null) {
@@ -217,12 +195,11 @@ module TSOS {
             this.PC++;
             this.isExecuting = false;
             this.currentPCB.terminatePCB();
-            //this.currentPCB = null;
+
+            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
+            this.currentPCB = null;
 
             // Schedule the next task
-            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
-            _OsShell.putPrompt();
-            this.currentPCB = null;
             _Scheduler.scheduleRR();
         }
 

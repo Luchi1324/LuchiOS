@@ -50,7 +50,6 @@ var TSOS;
         }
         terminatePCB() {
             _Kernel.krnKillTask(this.pid);
-            this.state = "Terminated";
             // Refreshes PCB display upon PCB termination
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }

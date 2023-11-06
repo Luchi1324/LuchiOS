@@ -178,11 +178,13 @@ module TSOS {
 
         public krnKillTask(pid: number) {
             let pcb = _MemoryManager.residentTasks[pid];
-            pcb.processState = "Terminated";
+            //let pcb = _PCBList[pid];
+            pcb.state = "Terminated";
             Devices.hostUpdatePcbDisplay(pcb)
             _MemoryManager.clearMemSeg(pcb);
             Devices.hostUpdateMemDisplay();
             
+            // If all tasks are terminated, we reinitialize the CPU
             if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
                 _CPU.isExecuting = false;
                 _CPU.init();
