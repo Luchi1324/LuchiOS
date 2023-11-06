@@ -45,7 +45,7 @@ var TSOS;
             this.isExecuting = false;
             this.currentPCB = null;
         }
-        // Used for context switching
+        // Used for loading a program into CPU/context switching
         loadProgram(pcb) {
             //alert("Loading program!");
             if (pcb.state !== "Terminated") {
@@ -56,7 +56,7 @@ var TSOS;
                 this.Yreg = this.currentPCB.YReg;
                 this.Zflag = this.currentPCB.ZFlag;
                 this.currentPCB.state = "Executing";
-                TSOS.Devices.hostUpdatePcbDisplay(pcb);
+                TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
                 this.isExecuting = true;
             }
         }
@@ -67,6 +67,7 @@ var TSOS;
             TSOS.Devices.hostUpdatePcbDisplay(this.currentPCB);
             this.isExecuting = true;
         }
+        x;
         runAllPrograms() {
             let pcb = null;
             for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
@@ -77,7 +78,8 @@ var TSOS;
                     _Scheduler.readyQueue.enqueue(pcb);
                 }
             }
-            this.isExecuting = true;
+            //this.isExecuting = true;
+            _Scheduler.scheduleRR();
         }
         cycle() {
             if (this.isExecuting && this.currentPCB !== null) {
@@ -85,7 +87,6 @@ var TSOS;
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
-                _Scheduler.quantaCount++;
                 TSOS.Devices.hostUpdateMemDisplay(true, this.PC);
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
@@ -134,14 +135,17 @@ var TSOS;
                         this.sysCall();
                         break;
                     default:
-                        _StdOut.putText("Invalid instruction found. Go study assembly");
-                        _StdOut.advanceLine();
-                        //_OsShell.putPrompt();
                         this.isExecuting = false;
+                        _StdOut.putText(`PID ${this.currentPCB.pid}: Invalid instruction - ${instruction}. Terminating current process...`);
+                        _StdOut.advanceLine();
+                        this.currentPCB.terminatePCB();
+                        this.currentPCB = null;
+                        _OsShell.putPrompt();
                         break;
                 }
             }
-            //_Scheduler.scheduleRR();
+            // Check if we have exceeded our quantum for RR
+            _Scheduler.quantaCheck();
             TSOS.Devices.hostUpdateCpuDisplay();
         }
         // 6502 Op Code functions
@@ -207,13 +211,15 @@ var TSOS;
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         breakOp() {
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
             this.currentPCB.terminatePCB();
             //_MemoryManager.clearMemSeg(this.currentPCB);
             this.currentPCB = null;
-            _Scheduler.executingPCB = this.currentPCB;
-            //_Scheduler.quantaCount = 0;
-            if (_Scheduler.readyQueue.getSize() === 0) {
+            //_Scheduler.executingPCB = this.currentPCB;
+            // If we have tasks that are ready, schedule the next one
+            if (_Scheduler.readyQueue.getSize() > 0) {
+                _Scheduler.scheduleRR();
+            }
+            else {
                 this.isExecuting = false;
             }
         }

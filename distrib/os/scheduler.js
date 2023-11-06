@@ -18,20 +18,19 @@ var TSOS;
             this.executingPCB = null;
         }
         scheduleRR() {
-            //_StdOut.putText(`${this.quantaCount}`);
             // If we don't have a process executing and it is in the ready queue ...
-            if (this.executingPCB === null && this.readyQueue.getSize() > 0) {
-                // ... then we load it into the CPU
-                this.executingPCB = this.readyQueue.dequeue();
-                _CPU.loadProgram(this.executingPCB);
+            if (this.readyQueue.getSize() > 0) {
+                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
             }
-            else if (this.readyQueue.getSize() > 0) {
-                // Otherwise if we have reached our Quantum ...
-                //if (this.quantaCount === this.quantum) {
-                if (this.quantaCount % this.quantum === 0) {
-                    _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
-                    //this.quantaCount = 0;
-                }
+            else {
+                // TODO: Insert more code to handle empty ready queue
+                _StdOut.putText("There are no processes in the ready queue.");
+            }
+        }
+        quantaCheck() {
+            this.quantaCount++;
+            if (this.quantaCount % this.quantum === 0) {
+                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
             }
         }
     }

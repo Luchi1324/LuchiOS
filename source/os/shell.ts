@@ -488,7 +488,9 @@ module TSOS {
         public shellRun(args: string[]) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                _CPU.runProgram(pid);
+                //_CPU.runProgram(pid);
+                _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
+                _Scheduler.scheduleRR();
             } else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.")
             }
