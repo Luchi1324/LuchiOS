@@ -158,7 +158,6 @@ var TSOS;
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadAccMem() {
             this.PC++;
@@ -166,7 +165,6 @@ var TSOS;
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         storeAccMem() {
             this.PC++;
@@ -174,7 +172,6 @@ var TSOS;
             this.PC++;
             _MemoryAccessor.writeMem(this.currentPCB, addr, this.Acc);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         addWithCarry() {
             this.PC++;
@@ -182,13 +179,11 @@ var TSOS;
             this.PC++;
             this.Acc += _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadXConst() {
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadXMem() {
             this.PC++;
@@ -196,13 +191,11 @@ var TSOS;
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadYConst() {
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         loadYMem() {
             this.PC++;
@@ -210,7 +203,6 @@ var TSOS;
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         breakOp() {
             this.PC++;
@@ -219,6 +211,7 @@ var TSOS;
             //this.currentPCB = null;
             // Schedule the next task
             _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
+            _OsShell.putPrompt();
             this.currentPCB = null;
             _Scheduler.scheduleRR();
         }
@@ -233,7 +226,6 @@ var TSOS;
                 this.Zflag = 0;
             }
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         branchNifZisZero() {
             this.PC++;
@@ -246,7 +238,6 @@ var TSOS;
                 }
             }
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         incrementByte() {
             this.PC++;
@@ -256,7 +247,6 @@ var TSOS;
             val++;
             _MemoryAccessor.writeMem(this.currentPCB, addr, val);
             this.PC++;
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
         sysCall() {
             this.PC++;
@@ -274,7 +264,6 @@ var TSOS;
                 } while (val !== 0x00);
                 _StdOut.putText(str);
             }
-            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
     }
     TSOS.Cpu = Cpu;
