@@ -142,6 +142,9 @@ module TSOS {
                         break;
                 }
             }
+            // Update PCB after complete cycle
+            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+
             // Check if we have exceeded our quantum for RR
             _Scheduler.quantaCheck();
             Devices.hostUpdateCpuDisplay();
@@ -156,7 +159,7 @@ module TSOS {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadAccMem() { // AD (LDA)
@@ -165,7 +168,7 @@ module TSOS {
             this.PC++;
             this.Acc = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public storeAccMem() { // 8D (STA)
@@ -174,7 +177,7 @@ module TSOS {
             this.PC++
             _MemoryAccessor.writeMem(this.currentPCB, addr, this.Acc);
             this.PC++
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public addWithCarry() { // 6D (ADC)
@@ -183,14 +186,14 @@ module TSOS {
             this.PC++;
             this.Acc += _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadXConst() { // A2 (LDX)
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadXMem() { // AE (LDX)
@@ -199,14 +202,14 @@ module TSOS {
             this.PC++;
             this.Xreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadYConst() { // A0 (LDY)
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, this.PC);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public loadYMem() { // AC (LDY)
@@ -215,21 +218,19 @@ module TSOS {
             this.PC++;
             this.Yreg = _MemoryAccessor.readMem(this.currentPCB, addr);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public breakOp() {  // 00 (BRK)
+            this.PC++;
+            this.isExecuting = false;
             this.currentPCB.terminatePCB();
-            //_MemoryManager.clearMemSeg(this.currentPCB);
-            this.currentPCB = null;
-            //_Scheduler.executingPCB = this.currentPCB;
+            //this.currentPCB = null;
 
-            // If we have tasks that are ready, schedule the next one
-            if (_Scheduler.readyQueue.getSize() > 0) {
-                _Scheduler.scheduleRR();
-            } else {
-                this.isExecuting = false;
-            }
+            // Schedule the next task
+            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
+            this.currentPCB = null;
+            _Scheduler.scheduleRR();
         }
 
         public compByteToX() { // EC (CPX)
@@ -242,7 +243,7 @@ module TSOS {
                 this.Zflag = 0;
             }
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public branchNifZisZero() { // D0 (BNE)
@@ -250,12 +251,13 @@ module TSOS {
             if (this.Zflag === 0) {
                 let branch = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.PC += branch;
-                // Got this modulo from Cybercore hall of fame, fixes it, but I have no idea why
-                // TODO: Understand why the hell this works
-                this.PC = this.PC % 0x100;
+                // In the case of overflow, we use Modulo to set the branch
+                if (this.PC > 0x100) {
+                    this.PC = this.PC % 0x100;
+                }
             }
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public incrementByte() { // EE (INC)
@@ -266,12 +268,12 @@ module TSOS {
             val++;
             _MemoryAccessor.writeMem(this.currentPCB, addr, val);
             this.PC++;
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
 
         public sysCall() { // FF (SYS)
+            this.PC++;
             if (this.Xreg === 1) {
-                this.PC++;
                 _StdOut.putText(this.Yreg.toString());
             } else if (this.Xreg === 2) {
                 let str = '';
@@ -283,9 +285,8 @@ module TSOS {
                     str += String.fromCharCode(val);
                 } while (val !== 0x00);
                 _StdOut.putText(str);
-                this.PC++;
             }
-            this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            //this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
         }
     }
 }
