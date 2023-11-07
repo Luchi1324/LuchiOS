@@ -12,7 +12,9 @@ module TSOS {
             public XReg: number = 0,
             public YReg: number = 0,
             public ZFlag: number = 0,
-            public state: string = ""
+            public state: string = "",
+            public waitCycles: number = 0,
+            public turnCycles: number = 0
             ){
         }
 
@@ -46,6 +48,14 @@ module TSOS {
 
         public terminatePCB(): void {
             _Kernel.krnKillTask(this.pid);
+            // Prints wait and turnaround time for the process
+            _StdOut.advanceLine();
+            _StdOut.putText(`Process PID: ${this.pid}`);
+            _StdOut.advanceLine();
+            _StdOut.putText(`Wait time: ${this.waitCycles}`);
+            _StdOut.advanceLine();
+            _StdOut.putText(`Turnaround time: ${this.turnCycles}`);
+            _StdOut.advanceLine();
             // Refreshes PCB display upon PCB termination
             Devices.hostUpdatePcbDisplay(this);
         }

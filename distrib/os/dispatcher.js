@@ -22,6 +22,9 @@ var TSOS;
                 oldTask.state = "Ready";
                 _Scheduler.readyQueue.enqueue(oldTask);
                 TSOS.Devices.hostUpdatePcbDisplay(oldTask);
+                // ... increment waiting and turnaround cycles
+                oldTask.waitCycles++;
+                oldTask.turnCycles++;
                 // ... and get the next one and load it into the CPU.
                 let nextTask = _Scheduler.readyQueue.dequeue();
                 _Scheduler.executingPCB = nextTask;

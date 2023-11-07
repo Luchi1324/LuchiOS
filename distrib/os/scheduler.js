@@ -25,7 +25,7 @@ var TSOS;
             }
             else {
                 // TODO: Insert more code to handle empty ready queue
-                _Kernel.krnTrace("All processes have been completed.");
+                _StdOut.putText("All processes have been completed.");
                 // Once we have finsihed executing everything, then we erase the PCB list
                 //_PCBList = [];
             }

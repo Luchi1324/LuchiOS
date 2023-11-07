@@ -10,8 +10,10 @@ var TSOS;
         YReg;
         ZFlag;
         state;
+        waitCycles;
+        turnCycles;
         static currentPID = -1;
-        constructor(pid = 0, pc = 0, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "") {
+        constructor(pid = 0, pc = 0, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "", waitCycles = 0, turnCycles = 0) {
             this.pid = pid;
             this.pc = pc;
             this.baseReg = baseReg;
@@ -21,6 +23,8 @@ var TSOS;
             this.YReg = YReg;
             this.ZFlag = ZFlag;
             this.state = state;
+            this.waitCycles = waitCycles;
+            this.turnCycles = turnCycles;
         }
         createPCB() {
             // Creates new PCB, class keeps track of current PID number
@@ -50,6 +54,14 @@ var TSOS;
         }
         terminatePCB() {
             _Kernel.krnKillTask(this.pid);
+            // Prints wait and turnaround time for the process
+            _StdOut.advanceLine();
+            _StdOut.putText(`Process PID: ${this.pid}`);
+            _StdOut.advanceLine();
+            _StdOut.putText(`Wait time: ${this.waitCycles}`);
+            _StdOut.advanceLine();
+            _StdOut.putText(`Turnaround time: ${this.turnCycles}`);
+            _StdOut.advanceLine();
             // Refreshes PCB display upon PCB termination
             TSOS.Devices.hostUpdatePcbDisplay(this);
         }

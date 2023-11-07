@@ -123,8 +123,9 @@ var TSOS;
                         break;
                 }
             }
-            // Update PCB after complete cycle
+            // Update PCB after complete cycle, and increment turnaround cycle
             this.currentPCB.updatePCB(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag, "Executing");
+            this.currentPCB.turnCycles++;
             // Check if we have exceeded our quantum for RR
             _Scheduler.quantaCheck();
             TSOS.Devices.hostUpdateCpuDisplay();
