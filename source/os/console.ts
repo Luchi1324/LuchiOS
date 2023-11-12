@@ -148,7 +148,7 @@ module TSOS {
             var yBeginningPos = this.currentYPosition - ySet;
             
             // ... then we clear the canvas in the area, set the cursor back to the start, and remove the character from the buffer
-            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 5);
             this.currentXPosition = xBeginnningPos;
             this.buffer = this.buffer.slice(0, -1);
          }
@@ -162,7 +162,7 @@ module TSOS {
             var yBeginningPos = this.currentYPosition - ySet;
             
             // ... then we clear the canvas in the area, set the cursor back to the start, and remove the entire line from the buffer
-            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 3);
+            _DrawingContext.clearRect(xBeginnningPos, yBeginningPos, xSet, ySet + 5);
             this.currentXPosition = xBeginnningPos;
             this.buffer = "";
          }
