@@ -177,9 +177,9 @@ module TSOS {
         }
 
         public krnKillTask(pid: number) {
-            // Remove the current PCB, set state to 'Terminated'and update the user tables 
+            // Remove the current PCB from the residentTasks list, set state to 'Terminated' and update the user tables 
             _CPU.currentPCB = null;
-            let pcb = _MemoryManager.residentTasks[pid];
+            let pcb = _MemoryManager.residentTasks[pid % 3];
             pcb.state = "Terminated";
             Devices.hostUpdatePcbDisplay(pcb)
             _MemoryManager.clearMemSeg(pcb);

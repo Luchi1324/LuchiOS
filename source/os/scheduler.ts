@@ -35,10 +35,11 @@ module TSOS {
                 // ... we generate our interrupt to trigger a context switch.
                 _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ, 0);
             } else {
-                // TODO: Insert more code to handle empty ready queue
                 _StdOut.putText("All processes have been completed.");
-                // Once we have finsihed executing everything, then we erase the PCB list
-                //_PCBList = [];
+                // Reset residentTask array after all tasks have been executed
+                _MemoryManager.residentTasks = [];
+                _StdOut.advanceLine();
+                _OsShell.putPrompt();
             }
         }
 
