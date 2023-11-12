@@ -47,7 +47,6 @@ var TSOS;
         }
         // Used for loading a program into CPU/context switching
         loadProgram(pcb) {
-            //alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -107,7 +106,7 @@ var TSOS;
                         break;
                     case 0x00:
                         this.breakOp();
-                        _StdOut.advanceLine();
+                        //_StdOut.advanceLine();
                         //_OsShell.putPrompt();
                         break;
                     case 0xFF:
@@ -186,10 +185,9 @@ var TSOS;
         }
         breakOp() {
             this.PC++;
+            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
             this.isExecuting = false;
             this.currentPCB.terminatePCB();
-            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
-            this.currentPCB = null;
             // Schedule the next task
             _Scheduler.schedule();
         }

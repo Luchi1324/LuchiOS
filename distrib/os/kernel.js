@@ -156,8 +156,9 @@ var TSOS;
             }
         }
         krnKillTask(pid) {
+            // Remove the current PCB, set state to 'Terminated'and update the user tables 
+            _CPU.currentPCB = null;
             let pcb = _MemoryManager.residentTasks[pid];
-            //let pcb = _PCBList[pid];
             pcb.state = "Terminated";
             TSOS.Devices.hostUpdatePcbDisplay(pcb);
             _MemoryManager.clearMemSeg(pcb);
@@ -166,6 +167,7 @@ var TSOS;
             if (_Scheduler.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
                 _CPU.isExecuting = false;
                 _CPU.init();
+                TSOS.Devices.hostUpdateCpuDisplay();
             }
         }
         krnTrapError(msg) {

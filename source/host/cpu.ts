@@ -40,7 +40,6 @@ module TSOS {
 
         // Used for loading a program into CPU/context switching
         public loadProgram(pcb: ProcessControlBlock): void {
-            //alert("Loading program!");
             if (pcb.state !== "Terminated") {
                 this.currentPCB = pcb;
                 this.PC = this.currentPCB.pc;
@@ -104,7 +103,7 @@ module TSOS {
                         break;
                     case 0x00:
                         this.breakOp();
-                        _StdOut.advanceLine();
+                        //_StdOut.advanceLine();
                         //_OsShell.putPrompt();
                         break;
                     case 0xFF:
@@ -194,11 +193,9 @@ module TSOS {
 
         public breakOp() {  // 00 (BRK)
             this.PC++;
+            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
             this.isExecuting = false;
             this.currentPCB.terminatePCB();
-
-            _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
-            this.currentPCB = null;
 
             // Schedule the next task
             _Scheduler.schedule();
