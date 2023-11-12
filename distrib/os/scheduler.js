@@ -1,21 +1,37 @@
 var TSOS;
 (function (TSOS) {
     class Scheduler {
+        scheduleMode;
         readyQueue;
         quantum;
         quantaCount;
         executingPCB;
-        constructor(readyQueue = new TSOS.Queue(), quantum = 6, quantaCount = 1, executingPCB = null) {
+        constructor(scheduleMode = 'rr', readyQueue = new TSOS.Queue(), quantum = 6, quantaCount = 1, executingPCB = null) {
+            this.scheduleMode = scheduleMode;
             this.readyQueue = readyQueue;
             this.quantum = quantum;
             this.quantaCount = quantaCount;
             this.executingPCB = executingPCB;
         }
         init() {
+            this.scheduleMode = 'rr';
             this.readyQueue = new TSOS.Queue();
             this.quantum = 6;
             this.quantaCount = 0;
             this.executingPCB = null;
+        }
+        schedule() {
+            switch (this.scheduleMode) {
+                case 'rr':
+                    this.scheduleRR();
+                    break;
+                case 'fcfs':
+                    // TODO: Create a FCFS scheduling algorithm
+                    break;
+                case 'npp':
+                    // TODO: Create a non-preemptive priority scheduling algorithm
+                    break;
+            }
         }
         scheduleRR() {
             // If we have a process in the ready queue ...

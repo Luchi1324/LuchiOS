@@ -201,7 +201,7 @@ module TSOS {
             this.currentPCB = null;
 
             // Schedule the next task
-            _Scheduler.scheduleRR();
+            _Scheduler.schedule();
         }
 
         public compByteToX() { // EC (CPX)

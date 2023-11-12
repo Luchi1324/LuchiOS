@@ -191,7 +191,7 @@ var TSOS;
             _Kernel.krnTrace(`Process ${this.currentPCB.pid} complete`);
             this.currentPCB = null;
             // Schedule the next task
-            _Scheduler.scheduleRR();
+            _Scheduler.schedule();
         }
         compByteToX() {
             this.PC++;

@@ -494,7 +494,7 @@ module TSOS {
                 _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
                 // ... and remove it from the 'resident' list
                 //_MemoryManager.residentTasks.splice(pid, 1);
-                _Scheduler.scheduleRR();
+                _Scheduler.schedule();
             } else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.")
             }
@@ -513,7 +513,7 @@ module TSOS {
                     //_MemoryManager.residentTasks.splice(pcb.pid, 1);
                 }
             }
-            _Scheduler.scheduleRR();
+            _Scheduler.schedule();
         }
 
         public shellQuantum(args: string[]) {
