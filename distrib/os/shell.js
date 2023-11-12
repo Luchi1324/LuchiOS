@@ -408,12 +408,8 @@ var TSOS;
         shellRun(args) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                // Once our task is 'ready', it is no longer a resident ...
                 _MemoryManager.residentTasks[pid].state = "Ready";
-                // ... so we queue it in the 'ready' queue
                 _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
-                // ... and remove it from the 'resident' list
-                //_MemoryManager.residentTasks.splice(pid, 1);
                 _Scheduler.schedule();
             }
             else {
@@ -422,18 +418,21 @@ var TSOS;
         }
         shellRunAll(args) {
             let pcb = null;
-            for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                if (_MemoryManager.residentTasks[i].state === "Resident") {
-                    pcb = _MemoryManager.residentTasks[i];
-                    pcb.state = "Ready";
-                    TSOS.Devices.hostUpdatePcbDisplay(pcb);
-                    // Once our task is 'ready', it is no longer a resident ...
-                    _Scheduler.readyQueue.enqueue(pcb);
-                    // ... so we remove it from the residentTasks array
-                    //_MemoryManager.residentTasks.splice(pcb.pid, 1);
+            if (_MemoryManager.residentTasks.length > 0) {
+                for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
+                    //alert(_MemoryManager.residentTasks[i]);
+                    if (_MemoryManager.residentTasks[i].state === "Resident") {
+                        pcb = _MemoryManager.residentTasks[i];
+                        pcb.state = "Ready";
+                        TSOS.Devices.hostUpdatePcbDisplay(pcb);
+                        _Scheduler.readyQueue.enqueue(pcb);
+                    }
                 }
+                _Scheduler.schedule();
             }
-            _Scheduler.schedule();
+            else {
+                _StdOut.putText("There aren't any tasks to run.");
+            }
         }
         shellQuantum(args) {
             if (args.length > 0) {
