@@ -26,7 +26,7 @@ var TSOS;
                     this.scheduleRR();
                     break;
                 case 'fcfs':
-                    // TODO: Create a FCFS scheduling algorithm
+                    this.scheduleFCFS();
                     break;
                 case 'npp':
                     // TODO: Create a non-preemptive priority scheduling algorithm
@@ -46,6 +46,11 @@ var TSOS;
                 _StdOut.advanceLine();
                 _OsShell.putPrompt();
             }
+        }
+        scheduleFCFS() {
+            // FCFS works the same as RR, just with an infinitely large quantum
+            this.quantum = Number.MAX_VALUE;
+            this.scheduleRR();
         }
         quantaCheck() {
             this.quantaCount++;

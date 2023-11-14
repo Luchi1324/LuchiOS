@@ -63,6 +63,9 @@ var TSOS;
             // quantum
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - Sets the quantum for the Round Robin Scheduler.");
             this.commandList[this.commandList.length] = sc;
+            // schedulermode
+            sc = new TSOS.ShellCommand(this.shellScheduleMode, "schedulemode", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
+            this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears everyting stored in memory.");
             this.commandList[this.commandList.length] = sc;
@@ -270,6 +273,9 @@ var TSOS;
                     case "quantum":
                         _StdOut.putText("Sets the quantum for the Round Robin scheduler. Enter this followed by the quantum number.");
                         break;
+                    case "schedulingmode":
+                        _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
+                        break;
                     case "kill":
                         _StdOut.putText("Kills a process that is currently executing. Enter this followed by the pid.");
                         break;
@@ -432,6 +438,28 @@ var TSOS;
             }
             else {
                 _StdOut.putText("There aren't any tasks to run.");
+            }
+        }
+        shellScheduleMode(args) {
+            if (args.length > 0) {
+                let mode = args[0].toLowerCase();
+                switch (mode) {
+                    case 'rr':
+                        _Scheduler.scheduleMode = mode;
+                        _StdOut.putText('Set scheduling algorithm to Round Robin.');
+                        break;
+                    case 'fcfs':
+                        _Scheduler.scheduleMode = mode;
+                        _StdOut.putText('Set scheduling algorithm to First Come First Serve');
+                        break;
+                    default:
+                        _StdOut.putText("Sorry, the text you entered is not a valid scheduling algorithm.");
+                        _StdOut.putText("The valid options are: rr (Round Robin), fcfs (First Come First Serve).");
+                        break;
+                }
+            }
+            else {
+                _StdOut.putText("Usage: schedulemode <string> Please supply a string to specify the scheduling mode (rr, fcfs).");
             }
         }
         shellQuantum(args) {
