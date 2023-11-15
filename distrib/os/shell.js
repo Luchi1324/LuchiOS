@@ -63,8 +63,8 @@ var TSOS;
             // quantum
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - Sets the quantum for the Round Robin Scheduler.");
             this.commandList[this.commandList.length] = sc;
-            // schedulermode
-            sc = new TSOS.ShellCommand(this.shellScheduleMode, "schedulemode", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
+            // setschedule
+            sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears everyting stored in memory.");
@@ -440,7 +440,7 @@ var TSOS;
                 _StdOut.putText("There aren't any tasks to run.");
             }
         }
-        shellScheduleMode(args) {
+        shellSetSchedule(args) {
             if (args.length > 0) {
                 let mode = args[0].toLowerCase();
                 switch (mode) {

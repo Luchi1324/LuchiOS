@@ -109,9 +109,9 @@ module TSOS {
                                   "<int> - Sets the quantum for the Round Robin Scheduler.");
             this.commandList[this.commandList.length] = sc;
 
-            // schedulermode
-            sc = new ShellCommand(this.shellScheduleMode,
-                                  "schedulemode",
+            // setschedule
+            sc = new ShellCommand(this.shellSetSchedule,
+                                  "setschedule",
                                   "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).")
             this.commandList[this.commandList.length] = sc;
 
@@ -523,7 +523,7 @@ module TSOS {
             }
         }
 
-        public shellScheduleMode(args: string[]) {
+        public shellSetSchedule(args: string[]) {
             if (args.length > 0) { 
                 let mode = args[0].toLowerCase();
                 switch(mode) {
