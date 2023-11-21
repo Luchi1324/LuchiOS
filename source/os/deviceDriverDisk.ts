@@ -10,7 +10,7 @@ module TSOS {
             this.status = "loaded";
         }
 
-        public formatDisk() {
+        public formatDisk(): void {
             _Kernel.krnTrace("Beginning disk format.");
             // TODO: Create a block creator
             for (var t = 0; t < this.disk.numTracks; t++) {
@@ -20,10 +20,17 @@ module TSOS {
                     }
                 }
             }
+            this.disk.isFormatted = true;
             _Kernel.krnTrace("Disk formatted.");
             // TODO: Create a disk table function, then insert it here
         }
 
-        
+        public createFile(): void {
+
+        }
+
+        public writeFile(): void {
+
+        }
     }
 }

@@ -20,8 +20,13 @@ var TSOS;
                     }
                 }
             }
+            this.disk.isFormatted = true;
             _Kernel.krnTrace("Disk formatted.");
             // TODO: Create a disk table function, then insert it here
+        }
+        createFile() {
+        }
+        writeFile() {
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
