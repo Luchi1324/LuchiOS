@@ -3,8 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
-  /* background: #909193 url(distrib/images/linen.png) repeat; */
-  background: #dededf repeat;
+  background: #040605 url(distrib/images/portal.jpg);
+  background-repeat: no-repeat;
+  background-size: auto;
+  /* background: #dededf repeat; */
   font-family: 'Roboto', Helvetica, Verdana, Arial, sans-serif;
   font-size: 12pt;
   font-weight: normal;
@@ -31,6 +33,13 @@ h3 {
   font-size: 16pt;
   font-weight: normal;
   font-style: normal;
+}
+
+label {
+  background-color: #b3b4b6;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 5px;
 }
 
 table {
