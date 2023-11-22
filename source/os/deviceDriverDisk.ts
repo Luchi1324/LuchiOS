@@ -25,11 +25,7 @@ module TSOS {
             // TODO: Create a disk table function, then insert it here
         }
 
-        public createFile(): void {
-
-        }
-
-        public writeFile(): void {
+        public createFile(fileName: string) {
 
         }
     }

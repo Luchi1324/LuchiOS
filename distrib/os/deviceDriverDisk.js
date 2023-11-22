@@ -24,9 +24,7 @@ var TSOS;
             _Kernel.krnTrace("Disk formatted.");
             // TODO: Create a disk table function, then insert it here
         }
-        createFile() {
-        }
-        writeFile() {
+        createFile(fileName) {
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
