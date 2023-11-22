@@ -26,6 +26,8 @@ var TSOS;
         }
         createFile(fileName) {
         }
+        readFile(fileName) {
+        }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
 })(TSOS || (TSOS = {}));

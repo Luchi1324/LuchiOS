@@ -28,5 +28,9 @@ module TSOS {
         public createFile(fileName: string) {
 
         }
+
+        public readFile(fileName: string) {
+            
+        }
     }
 }
