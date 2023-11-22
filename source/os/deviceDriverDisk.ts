@@ -30,6 +30,10 @@ module TSOS {
         }
 
         public readFile(fileName: string) {
+
+        }
+        
+        public writeFile(fileName: string) {
             
         }
     }
