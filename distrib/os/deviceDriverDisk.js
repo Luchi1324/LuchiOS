@@ -34,6 +34,8 @@ var TSOS;
         }
         copyFile(fileName, newFileName) {
         }
+        renameFile(fileName, newFileName) {
+        }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
 })(TSOS || (TSOS = {}));

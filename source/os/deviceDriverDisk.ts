@@ -42,6 +42,10 @@ module TSOS {
         }
 
         public copyFile(fileName: string, newFileName: string) {
+
+        }
+
+        public renameFile(fileName: string, newFileName: string) {
             
         }
     }
