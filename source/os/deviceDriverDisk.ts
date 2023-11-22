@@ -46,6 +46,10 @@ module TSOS {
         }
 
         public renameFile(fileName: string, newFileName: string) {
+
+        }
+
+        public getAllFiles() {
             
         }
     }
