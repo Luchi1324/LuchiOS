@@ -38,6 +38,10 @@ module TSOS {
         }
 
         public deleteFile(fileName: string) {
+
+        }
+
+        public copyFile(fileName: string, newFileName: string) {
             
         }
     }
