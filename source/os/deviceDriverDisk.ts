@@ -34,6 +34,10 @@ module TSOS {
         }
         
         public writeFile(fileName: string) {
+
+        }
+
+        public deleteFile(fileName: string) {
             
         }
     }

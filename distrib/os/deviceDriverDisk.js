@@ -30,6 +30,8 @@ var TSOS;
         }
         writeFile(fileName) {
         }
+        deleteFile(fileName) {
+        }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
 })(TSOS || (TSOS = {}));
