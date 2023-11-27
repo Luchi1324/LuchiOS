@@ -109,6 +109,12 @@ module TSOS {
                                   "<int> - Sets the quantum for the Round Robin Scheduler.");
             this.commandList[this.commandList.length] = sc;
 
+            // format
+            sc = new ShellCommand(this.shellFormat,
+                                  "format", 
+                                  "- Formats the hard drive.");
+            this.commandList[this.commandList.length] = sc;
+
             // setschedule
             sc = new ShellCommand(this.shellSetSchedule,
                                   "setschedule",
@@ -355,6 +361,9 @@ module TSOS {
                     case "quantum":
                         _StdOut.putText("Sets the quantum for the Round Robin scheduler. Enter this followed by the quantum number.");
                         break;
+                    case "format":
+                        _StdOut.putText("Formats the hard drive. Enter this to format the hard drive.");
+                        break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).")
                         break;
@@ -380,7 +389,7 @@ module TSOS {
                         _StdOut.putText("Outputs the current location of your comouter in lattitude and longitude.");
                         break;
                     case "bsod":
-                        _StdOut.putText("Forces the Kernal to capture a non-existent error, and triggers the screen nobody wants to see.");
+                        _StdOut.putText("Forces the Kernel to capture a non-existent error, and triggers the screen nobody wants to see.");
                         break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -552,6 +561,15 @@ module TSOS {
                 _StdOut.putText(`Set Round Robin quantum to ${_Scheduler.quantum}`);
             } else {
                 _StdOut.putText("Usage: quantum <int> Please supply a number to specify the quantum.");
+            }
+        }
+
+        public shellFormat(args: string[]) {
+            _krnDiskDriver.formatDisk();
+            if (_Disk.isFormatted) {
+                _StdOut.putText('Disk successfully formatted.');
+            } else {
+                _StdOut.putText('Disk could not be formatted.')
             }
         }
 
