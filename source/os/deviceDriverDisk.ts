@@ -10,13 +10,22 @@ module TSOS {
             this.status = "loaded";
         }
 
+        // Creates an empty block
+        public createEmptyBlock():string {
+            return "0".repeat(4) + ":" + "0".repeat(this.disk.blockSize-4);
+        }
+
+        // Creates a storage key to use with sessionStorage
+        public createStorageKey(track: number, sector: number, block: number): string {
+            return track.toString() + sector.toString() + block.toString();
+        }
+
         public formatDisk(): void {
-            _Kernel.krnTrace("Beginning disk format.");
-            // TODO: Create a block creator
+            _Kernel.krnTrace("Beginning disk format...");
             for (var t = 0; t < this.disk.numTracks; t++) {
                 for (var s = 0; s < this.disk.numSectors; s++) {
                     for (var b = 0; b < this.disk.numBlocks; b++) {
-                        // TODO: Figure out HTML5 Storage, and creating storage keys so I can make every block empty
+                        sessionStorage.setItem(this.createStorageKey(t, s, b), this.createEmptyBlock());
                     }
                 }
             }
@@ -26,6 +35,7 @@ module TSOS {
         }
 
         public createFile(fileName: string) {
+            let createdFlag: boolean = false;
 
         }
 
@@ -50,7 +60,7 @@ module TSOS {
         }
 
         public getAllFiles() {
-            
+
         }
     }
 }
