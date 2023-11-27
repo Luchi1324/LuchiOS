@@ -44,8 +44,12 @@ label {
 table {
   border-spacing: 10px;
   border-collapse: collapse;
-  padding: 10px;
+  margin: 10px;
   font-family: monospace;
+}
+
+textarea {
+  margin: 10px;
 }
 
 th {
