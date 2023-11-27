@@ -152,6 +152,8 @@ module TSOS {
 
         public static hostUpdateDiskDisplay(format?: boolean): void {
             const diskDisplay = <HTMLTableElement> document.getElementById("tableDisk");
+
+            diskDisplay.innerHTML = "";
             
             for (let t = 0; t < _Disk.numTracks; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
