@@ -43,5 +43,45 @@ module TSOS {
             }
             return retVal;
         }
+
+        public static replaceAt(val: string, index: number, newVal: string): string {
+            return val.substring(0, index) + newVal + val.substring(index + newVal.length);
+        }
+
+        public static txtToHex(str): string {
+            let hexStr = "";
+            for (let i=0; i<str.length; i++) {
+                hexStr += str.charCodeAt(i).toString(16);
+            }
+            return hexStr;
+        }
+
+        public static hexToTxt(str): string {
+            if (str) {
+                str = this.trimData(str);
+                let txtStr = "";
+                for (let i=0; i<str.length; i+=2) {
+                    txtStr += String.fromCharCode(parseInt(str.substr(i, 2), 16));
+                }
+                return txtStr;
+            } else {
+                return null;
+            }
+        }
+
+        public static trimData(data: string) {
+            let dataArr = data.match(/.{1,2}/g);
+            let i = 0;
+            let res = ''
+            while (i < dataArr.length) {
+                if (dataArr[i] != '00') {
+                    res += dataArr[i];
+                } else {
+                    break;
+                }
+                i++;
+            }
+            return res;
+        }
     }
 }

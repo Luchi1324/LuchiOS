@@ -42,6 +42,44 @@ var TSOS;
             }
             return retVal;
         }
+        static replaceAt(val, index, newVal) {
+            return val.substring(0, index) + newVal + val.substring(index + newVal.length);
+        }
+        static txtToHex(str) {
+            let hexStr = "";
+            for (let i = 0; i < str.length; i++) {
+                hexStr += str.charCodeAt(i).toString(16);
+            }
+            return hexStr;
+        }
+        static hexToTxt(str) {
+            if (str) {
+                str = this.trimData(str);
+                let txtStr = "";
+                for (let i = 0; i < str.length; i += 2) {
+                    txtStr += String.fromCharCode(parseInt(str.substr(i, 2), 16));
+                }
+                return txtStr;
+            }
+            else {
+                return null;
+            }
+        }
+        static trimData(data) {
+            let dataArr = data.match(/.{1,2}/g);
+            let i = 0;
+            let res = '';
+            while (i < dataArr.length) {
+                if (dataArr[i] != '00') {
+                    res += dataArr[i];
+                }
+                else {
+                    break;
+                }
+                i++;
+            }
+            return res;
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));
