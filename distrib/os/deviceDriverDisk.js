@@ -1,10 +1,8 @@
 var TSOS;
 (function (TSOS) {
     class DeviceDriverDisk extends TSOS.DeviceDriver {
-        disk;
-        constructor(disk = new TSOS.Disk()) {
+        constructor() {
             super();
-            this.disk = disk;
             this.driverEntry = this.krnKdbDriverEntry;
         }
         krnKdbDriverEntry() {
@@ -12,7 +10,7 @@ var TSOS;
         }
         // Creates an empty block
         createEmptyBlock() {
-            return "0".repeat(4) + ":" + "0".repeat(this.disk.blockSize - 4);
+            return "0".repeat(4) + ":" + "0".repeat(_Disk.blockSize - 4);
         }
         // Creates a storage key to use with sessionStorage
         createStorageKey(track, sector, block) {
@@ -20,16 +18,16 @@ var TSOS;
         }
         formatDisk() {
             _Kernel.krnTrace("Beginning disk format...");
-            for (var t = 0; t < this.disk.numTracks; t++) {
-                for (var s = 0; s < this.disk.numSectors; s++) {
-                    for (var b = 0; b < this.disk.numBlocks; b++) {
+            for (var t = 0; t < _Disk.numTracks; t++) {
+                for (var s = 0; s < _Disk.numSectors; s++) {
+                    for (var b = 0; b < _Disk.numBlocks; b++) {
                         sessionStorage.setItem(this.createStorageKey(t, s, b), this.createEmptyBlock());
                     }
                 }
             }
-            this.disk.isFormatted = true;
+            _Disk.isFormatted = true;
             _Kernel.krnTrace("Disk formatted.");
-            // TODO: Create a disk table function, then insert it here
+            TSOS.Devices.hostUpdateDiskDisplay();
         }
         createFile(fileName) {
             let createdFlag = false;

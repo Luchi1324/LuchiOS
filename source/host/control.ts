@@ -95,6 +95,9 @@ module TSOS {
             _Memory.init();
             Devices.hostUpdateMemDisplay();
 
+            // ... Create the disk
+            _Disk = new Disk();
+
             // ... Create and initialize the memory accessor
             _MemoryAccessor = new MemoryAccessor();
 

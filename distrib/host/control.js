@@ -75,6 +75,8 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             TSOS.Devices.hostUpdateMemDisplay();
+            // ... Create the disk
+            _Disk = new TSOS.Disk();
             // ... Create and initialize the memory accessor
             _MemoryAccessor = new TSOS.MemoryAccessor();
             // ... then set the host clock pulse ...
