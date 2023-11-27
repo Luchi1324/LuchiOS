@@ -145,18 +145,34 @@ module TSOS {
 
                     if (access === true && addr !== undefined && index === addr) {
                         this.highlightMemCell(currentRow, columnIndex);
-
-                        // TODO: Fix adjacent cells not highlighting, look at how it is called per CPU cycle?
-                        let opCode = cell.textContent;
-                        let adjacentCells = OPCODE_HIGHLIGHT_MAPPING[opCode];
-                        //if (adjacentCells > 0) {
-                        //    for (let i = 1; i <= adjacentCells; i++) {
-                        //        this.highlightMemCell(currentRow, columnIndex + i, 'highlight-adjacent');
-                        //    }
-                        //}
                     }
                 }
             })
+        }
+
+        public static hostUpdateDiskDisplay(format?: boolean): void {
+            const diskDisplay = <HTMLTableElement> document.getElementById("tableDisk");
+            
+            for (let t = 0; t < _Disk.numTracks; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        const row = diskDisplay.insertRow();
+
+                        const tsb = row.insertCell(0);
+                        const inUse = row.insertCell(1);
+                        const next = row.insertCell(2);
+                        const data = row.insertCell(3);
+
+                        let block = sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b));
+                        let blockArr = block.split(':');
+                        tsb.innerHTML = `${t.toString()}:${s.toString()}:${b.toString()}`;
+                        tsb.style.backgroundColor = "#e1dcdc";
+                        inUse.innerHTML = blockArr[0].slice(0,1);
+                        next.innerHTML = blockArr[0].slice(1,4);
+                        data.innerHTML = blockArr[1].toUpperCase();
+                    }
+                }
+            }
         }
     }
 }

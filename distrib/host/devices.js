@@ -135,17 +135,49 @@ var TSOS;
                     currentRow.appendChild(cell); // Append the data cell to the current row
                     if (access === true && addr !== undefined && index === addr) {
                         this.highlightMemCell(currentRow, columnIndex);
-                        // TODO: Fix adjacent cells not highlighting, look at how it is called per CPU cycle?
-                        let opCode = cell.textContent;
-                        let adjacentCells = OPCODE_HIGHLIGHT_MAPPING[opCode];
-                        //if (adjacentCells > 0) {
-                        //    for (let i = 1; i <= adjacentCells; i++) {
-                        //        this.highlightMemCell(currentRow, columnIndex + i, 'highlight-adjacent');
-                        //    }
-                        //}
                     }
                 }
             });
+        }
+        static hostUpdateDiskDisplay(format) {
+            const diskDisplay = document.getElementById("tableDisk");
+            for (let t = 0; t < _Disk.numTracks; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        /* const row = diskDisplay.insertRow();
+
+                        const tsb = row.insertCell(0);
+                        const inUse = row.insertCell(1);
+                        const next = row.insertCell(2);
+                        const data = row.insertCell(3);
+
+                        let block = sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b));
+                        let blockArr = block.split(':');
+                        tsb.innerHTML = `${t.toString()}:${s.toString()}:${b.toString()}`;
+                        tsb.style.backgroundColor = "#e1dcdc";
+                        inUse.innerHTML = blockArr[0].slice(0,1);
+                        next.innerHTML = blockArr[0].slice(1,4);
+                        data.innerHTML = blockArr[1].toUpperCase(); */
+                        const tsb = `${t.toString()}:${s.toString()}:${b.toString()}`;
+                        const blockKey = _krnDiskDriver.createStorageKey(t, s, b);
+                        let block = sessionStorage.getItem(blockKey);
+                        let blockArr = block ? block.split(':') : ['', ''];
+                        let row = diskDisplay.rows[t * _Disk.numSectors * _Disk.numBlocks + s * _Disk.numBlocks + b + 1];
+                        if (!row) {
+                            row = diskDisplay.insertRow();
+                        }
+                        let tsbCell = row.cells[0] || row.insertCell(0);
+                        let inUseCell = row.cells[1] || row.insertCell(1);
+                        let nextCell = row.cells[2] || row.insertCell(2);
+                        let dataCell = row.cells[3] || row.insertCell(3);
+                        tsbCell.innerHTML = tsb;
+                        tsbCell.style.backgroundColor = "#e1dcdc";
+                        inUseCell.innerHTML = blockArr[0].slice(0, 1);
+                        nextCell.innerHTML = blockArr[0].slice(1, 4);
+                        dataCell.innerHTML = blockArr[1].toUpperCase();
+                    }
+                }
+            }
         }
     }
     TSOS.Devices = Devices;
