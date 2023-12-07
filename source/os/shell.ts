@@ -115,6 +115,12 @@ module TSOS {
                                   "- Formats the hard drive.");
             this.commandList[this.commandList.length] = sc;
 
+            // create
+            sc = new ShellCommand(this.shellCreate,
+                                  "create",
+                                  "<filename> - Creates a file with the provided file name.");
+            this.commandList[this.commandList.length] = sc;
+
             // setschedule
             sc = new ShellCommand(this.shellSetSchedule,
                                   "setschedule",
@@ -364,6 +370,9 @@ module TSOS {
                     case "format":
                         _StdOut.putText("Formats the hard drive. Enter this to format the hard drive.");
                         break;
+                    case "create":
+                        _StdOut.putText("Creates a file on the hard drive. Enter this followed by the filename you would like.");
+                        break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).")
                         break;
@@ -570,6 +579,20 @@ module TSOS {
                 _StdOut.putText('Disk successfully formatted.');
             } else {
                 _StdOut.putText('Disk could not be formatted.')
+            }
+        }
+
+        public shellCreate(args: string[]) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Disk is not formatted. Please format it first.");
+            } else {
+                let file = args[0];
+                if (args.length > 0) {
+                    _krnDiskDriver.createFile(file);
+                    _StdOut.putText(`File ${file} successfully created.`);
+                } else {
+                    _StdOut.putText("Usage: create <filename> Please supply a filename.");
+                }
             }
         }
 

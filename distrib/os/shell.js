@@ -66,6 +66,9 @@ var TSOS;
             // format
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "- Formats the hard drive.");
             this.commandList[this.commandList.length] = sc;
+            // create
+            sc = new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - Creates a file with the provided file name.");
+            this.commandList[this.commandList.length] = sc;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
@@ -279,6 +282,9 @@ var TSOS;
                     case "format":
                         _StdOut.putText("Formats the hard drive. Enter this to format the hard drive.");
                         break;
+                    case "create":
+                        _StdOut.putText("Creates a file on the hard drive. Enter this followed by the filename you would like.");
+                        break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
                         break;
@@ -485,6 +491,21 @@ var TSOS;
             }
             else {
                 _StdOut.putText('Disk could not be formatted.');
+            }
+        }
+        shellCreate(args) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Disk is not formatted. Please format it first.");
+            }
+            else {
+                let file = args[0];
+                if (args.length > 0) {
+                    _krnDiskDriver.createFile(file);
+                    _StdOut.putText(`File ${file} successfully created.`);
+                }
+                else {
+                    _StdOut.putText("Usage: create <filename> Please supply a filename.");
+                }
             }
         }
         shellKill(args) {
