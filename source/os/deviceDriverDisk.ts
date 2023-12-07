@@ -39,7 +39,32 @@ module TSOS {
         }
 
         public readFile(fileName: string) {
+            let startingBlockKey = this.findFile(fileName)[1];
+            let str = '';
 
+            if (!startingBlockKey) {
+                str = null;
+            } else {
+                let block = sessionStorage.getItem(startingBlockKey);
+                let blockArr = block.split(':');
+                let meta = blockArr[0];
+                let data = blockArr[1];
+
+                str += this.readBlockData(data);
+
+                // File contains more than 1 block
+                if (meta.slice(1,4) != '---') {
+                    let nextKey = meta.slice(1,4);
+                    let nextData = sessionStorage.getItem(nextKey);
+
+                    while (nextKey != '---') {
+                        str += this.readBlockData(nextData.split(':')[1]);
+                        nextKey = nextData.split(':')[0].slice(1,4);
+                        nextData = sessionStorage.getItem(nextKey);
+                    }
+                }
+            }
+            return str;
         }
 
         public readBlockData(data: string): string {
@@ -87,16 +112,16 @@ module TSOS {
                         let dataArr = sessionStorage.getItem(potentialKey).split(":");
 
                         if (dataArr) {
-                            let metaData = dataArr[0];
+                            let meta = dataArr[0];
                             let fileData = this.trimData(dataArr[1]);
-                            let isUsed = this.checkIfInUse(metaData);
+                            let isUsed = this.checkIfInUse(meta);
 
                             if (isUsed && this.readBlockData(fileData) == (Utils.txtToHex(fileName))) {
-                                startingBlockKey = metaData.slice(1,4);
+                                startingBlockKey = meta.slice(1,4);
                                 // directory key
                                 fileArr.push(potentialKey);
                                 // starting block key
-                                fileArr.push(metaData.slice(1,4));
+                                fileArr.push(meta.slice(1,4));
                                 break directorySearch;
                             }
                         }
