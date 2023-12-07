@@ -36,6 +36,24 @@ module TSOS {
 
         public createFile(fileName: string) {
             let createdFlag: boolean = false;
+
+            let fileKey = this.getNextDirBlockKey();
+            // Get the next available data block and set it at the end of the file chain
+            let nextKey = this.getNextDataBlockKey();
+            this.setFinalDataBlock(nextKey);
+
+            // Put the file name in the file block
+            let file = sessionStorage.getItem(fileKey);
+            sessionStorage.setItem(fileKey, Utils.replaceAt(file, 5, Utils.txtToHex(fileName)));
+
+            // Put the key of the file starting block in the file meta data
+            file = sessionStorage.getItem(fileKey);
+            sessionStorage.setItem(fileKey, Utils.replaceAt(file, 1, nextKey))
+
+            createdFlag = true;
+            Devices.hostUpdateDiskDisplay();
+            
+            return createdFlag;
         }
 
         public readFile(fileName: string) {
