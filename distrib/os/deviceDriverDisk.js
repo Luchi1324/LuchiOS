@@ -105,6 +105,7 @@ var TSOS;
             }
             return fileArr;
         }
+        // Helper Functions
         trimData(data) {
             let hexArr = data.match(/.{1,2}/g);
             let i = 0;
@@ -120,6 +121,47 @@ var TSOS;
             }
             return res;
         }
+        // Returns key of next available block
+        getNextDataBlockKey() {
+            let next = "";
+            blockSearch: for (let t = 1; t < _Disk.numTracks; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.checkIfInUse(block)) {
+                            next = potentialKey;
+                            this.setUseStatus(next, true);
+                            // we found an empty block, so break from the routine
+                            break blockSearch;
+                        }
+                    }
+                }
+            }
+            return next;
+        }
+        // Returns key of next available directory block
+        getNextDirBlockKey() {
+            let next = "";
+            directorySearch: for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        // Skip MBR
+                        if (potentialKey == "000") {
+                            continue;
+                        }
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.checkIfInUse(block)) {
+                            next = potentialKey;
+                            this.setUseStatus(next, true);
+                            break directorySearch;
+                        }
+                    }
+                }
+            }
+            return next;
+        }
         checkIfInUse(data) {
             let isUsed = false;
             let dataArr = data.split("");
@@ -127,6 +169,27 @@ var TSOS;
                 isUsed = true;
             }
             return isUsed;
+        }
+        setFinalDataBlock(key) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                let temp = data;
+                for (let i = 1; i < 4; i++) {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(temp, i, "-"));
+                    temp = sessionStorage.getItem(key);
+                }
+            }
+        }
+        setUseStatus(key, isUsing) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                if (isUsing) {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 0, "1"));
+                }
+                else {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 0, "0"));
+                }
+            }
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;

@@ -131,6 +131,8 @@ module TSOS {
             return fileArr;
         }
 
+        // Helper Functions
+
         public trimData(data: string): string {
             let hexArr = data.match(/.{1,2}/g);
             let i = 0;
@@ -146,6 +148,56 @@ module TSOS {
             return res;
         }
 
+        // Returns key of next available block
+        public getNextDataBlockKey():string {
+            let next = "";
+
+            blockSearch:
+            for (let t = 1; t < _Disk.numTracks; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.checkIfInUse(block)) {
+                            next = potentialKey;
+                            this.setUseStatus(next, true);
+                            // we found an empty block, so break from the routine
+                            break blockSearch;
+                        }
+                    }
+                }
+            }
+            return next;
+        }
+
+        // Returns key of next available directory block
+        public getNextDirBlockKey():string {
+            let next = "";
+
+            directorySearch:
+            for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        // Skip MBR
+                        if (potentialKey == "000") {
+                            continue;
+                        }
+
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.checkIfInUse(block)) {
+                            next = potentialKey;
+                            this.setUseStatus(next, true);
+                            break directorySearch;
+                        }
+                    }
+                }
+            }
+            return next;
+        }
+
         public checkIfInUse(data: string): boolean {
             let isUsed = false;
             let dataArr = data.split("");
@@ -153,6 +205,28 @@ module TSOS {
                 isUsed = true;
             }
             return isUsed;
+        }
+
+        public setFinalDataBlock(key) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                let temp = data;
+                for (let i=1; i<4; i++) {
+                    sessionStorage.setItem(key, Utils.replaceAt(temp, i, "-"));
+                    temp = sessionStorage.getItem(key);
+                }
+            }
+        }
+
+        public setUseStatus(key, isUsing) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                if (isUsing) {
+                    sessionStorage.setItem(key, Utils.replaceAt(data, 0, "1"));
+                } else {
+                    sessionStorage.setItem(key, Utils.replaceAt(data, 0, "0"));
+                }
+            }
         }
     }
 }
