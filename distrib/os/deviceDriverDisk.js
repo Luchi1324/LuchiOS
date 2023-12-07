@@ -31,17 +31,20 @@ var TSOS;
         }
         createFile(fileName) {
             let createdFlag = false;
-            let fileKey = this.getNextDirBlockKey();
-            // Get the next available data block and set it at the end of the file chain
-            let nextKey = this.getNextDataBlockKey();
-            this.setFinalDataBlock(nextKey);
-            // Put the file name in the file block
-            let file = sessionStorage.getItem(fileKey);
-            sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 5, TSOS.Utils.txtToHex(fileName)));
-            // Put the key of the file starting block in the file meta data
-            file = sessionStorage.getItem(fileKey);
-            sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 1, nextKey));
-            createdFlag = true;
+            let startingBlockKey = this.findFile(fileName)[1];
+            if (startingBlockKey !== "") {
+                let fileKey = this.getNextDirBlockKey();
+                // Get the next available data block and set it at the end of the file chain
+                let nextKey = this.getNextDataBlockKey();
+                this.setFinalDataBlock(nextKey);
+                // Put the file name in the file block
+                let file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 5, TSOS.Utils.txtToHex(fileName)));
+                // Put the key of the file starting block in the file meta data
+                file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 1, nextKey));
+                createdFlag = true;
+            }
             TSOS.Devices.hostUpdateDiskDisplay();
             return createdFlag;
         }

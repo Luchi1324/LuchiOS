@@ -12,7 +12,7 @@ module TSOS {
 
         // Creates an empty block
         public createEmptyBlock(): string {
-            return "0".repeat(4) + ":" + "0".repeat(_Disk.blockSize-4);
+            return "0".repeat(4) + ":" + "0".repeat(_Disk.blockSize - 4);
         }
 
         // Creates a storage key to use with sessionStorage
@@ -34,25 +34,28 @@ module TSOS {
             Devices.hostUpdateDiskDisplay();
         }
 
-        public createFile(fileName: string) {
+        public createFile(fileName: string): boolean {
             let createdFlag: boolean = false;
+            let startingBlockKey = this.findFile(fileName)[1];
 
-            let fileKey = this.getNextDirBlockKey();
-            // Get the next available data block and set it at the end of the file chain
-            let nextKey = this.getNextDataBlockKey();
-            this.setFinalDataBlock(nextKey);
+            if (startingBlockKey !== "") {
+                let fileKey = this.getNextDirBlockKey();
+                // Get the next available data block and set it at the end of the file chain
+                let nextKey = this.getNextDataBlockKey();
+                this.setFinalDataBlock(nextKey);
 
-            // Put the file name in the file block
-            let file = sessionStorage.getItem(fileKey);
-            sessionStorage.setItem(fileKey, Utils.replaceAt(file, 5, Utils.txtToHex(fileName)));
+                // Put the file name in the file block
+                let file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, Utils.replaceAt(file, 5, Utils.txtToHex(fileName)));
 
-            // Put the key of the file starting block in the file meta data
-            file = sessionStorage.getItem(fileKey);
-            sessionStorage.setItem(fileKey, Utils.replaceAt(file, 1, nextKey))
+                // Put the key of the file starting block in the file meta data
+                file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, Utils.replaceAt(file, 1, nextKey))
 
-            createdFlag = true;
+                createdFlag = true;
+            }
             Devices.hostUpdateDiskDisplay();
-            
+
             return createdFlag;
         }
 
@@ -71,7 +74,7 @@ module TSOS {
                 str += this.readBlockData(data);
 
                 // File contains more than 1 block
-                if (meta.slice(1,4) != '---') {
+                if (meta.slice(1, 4) != '---') {
                     let nextKey = meta.slice(1,4);
                     let nextData = sessionStorage.getItem(nextKey);
 
@@ -139,7 +142,7 @@ module TSOS {
                                 // directory key
                                 fileArr.push(potentialKey);
                                 // starting block key
-                                fileArr.push(meta.slice(1,4));
+                                fileArr.push(meta.slice(1, 4));
                                 break directorySearch;
                             }
                         }
@@ -167,7 +170,7 @@ module TSOS {
         }
 
         // Returns key of next available block
-        public getNextDataBlockKey():string {
+        public getNextDataBlockKey(): string {
             let next = "";
 
             blockSearch:
@@ -190,7 +193,7 @@ module TSOS {
         }
 
         // Returns key of next available directory block
-        public getNextDirBlockKey():string {
+        public getNextDirBlockKey(): string {
             let next = "";
 
             directorySearch:

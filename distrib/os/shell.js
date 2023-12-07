@@ -500,8 +500,13 @@ var TSOS;
             else {
                 let file = args[0];
                 if (args.length > 0) {
-                    _krnDiskDriver.createFile(file);
-                    _StdOut.putText(`File ${file} successfully created.`);
+                    let created = _krnDiskDriver.createFile(file);
+                    if (created === true) {
+                        _StdOut.putText(`File ${file} successfully created.`);
+                    }
+                    else {
+                        _StdOut.putText(`ERR: File ${file} already exists.`);
+                    }
                 }
                 else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");
