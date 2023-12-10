@@ -102,9 +102,25 @@ module TSOS {
         }
         
         public writeFile(fileName: string): boolean {
+            let startingBlockKey = this.findFile(fileName)[1];
             let writtenFlag: boolean = false;
+
+            
             return writtenFlag;
         }
+
+        public writeDataToBlock(blk, data): string {
+            let blkArr = blk.split(':');
+            let blkData = blkArr[1].match(/.{1,2}/g);
+            let dataArr = data.match(/.{1,2}/g);
+
+            for (let i=0; i<dataArr.length; i++) {
+                blkData[i] = dataArr[i];
+            }
+
+            return (blkData.join(''));
+        }
+
 
         public deleteFile(fileName: string): boolean {
             let key = this.findFile(fileName)[0];
@@ -114,6 +130,7 @@ module TSOS {
                 sessionStorage.setItem(key, this.createEmptyBlock());
                 deleteFlag = true;
             }
+            
             Devices.hostUpdateDiskDisplay();
             return deleteFlag;
         }

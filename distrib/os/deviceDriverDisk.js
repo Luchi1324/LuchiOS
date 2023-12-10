@@ -86,8 +86,18 @@ var TSOS;
             return block;
         }
         writeFile(fileName) {
+            let startingBlockKey = this.findFile(fileName)[1];
             let writtenFlag = false;
             return writtenFlag;
+        }
+        writeDataToBlock(blk, data) {
+            let blkArr = blk.split(':');
+            let blkData = blkArr[1].match(/.{1,2}/g);
+            let dataArr = data.match(/.{1,2}/g);
+            for (let i = 0; i < dataArr.length; i++) {
+                blkData[i] = dataArr[i];
+            }
+            return (blkData.join(''));
         }
         deleteFile(fileName) {
             let key = this.findFile(fileName)[0];
