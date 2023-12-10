@@ -49,6 +49,7 @@ var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure th
 // Scheduler and Dispatcher
 var _Scheduler: TSOS.Scheduler;
 var _Dispatcher: TSOS.Dispatcher;
+var _Swapper: TSOS.Swapper;
 
 // Memory and Memory Accessor
 var _Memory: TSOS.Memory;

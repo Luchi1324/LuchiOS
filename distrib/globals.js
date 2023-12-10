@@ -41,6 +41,7 @@ var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is 
 // Scheduler and Dispatcher
 var _Scheduler;
 var _Dispatcher;
+var _Swapper;
 // Memory and Memory Accessor
 var _Memory;
 var _MemoryAccessor;
