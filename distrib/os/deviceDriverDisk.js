@@ -206,6 +206,9 @@ var TSOS;
             }
             return isUsed;
         }
+        checkIfHasData(block) {
+            return block.split(':')[1] != '0'.repeat(60);
+        }
         setFinalDataBlock(key) {
             let data = sessionStorage.getItem(key);
             if (data) {

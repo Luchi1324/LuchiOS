@@ -130,7 +130,7 @@ module TSOS {
                 sessionStorage.setItem(key, this.createEmptyBlock());
                 deleteFlag = true;
             }
-            
+
             Devices.hostUpdateDiskDisplay();
             return deleteFlag;
         }
@@ -250,6 +250,10 @@ module TSOS {
                 isUsed = true;
             }
             return isUsed;
+        }
+
+        public checkIfHasData(block): boolean {
+            return block.split(':')[1] != '0'.repeat(60);
         }
 
         public setFinalDataBlock(key) {
