@@ -86,8 +86,18 @@ var TSOS;
             return block;
         }
         writeFile(fileName) {
+            let writtenFlag = false;
+            return writtenFlag;
         }
         deleteFile(fileName) {
+            let key = this.findFile(fileName)[0];
+            let deleteFlag = false;
+            if (key) {
+                sessionStorage.setItem(key, this.createEmptyBlock());
+                deleteFlag = true;
+            }
+            TSOS.Devices.hostUpdateDiskDisplay();
+            return deleteFlag;
         }
         copyFile(fileName, newFileName) {
         }

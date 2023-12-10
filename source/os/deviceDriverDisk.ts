@@ -101,13 +101,23 @@ module TSOS {
             return block;
         }
         
-        public writeFile(fileName: string) {
-
+        public writeFile(fileName: string): boolean {
+            let writtenFlag: boolean = false;
+            return writtenFlag;
         }
 
-        public deleteFile(fileName: string) {
+        public deleteFile(fileName: string): boolean {
+            let key = this.findFile(fileName)[0];
+            let deleteFlag = false;
 
+            if (key) {
+                sessionStorage.setItem(key, this.createEmptyBlock());
+                deleteFlag = true;
+            }
+            Devices.hostUpdateDiskDisplay();
+            return deleteFlag;
         }
+
 
         public copyFile(fileName: string, newFileName: string) {
 

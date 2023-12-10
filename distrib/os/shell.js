@@ -71,6 +71,9 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             // write
             sc = new TSOS.ShellCommand(this.shellWrite, "write", "<filename> \"data\" - Writes to a file with the provided data.");
+            // delete
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes a file with the provided file name.");
+            this.commandList[this.commandList.length] = sc;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
@@ -290,6 +293,8 @@ var TSOS;
                     case "write":
                         _StdOut.putText("Writes to a file on the hard drive. Enter this followed by the filename you would like to write to, plus the data wrapped in quote marks (\"\").");
                         break;
+                    case "delete":
+                        _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.");
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
                         break;
@@ -540,6 +545,25 @@ var TSOS;
                 }
                 else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");
+                }
+            }
+        }
+        shellDelete(args) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Disk is not formatted. Please format it first.");
+            }
+            else {
+                if (args.length > 0) {
+                    let isDeleted = _krnDiskDriver.deleteFile(args[0]);
+                    if (isDeleted) {
+                        _StdOut.putText(args[0] + ' successfully deleted.');
+                    }
+                    else {
+                        _StdOut.putText(args[0] + ' either does not exist or cannot be deleted.');
+                    }
+                }
+                else {
+                    _StdOut.putText("Usage: delete <filename> Please supply a filename");
                 }
             }
         }
