@@ -103,7 +103,7 @@ module TSOS {
         
         public writeFile(fileName: string, dataInput: string): number {
             let startingBlockKey: string = this.findFile(fileName)[1];
-            let writtenCase: number;
+            let writtenCase: number = 0;
 
              // check if file exists
              if (!startingBlockKey) {

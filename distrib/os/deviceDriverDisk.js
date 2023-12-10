@@ -87,7 +87,7 @@ var TSOS;
         }
         writeFile(fileName, dataInput) {
             let startingBlockKey = this.findFile(fileName)[1];
-            let writtenCase;
+            let writtenCase = 0;
             // check if file exists
             if (!startingBlockKey) {
                 writtenCase = 0;

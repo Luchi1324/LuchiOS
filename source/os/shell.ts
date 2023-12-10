@@ -389,7 +389,8 @@ module TSOS {
                         _StdOut.putText("Writes to a file on the hard drive. Enter this followed by the filename you would like to write to, plus the data wrapped in quote marks (\"\").");
                         break;
                     case "delete":
-                        _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.")
+                        _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.");
+                        break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).")
                         break;
@@ -641,8 +642,10 @@ module TSOS {
                         _StdOut.putText("ERR: File does not exist.");
                     } else if (result === 1) {
                         _StdOut.putText("ERR: Disk is full.");
-                    } else  if (result === 2) {
+                    } else if (result === 2) {
                         _StdOut.putText(`File ${fileName} successfully written to.`);
+                    } else {
+                        _StdOut.putText("Something happened but it wasn't good.")
                     }
                 } else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");

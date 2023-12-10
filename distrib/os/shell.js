@@ -296,6 +296,7 @@ var TSOS;
                         break;
                     case "delete":
                         _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.");
+                        break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
                         break;
@@ -551,6 +552,9 @@ var TSOS;
                     }
                     else if (result === 2) {
                         _StdOut.putText(`File ${fileName} successfully written to.`);
+                    }
+                    else {
+                        _StdOut.putText("Something happened but it wasn't good.");
                     }
                 }
                 else {
