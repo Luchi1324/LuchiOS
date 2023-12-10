@@ -32,7 +32,7 @@ var TSOS;
         createFile(fileName) {
             let createdFlag = false;
             let startingBlockKey = this.findFile(fileName)[1];
-            if (startingBlockKey !== "") {
+            if (!startingBlockKey) {
                 let fileKey = this.getNextDirBlockKey();
                 // Get the next available data block and set it at the end of the file chain
                 let nextKey = this.getNextDataBlockKey();
@@ -145,7 +145,7 @@ var TSOS;
                     for (let b = 0; b < _Disk.numBlocks; b++) {
                         let potentialKey = this.createStorageKey(t, s, b);
                         let block = sessionStorage.getItem(potentialKey);
-                        if (block && this.checkIfInUse(block)) {
+                        if (block && !(this.checkIfInUse(block))) {
                             next = potentialKey;
                             this.setUseStatus(next, true);
                             // we found an empty block, so break from the routine
@@ -168,7 +168,7 @@ var TSOS;
                             continue;
                         }
                         let block = sessionStorage.getItem(potentialKey);
-                        if (block && this.checkIfInUse(block)) {
+                        if (block && !(this.checkIfInUse(block))) {
                             next = potentialKey;
                             this.setUseStatus(next, true);
                             break directorySearch;

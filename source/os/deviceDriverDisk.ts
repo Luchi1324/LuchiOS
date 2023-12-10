@@ -38,7 +38,7 @@ module TSOS {
             let createdFlag: boolean = false;
             let startingBlockKey = this.findFile(fileName)[1];
 
-            if (startingBlockKey !== "") {
+            if (!startingBlockKey) {
                 let fileKey = this.getNextDirBlockKey();
                 // Get the next available data block and set it at the end of the file chain
                 let nextKey = this.getNextDataBlockKey();
@@ -177,10 +177,9 @@ module TSOS {
             for (let t = 1; t < _Disk.numTracks; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
                     for (let b = 0; b < _Disk.numBlocks; b++) {
-
                         let potentialKey = this.createStorageKey(t, s, b);
                         let block = sessionStorage.getItem(potentialKey);
-                        if (block && this.checkIfInUse(block)) {
+                        if (block && !(this.checkIfInUse(block))) {
                             next = potentialKey;
                             this.setUseStatus(next, true);
                             // we found an empty block, so break from the routine
@@ -200,15 +199,13 @@ module TSOS {
             for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
                     for (let b = 0; b < _Disk.numBlocks; b++) {
-
                         let potentialKey = this.createStorageKey(t, s, b);
                         // Skip MBR
                         if (potentialKey == "000") {
                             continue;
                         }
-
                         let block = sessionStorage.getItem(potentialKey);
-                        if (block && this.checkIfInUse(block)) {
+                        if (block && !(this.checkIfInUse(block))) {
                             next = potentialKey;
                             this.setUseStatus(next, true);
                             break directorySearch;
@@ -232,7 +229,7 @@ module TSOS {
             let data = sessionStorage.getItem(key);
             if (data) {
                 let temp = data;
-                for (let i=1; i<4; i++) {
+                for (let i = 1; i < 4; i++) {
                     sessionStorage.setItem(key, Utils.replaceAt(temp, i, "-"));
                     temp = sessionStorage.getItem(key);
                 }
