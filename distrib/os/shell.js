@@ -69,6 +69,8 @@ var TSOS;
             // create
             sc = new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - Creates a file with the provided file name.");
             this.commandList[this.commandList.length] = sc;
+            // write
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "<filename> \"data\" - Writes to a file with the provided data.");
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
@@ -284,6 +286,9 @@ var TSOS;
                         break;
                     case "create":
                         _StdOut.putText("Creates a file on the hard drive. Enter this followed by the filename you would like.");
+                        break;
+                    case "write":
+                        _StdOut.putText("Writes to a file on the hard drive. Enter this followed by the filename you would like to write to, plus the data wrapped in quote marks (\"\").");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -507,6 +512,31 @@ var TSOS;
                     else {
                         _StdOut.putText(`ERR: File ${file} already exists.`);
                     }
+                }
+                else {
+                    _StdOut.putText("Usage: create <filename> Please supply a filename.");
+                }
+            }
+        }
+        shellWrite(args) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Disk is not formatted. Please format it first.");
+            }
+            else {
+                if (args.length >= 2) {
+                    if (args[1] === '\"\"') {
+                        _StdOut.putText("Invalid input: You have to provide something to write within the quotes.");
+                        _StdOut.advanceLine();
+                    }
+                }
+                else if (args[1] === '\"' && args[args.length - 1] === '\"') {
+                    let fileName = args[0];
+                    // Turn data into array
+                    let dataArr = args.slice(1, args.length);
+                    // Turn array into a single string, convert to hex
+                    let data = dataArr.join(' ').slice(1, -1);
+                    data = TSOS.Utils.txtToHex(data);
+                    // TODO: Create the write function in disk
                 }
                 else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");
