@@ -101,12 +101,57 @@ module TSOS {
             return block;
         }
         
-        public writeFile(fileName: string): boolean {
-            let startingBlockKey = this.findFile(fileName)[1];
-            let writtenFlag: boolean = false;
+        public writeFile(fileName: string, dataInput: string): number {
+            let startingBlockKey: string = this.findFile(fileName)[1];
+            let writtenCase: number;
 
-            
-            return writtenFlag;
+             // check if file exists
+             if (!startingBlockKey) {
+                writtenCase = 0;
+            } else {
+                // get the block data
+                let data = sessionStorage.getItem(startingBlockKey);
+
+                // Remove existing file data before writing to it
+                if (this.checkIfHasData(data)) {
+                    this.deleteFile(fileName)
+                    this.createFile(fileName);
+                    startingBlockKey = this.findFile(fileName)[1];
+                    data = sessionStorage.getItem(startingBlockKey);
+                }
+
+                if (dataInput.length <= 60) {
+                    sessionStorage.setItem(startingBlockKey, '1---:' + this.writeDataToBlock(data, dataInput));
+                } else {
+                    // Each block can only have a max length of 60
+                    let dataArr = dataInput.match(/.{1,60}/g);
+
+                    let currKey = startingBlockKey;
+
+                    // Loop through each input chunk
+                    for (let i = 0; i < dataArr.length; i++) {
+                        let nextKey;
+                        data = sessionStorage.getItem(currKey);
+
+                        // last input chunk doesn't have a block to link to
+                        if (i == dataArr.length-1) {
+                            sessionStorage.setItem(currKey, '1---:' + this.writeDataToBlock(data, dataArr[i]));
+                        } else {
+                            nextKey = this.getNextDataBlockKey();
+                            if (nextKey) {
+                                sessionStorage.setItem(currKey, '1' + nextKey + ':' + this.writeDataToBlock(data, dataArr[i]));
+                            } else {
+                                writtenCase = 1;
+                                _Disk.isFull = true;
+                                break;
+                            }
+                        }
+                        currKey = nextKey;
+                    }
+                }
+                writtenCase = 2;
+            }
+            return writtenCase;
         }
 
         public writeDataToBlock(blk, data): string {
