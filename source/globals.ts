@@ -22,22 +22,22 @@ const KEYBOARD_IRQ: number = 1;
 
 const CONTEXT_SWITCH_IRQ: number = 2;
 
-const OPCODE_HIGHLIGHT_MAPPING = {
-   "A9": 1,
-   "AD": 1,
-   "8D": 2,
-   "6D": 2,
-   "A2": 1,
-   "AE": 2,
-   "A0": 1,
-   "AC": 2,
-   "EA": 0,
-   "00": 1,
-   "EC": 2,
-   "D0": 1,
-   "EE": 3,
-   "FF": 0
-};
+const OPCODE_HIGHLIGHT_MAPPING = new Map<string, number>(
+   [["A9", 1],
+   ["AD", 1],
+   ["8D", 2],
+   ["6D", 2],
+   ["A2", 1],
+   ["AE", 2],
+   ["A0", 1],
+   ["AC", 2],
+   ["EA", 0],
+   ["00", 1],
+   ["EC", 2],
+   ["D0", 1],
+   ["EE", 3],
+   ["FF", 0]]
+);
 
 
 //
