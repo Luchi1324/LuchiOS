@@ -94,48 +94,51 @@ var TSOS;
                 }
             }
         }
-        static highlightMemCell(row, addr, adjacent) {
+        static highlightMemCell(row, addr) {
             let cells = row.getElementsByTagName('td');
-            if (adjacent !== undefined) {
-                for (let i = 0; i < cells.length; i++) {
-                    let cell = cells[i];
-                    cell.classList.remove('highlight', adjacent); // Remove highlight class from all cells
-                }
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                cell.classList.remove('highlight'); // Remove highlight class from all cells ...
+                cell.classList.remove('highlight-adjacent'); // ... and the adjacent highlights too
             }
             if (addr >= 0x00 && addr < cells.length) {
+                // Add highlight class to the current cell ...
                 let currentCell = cells[addr];
-                currentCell.classList.add('highlight', adjacent); // Add highlight class to the current cell
+                currentCell.classList.add('highlight');
+                // ... then get OPCODE adjacent highlight amount and add that
+                let opcode = currentCell.textContent;
+                let highlight = OPCODE_HIGHLIGHT_MAPPING.get(opcode);
+                if (highlight !== undefined) {
+                    let adjPos = addr + highlight;
+                    if (adjPos >= 0 && adjPos < cells.length) {
+                        let adjacentCell = cells[adjPos];
+                        adjacentCell.classList.add('highlight-adjacent');
+                    }
+                }
             }
         }
         static hostUpdateMemDisplay(access, addr) {
             const memDisplay = document.getElementById("tableMemory");
             // Erases table to allow for new one
             memDisplay.innerHTML = "";
-            let currentRow;
             _Memory.memArray.forEach((item, index) => {
                 // Creates a new row for each item, and adds a heading row
                 // I created this on my own originally, but I used ChatGPT to 'enhance' it by adding the 'th' element for the header rows.
                 if (index % 8 === 0) {
-                    currentRow = document.createElement('tr'); // Create a new table row
+                    const currentRow = document.createElement('tr'); // Create a new table row
                     const cell = document.createElement('th'); // Create a table header cell for the index
                     cell.textContent = `0x${index.toString(16).toUpperCase()}`;
                     currentRow.appendChild(cell);
                     memDisplay.appendChild(currentRow); // Append the heading row to the table
                 }
-                if (currentRow) {
-                    const columnIndex = addr % 8;
-                    const cell = document.createElement('td'); // Create a table data cell for the item
-                    // Padding 0s
-                    if (item <= 0x0F) {
-                        cell.textContent = `0${item.toString(16).toUpperCase()}`;
-                    }
-                    else {
-                        cell.textContent = item.toString(16).toUpperCase();
-                    }
-                    currentRow.appendChild(cell); // Append the data cell to the current row
-                    if (access === true && addr !== undefined && index === addr) {
-                        this.highlightMemCell(currentRow, columnIndex);
-                    }
+                const currentRow = memDisplay.lastElementChild;
+                const columnIndex = addr % 8;
+                const cell = document.createElement('td'); // Create a table data cell for the item
+                // Padding 0s
+                cell.textContent = item <= 0x0F ? `0${item.toString(16).toUpperCase()}` : item.toString(16).toUpperCase();
+                currentRow.appendChild(cell); // Append the data cell to the current row
+                if (access === true && addr !== undefined && index === addr) {
+                    this.highlightMemCell(currentRow, columnIndex);
                 }
             });
         }
