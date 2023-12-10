@@ -17,7 +17,8 @@ const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt pri
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
 const CONTEXT_SWITCH_IRQ = 2;
-const OPCODE_HIGHLIGHT_MAPPING = new Map([["A9", 1],
+const OPCODE_HIGHLIGHT_MAPPING = new Map([
+    ["A9", 1],
     ["AD", 1],
     ["8D", 2],
     ["6D", 2],
@@ -26,11 +27,12 @@ const OPCODE_HIGHLIGHT_MAPPING = new Map([["A9", 1],
     ["A0", 1],
     ["AC", 2],
     ["EA", 0],
-    ["00", 1],
+    ["00", 0],
     ["EC", 2],
     ["D0", 1],
     ["EE", 3],
-    ["FF", 0]]);
+    ["FF", 0]
+]);
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
