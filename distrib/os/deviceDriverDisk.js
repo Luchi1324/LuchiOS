@@ -199,6 +199,19 @@ var TSOS;
             return renameCase;
         }
         getAllFiles() {
+            let fileNames = [];
+            for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        let file = sessionStorage.getItem(this.createStorageKey(t, s, b));
+                        if (file && this.checkIfInUse(file)) {
+                            let fileName = TSOS.Utils.hexToTxt(this.readBlockData(file.split(':')[1]));
+                            fileNames.push(fileName);
+                        }
+                    }
+                }
+            }
+            return fileNames;
         }
         findFile(fileName) {
             let startingBlockKey = null;

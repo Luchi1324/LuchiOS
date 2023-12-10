@@ -227,8 +227,21 @@ module TSOS {
             return renameCase;
         }
 
-        public getAllFiles() {
+        public getAllFiles(): string[] {
+            let fileNames = []
+            for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < _Disk.numSectors; s++) {
+                    for (let b = 0; b < _Disk.numBlocks; b++) {
+                        let file = sessionStorage.getItem(this.createStorageKey(t, s, b));
 
+                        if (file && this.checkIfInUse(file)) {
+                            let fileName = Utils.hexToTxt(this.readBlockData(file.split(':')[1]));
+                            fileNames.push(fileName);
+                        }
+                    }
+                }
+            }
+            return fileNames;
         }
 
         public findFile(fileName): string[] {
