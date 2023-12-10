@@ -151,6 +151,12 @@ module TSOS {
                                   "<filename> <newfilename> - Renames an existing file.");
             this.commandList[this.commandList.length] = sc;
 
+            // ls
+            sc = new ShellCommand(this.shellLs,
+                                  "ls",
+                                  "- Lists all the files stored on the disk.");
+            this.commandList[this.commandList.length] = sc;
+
             // setschedule
             sc = new ShellCommand(this.shellSetSchedule,
                                   "setschedule",
@@ -417,6 +423,9 @@ module TSOS {
                         break;
                     case "rename":
                         _StdOut.putText("Renames a file from the hard drive. Enter this followed by first the filename that you want to rename, and then the new filename.");
+                        break;
+                    case "ls":
+                        _StdOut.putText("Lists all of the files on the hard drive.");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -744,6 +753,20 @@ module TSOS {
                     }
                 } else {
                     _StdOut.putText('Usage: rename <existing filename> <new filename>. Please supply both a filename and a new filename.');
+                }
+            }
+        }
+
+        public shellLs(args: string[]) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            } else {
+                let fileNames = _krnDiskDriver.getAllFiles();
+                if (fileNames.length > 0) {
+                    for (let i = 0; i < fileNames.length; i++) {
+                        _StdOut.putText(fileNames[i]);
+                        _StdOut.advanceLine();
+                    }
                 }
             }
         }
