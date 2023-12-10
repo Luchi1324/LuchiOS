@@ -176,6 +176,27 @@ var TSOS;
             return copyCase;
         }
         renameFile(fileName, newFileName) {
+            let renameCase = 0;
+            let key = this.findFile(fileName)[0];
+            let otherKey = this.findFile(newFileName)[0];
+            // make sure existing file actually exists and new file name isn't already in use
+            if (key && !otherKey) {
+                let data = sessionStorage.getItem(key);
+                sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 5, '0'.repeat(60)));
+                data = sessionStorage.getItem(key);
+                sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 5, TSOS.Utils.txtToHex(newFileName)));
+                renameCase = 2;
+            }
+            else if (!key) {
+                // The original file does not exist
+                renameCase = 0;
+            }
+            else if (otherKey) {
+                // The new file name is already a file on the disk
+                renameCase = 1;
+            }
+            TSOS.Devices.hostUpdateDiskDisplay();
+            return renameCase;
         }
         getAllFiles() {
         }

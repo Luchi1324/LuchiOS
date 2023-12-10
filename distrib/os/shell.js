@@ -81,6 +81,9 @@ var TSOS;
             // copy
             sc = new TSOS.ShellCommand(this.shellCopy, "copy", "<filename> <newfilename> - Copies an existing file to a new file with the provided file names.");
             this.commandList[this.commandList.length] = sc;
+            // rename
+            sc = new TSOS.ShellCommand(this.shellRename, "rename", "<filename> <newfilename> - Renames an existing file.");
+            this.commandList[this.commandList.length] = sc;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
@@ -307,7 +310,10 @@ var TSOS;
                         _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.");
                         break;
                     case "copy":
-                        _StdOut.putText("Copies a file from the hard drive to a new file. Enter this followed by first the filename you want to copy from and then the filename of the copy you want to create.");
+                        _StdOut.putText("Copies a file from the hard drive to a new file. Enter this followed by first the filename you want to copy from, and then the filename of the copy you want to create.");
+                        break;
+                    case "rename":
+                        _StdOut.putText("Renames a file from the hard drive. Enter this followed by first the filename that you want to rename, and then the new filename.");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -596,10 +602,10 @@ var TSOS;
                 if (args.length > 0) {
                     let isDeleted = _krnDiskDriver.deleteFile(args[0]);
                     if (isDeleted) {
-                        _StdOut.putText(args[0] + ' successfully deleted.');
+                        _StdOut.putText(`${args[0]} successfully deleted.`);
                     }
                     else {
-                        _StdOut.putText(args[0] + ' either does not exist or cannot be deleted.');
+                        _StdOut.putText(`ERR: ${args[0]} either does not exist or cannot be deleted.`);
                     }
                 }
                 else {
@@ -612,20 +618,42 @@ var TSOS;
                 _StdOut.putText("Please format the disk first.");
             }
             else {
-                if (args.length == 2) {
+                if (args.length === 2) {
                     let copy = _krnDiskDriver.copyFile(args[0], args[1]);
                     if (copy === 3) {
-                        _StdOut.putText(`File ${args[0]} successfully copied to ${args[1]}`);
+                        _StdOut.putText(`File ${args[0]} successfully copied to ${args[1]}.`);
                     }
                     else if (copy === 1) {
-                        _StdOut.putText(`\"${args[1]}\" already exists.`);
+                        _StdOut.putText(`ERR: ${args[1]} already exists.`);
                     }
                     else if (copy === 0) {
-                        _StdOut.putText(`\"${args[0]}\" does not exists.`);
+                        _StdOut.putText(`ERR: ${args[0]} does not exists.`);
                     }
                 }
                 else {
-                    _StdOut.putText('Usage: copy <existing filename> <new filename>. Please supply both a filename and a new filename');
+                    _StdOut.putText('Usage: copy <existing filename> <new filename>. Please supply both a filename and a new filename.');
+                }
+            }
+        }
+        shellRename(args) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (args.length === 2) {
+                    let rename = _krnDiskDriver.renameFile(args[0], args[1]);
+                    if (rename === 2) {
+                        _StdOut.putText(`File ${args[0]} successfully renamed to ${args[1]}`);
+                    }
+                    else if (rename === 1) {
+                        _StdOut.putText(`ERR: The new filename ${args[1]} is already a file on the disk.`);
+                    }
+                    else if (rename === 0) {
+                        _StdOut.putText(`ERR: File ${args[0]} does not exist.`);
+                    }
+                }
+                else {
+                    _StdOut.putText('Usage: rename <existing filename> <new filename>. Please supply both a filename and a new filename.');
                 }
             }
         }
