@@ -155,6 +155,25 @@ var TSOS;
             return deleteFlag;
         }
         copyFile(fileName, newFileName) {
+            let copyCase = 0;
+            if (this.findFile(fileName)[0]) {
+                let isCreated = this.createFile(newFileName);
+                if (isCreated) {
+                    let fileData = this.readFile(fileName);
+                    let copyFile = this.writeFile(newFileName, fileData);
+                    if (copyFile === 2) {
+                        copyCase = 3;
+                    }
+                }
+                else {
+                    copyCase = 1;
+                }
+            }
+            else {
+                copyCase = 2;
+            }
+            TSOS.Devices.hostUpdateDiskDisplay();
+            return copyCase;
         }
         renameFile(fileName, newFileName) {
         }

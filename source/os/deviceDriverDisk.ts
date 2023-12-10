@@ -181,8 +181,24 @@ module TSOS {
         }
 
 
-        public copyFile(fileName: string, newFileName: string) {
-
+        public copyFile(fileName: string, newFileName: string): number {
+            let copyCase: number = 0;
+            if (this.findFile(fileName)[0]) {
+                let isCreated = this.createFile(newFileName);
+                if (isCreated) {
+                    let fileData = this.readFile(fileName);
+                    let copyFile = this.writeFile(newFileName, fileData);
+                    if (copyFile === 2) {
+                        copyCase = 3;
+                    }
+                } else {
+                    copyCase = 1;
+                }
+            } else {
+                copyCase = 2;
+            }
+            Devices.hostUpdateDiskDisplay();
+            return copyCase;
         }
 
         public renameFile(fileName: string, newFileName: string) {

@@ -78,6 +78,9 @@ var TSOS;
             // delete
             sc = new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes a file with the provided file name.");
             this.commandList[this.commandList.length] = sc;
+            // copy
+            sc = new TSOS.ShellCommand(this.shellCopy, "copy", "<filename> <newfilename> - Copies an existing file to a new file with the provided file names.");
+            this.commandList[this.commandList.length] = sc;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
             this.commandList[this.commandList.length] = sc;
@@ -302,6 +305,9 @@ var TSOS;
                         break;
                     case "delete":
                         _StdOut.putText("Deletes a file from the hard drive. Enter this followed by the filename you would like to delete.");
+                        break;
+                    case "copy":
+                        _StdOut.putText("Copies a file from the hard drive to a new file. Enter this followed by first the filename you want to copy from and then the filename of the copy you want to create.");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -598,6 +604,28 @@ var TSOS;
                 }
                 else {
                     _StdOut.putText("Usage: delete <filename> Please supply a filename");
+                }
+            }
+        }
+        shellCopy(args) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (args.length == 2) {
+                    let copy = _krnDiskDriver.copyFile(args[0], args[1]);
+                    if (copy === 3) {
+                        _StdOut.putText(`File ${args[0]} successfully copied to ${args[1]}`);
+                    }
+                    else if (copy === 1) {
+                        _StdOut.putText(`\"${args[1]}\" already exists.`);
+                    }
+                    else if (copy === 0) {
+                        _StdOut.putText(`\"${args[0]}\" does not exists.`);
+                    }
+                }
+                else {
+                    _StdOut.putText('Usage: copy <existing filename> <new filename>. Please supply both a filename and a new filename');
                 }
             }
         }
