@@ -535,26 +535,29 @@ var TSOS;
                         _StdOut.putText("Invalid input: You have to provide something to write within the quotes.");
                         _StdOut.advanceLine();
                     }
-                }
-                else if (args[1] === '\"' && args[args.length - 1] === '\"') {
-                    let fileName = args[0];
-                    // Turn data into array
-                    let dataArr = args.slice(1, args.length);
-                    // Turn array into a single string, convert to hex
-                    let data = dataArr.join(' ').slice(1, -1);
-                    data = TSOS.Utils.txtToHex(data);
-                    let result = _krnDiskDriver.writeFile(fileName, data);
-                    if (result === 0) {
-                        _StdOut.putText("ERR: File does not exist.");
-                    }
-                    else if (result === 1) {
-                        _StdOut.putText("ERR: Disk is full.");
-                    }
-                    else if (result === 2) {
-                        _StdOut.putText(`File ${fileName} successfully written to.`);
+                    else if (args[1].startsWith('"') && args[args.length - 1].endsWith('"')) {
+                        let fileName = args[0];
+                        // Turn data into array
+                        let dataArr = args.slice(1, args.length);
+                        // Turn array into a single string, convert to hex
+                        let data = dataArr.join(' ').slice(1, -1);
+                        data = TSOS.Utils.txtToHex(data);
+                        let result = _krnDiskDriver.writeFile(fileName, data);
+                        if (result === 0) {
+                            _StdOut.putText("ERR: File does not exist.");
+                        }
+                        else if (result === 1) {
+                            _StdOut.putText("ERR: Disk is full.");
+                        }
+                        else if (result === 2) {
+                            _StdOut.putText(`File ${fileName} successfully written to.`);
+                        }
+                        else {
+                            _StdOut.putText("Something happened but it wasn't good.");
+                        }
                     }
                     else {
-                        _StdOut.putText("Something happened but it wasn't good.");
+                        _StdOut.putText("Input must be wrapped in quotations (\"\").");
                     }
                 }
                 else {
