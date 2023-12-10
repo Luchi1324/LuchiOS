@@ -539,7 +539,7 @@ var TSOS;
                 let fileName = args[0];
                 let file = _krnDiskDriver.readFile(fileName);
                 let str = file !== null ? file : 'ERR: File does not exist.';
-                _StdOut.putText(str);
+                _StdOut.putText(TSOS.Utils.hexToTxt(str));
             }
         }
         shellWrite(args) {
