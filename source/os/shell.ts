@@ -125,6 +125,7 @@ module TSOS {
             sc = new ShellCommand(this.shellWrite,
                                   "write",
                                   "<filename> \"data\" - Writes to a file with the provided data.");
+            this.commandList[this.commandList.length] = sc;
 
             // delete
             sc = new ShellCommand(this.shellDelete,
@@ -635,7 +636,14 @@ module TSOS {
                     let data = dataArr.join(' ').slice(1, -1);
                     data = Utils.txtToHex(data);
 
-                    // TODO: Create the write function in disk
+                    let result = _krnDiskDriver.writeFile(fileName, data);
+                    if (result === 0) {
+                        _StdOut.putText("ERR: File does not exist.");
+                    } else if (result === 1) {
+                        _StdOut.putText("ERR: Disk is full.");
+                    } else  if (result === 2) {
+                        _StdOut.putText(`File ${fileName} successfully written to.`);
+                    }
                 } else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");
                 }
