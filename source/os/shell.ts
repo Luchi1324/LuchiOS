@@ -121,6 +121,12 @@ module TSOS {
                                   "<filename> - Creates a file with the provided file name.");
             this.commandList[this.commandList.length] = sc;
 
+            // read
+            sc = new ShellCommand(this.shellRead,
+                                  "read",
+                                  "<filename> - Reads from a file with the provided file name");
+            this.commandList[this.commandList.length] = sc;
+
             // write
             sc = new ShellCommand(this.shellWrite,
                                   "write",
@@ -385,6 +391,9 @@ module TSOS {
                     case "create":
                         _StdOut.putText("Creates a file on the hard drive. Enter this followed by the filename you would like.");
                         break;
+                    case "read":
+                        _StdOut.putText("Reads from a file on the hard drive. Enter this followed by the filename you would like to read from.");
+                        break;
                     case "write":
                         _StdOut.putText("Writes to a file on the hard drive. Enter this followed by the filename you would like to write to, plus the data wrapped in quote marks (\"\").");
                         break;
@@ -615,6 +624,17 @@ module TSOS {
                 } else {
                     _StdOut.putText("Usage: create <filename> Please supply a filename.");
                 }
+            }
+        }
+
+        public shellRead(args: string[]) {
+            if (!_Disk.isFormatted) {
+                _StdOut.putText("Disk is not formatted. Please format it first.");
+            } else {
+                let fileName = args[0];
+                let file = _krnDiskDriver.readFile(fileName);
+                let str = file !== null ? file : 'ERR: File does not exist.'
+                _StdOut.putText(str) ;
             }
         }
 
