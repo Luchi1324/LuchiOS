@@ -80,9 +80,9 @@ module TSOS {
             const pcbDisplay = <HTMLTableElement> document.getElementById("tableProcess");
             let currentRow: HTMLTableRowElement;
             
-            let pcbAttr = [pcb.pid, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
+            let pcbAttr = [pcb.pid, pcb.location, pcb.pc, pcb.acc, pcb.XReg, pcb.YReg, pcb.ZFlag, pcb.state];
             // If the PCB being inserted is not a new one ...
-            if (pcbAttr[6] != "New") {
+            if (pcbAttr[7] != "New") {
                 // ... then we remove the old one ...
                 pcbDisplay.deleteRow(pcb.pid + 1);
                 // ... and insert the most recent version of the PCB
