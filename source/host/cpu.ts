@@ -111,7 +111,7 @@ module TSOS {
                         break;
                     default:
                         this.isExecuting = false;
-                        _StdOut.putText(`PID ${this.currentPCB.pid}: Invalid instruction - ${instruction}. Terminating current process...`);
+                        _StdOut.putText(`PID ${this.currentPCB.pid}: Invalid instruction - ${instruction.toString(16)}. Terminating current process...`);
                         _StdOut.advanceLine();
                         this.currentPCB.terminatePCB();
                         this.currentPCB = null;
