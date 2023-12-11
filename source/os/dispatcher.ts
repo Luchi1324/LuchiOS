@@ -10,7 +10,6 @@ module TSOS {
             // If we have tasks that are ready and our CPU isn't executing anything ...
             if (_CPU.currentPCB === null) {
                 // ... we get our next task that is ready and load it into the CPU.
-                //let oldTask = _Scheduler.executingPCB;
                 let newTask = _Scheduler.readyQueue.dequeue();
                 // Logging context switch to the kernel trace
                 _Kernel.krnTrace(`Loading new PID ${newTask.pid}`);
@@ -32,6 +31,13 @@ module TSOS {
                 // ... and get the next one and load it into the CPU.
                 let nextTask = _Scheduler.readyQueue.dequeue();
                 _Scheduler.executingPCB = nextTask;
+
+                // If it's loaded from disk, we need to roll out the old task to disk then the next one to memory
+                if (nextTask.location === 'Disk') {
+                    _Kernel.krnTrace(`Context Switch: Moving PID: ${oldTask.pid} to disk and loading PID: ${nextTask.pid} to memory.`);
+                    _Swapper.rollOut(oldTask);
+                    _Swapper.rollIn(nextTask);
+                }
                 // Logging context switch to the kernel trace
                 _Kernel.krnTrace(`Context Switch: Swapping from PID: ${oldTask.pid} to PID: ${nextTask.pid}`);
                 _CPU.loadProgram(nextTask);
