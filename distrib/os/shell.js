@@ -739,11 +739,14 @@ var TSOS;
                 document.getElementById('divStatus').innerHTML = status;
             }
         }
-        // TODO: Make the ASCII art smaller
         shellFancyVer(args) {
             _StdOut.advanceLine();
-            _StdOut.putText("█░░ █░█ █▀▀ █░█ █ █▀█ █▀   █▀█ ░ █░█");
-            _StdOut.putText("█▄▄ █▄█ █▄▄ █▀█ █ █▄█ ▄█   █▄█ ▄ ▀▀█");
+            _StdOut.putText("_  __    _      ");
+            _StdOut.advanceLine();
+            _StdOut.putText("|    _ |_  ./ \\(_    / \\  |_|");
+            _StdOut.advanceLine();
+            _StdOut.putText("|__|_|(_ | | |\\_/__)   \\_/o   |");
+            _StdOut.advanceLine();
             _StdOut.advanceLine();
         }
     }
