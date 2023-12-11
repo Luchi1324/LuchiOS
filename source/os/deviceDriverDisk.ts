@@ -34,8 +34,8 @@ module TSOS {
             Devices.hostUpdateDiskDisplay();
         }
 
-        public createSwapFile(pid, data) {
-            let fileName = '.swap' + pid;
+        public createSwapFile(pid, data): void {
+            let fileName: string = '.swap' + pid;
 
             // file data will be overwritten if file already exists
             this.createFile(fileName);
@@ -44,7 +44,7 @@ module TSOS {
 
         public createFile(fileName: string): boolean {
             let createdFlag: boolean = false;
-            let startingBlockKey = this.findFile(fileName)[1];
+            let startingBlockKey: string = this.findFile(fileName)[1];
 
             if (!startingBlockKey) {
                 let fileKey = this.getNextDirBlockKey();
@@ -67,24 +67,24 @@ module TSOS {
             return createdFlag;
         }
 
-        public readFile(fileName: string) {
-            let startingBlockKey = this.findFile(fileName)[1];
-            let str = '';
+        public readFile(fileName: string): string {
+            let startingBlockKey: string = this.findFile(fileName)[1];
+            let str: string = '';
 
             if (!startingBlockKey) {
                 str = null;
             } else {
-                let block = sessionStorage.getItem(startingBlockKey);
-                let blockArr = block.split(':');
-                let meta = blockArr[0];
-                let data = blockArr[1];
+                let block: string = sessionStorage.getItem(startingBlockKey);
+                let blockArr: string[] = block.split(':');
+                let meta: string = blockArr[0];
+                let data: string = blockArr[1];
 
                 str += this.readBlockData(data);
 
                 // File contains more than 1 block
                 if (meta.slice(1, 4) != '---') {
-                    let nextKey = meta.slice(1,4);
-                    let nextData = sessionStorage.getItem(nextKey);
+                    let nextKey: string = meta.slice(1,4);
+                    let nextData: string = sessionStorage.getItem(nextKey);
 
                     while (nextKey != '---') {
                         str += this.readBlockData(nextData.split(':')[1]);
@@ -99,8 +99,8 @@ module TSOS {
         public readBlockData(data: string): string {
             // split the data into an array of hex pairings (regex: every 2 characters)
             let hexArr = data.match(/.{1,2}/g);
-            let block = '';
-            let i = 0;
+            let block: string = '';
+            let i: number = 0;
             // loop through array and build block string
             while (i < hexArr.length) {
                 block += hexArr[i];
@@ -118,7 +118,7 @@ module TSOS {
                 writtenCase = 0;
             } else {
                 // get the block data
-                let data = sessionStorage.getItem(startingBlockKey);
+                let data: string = sessionStorage.getItem(startingBlockKey);
 
                 // Remove existing file data before writing to it
                 if (this.checkIfHasData(data)) {
@@ -134,7 +134,7 @@ module TSOS {
                     // Each block can only have a max length of 60
                     let dataArr = dataInput.match(/.{1,60}/g);
 
-                    let currKey = startingBlockKey;
+                    let currKey: string = startingBlockKey;
 
                     // Loop through each input chunk
                     for (let i = 0; i < dataArr.length; i++) {
@@ -176,8 +176,8 @@ module TSOS {
 
 
         public deleteFile(fileName: string): boolean {
-            let key = this.findFile(fileName)[0];
-            let deleteFlag = false;
+            let key: string = this.findFile(fileName)[0];
+            let deleteFlag: boolean = false;
 
             if (key) {
                 sessionStorage.setItem(key, this.createEmptyBlock());
@@ -192,10 +192,10 @@ module TSOS {
         public copyFile(fileName: string, newFileName: string): number {
             let copyCase: number = 0;
             if (this.findFile(fileName)[0]) {
-                let isCreated = this.createFile(newFileName);
+                let isCreated: boolean = this.createFile(newFileName);
                 if (isCreated) {
-                    let fileData = this.readFile(fileName);
-                    let copyFile = this.writeFile(newFileName, fileData);
+                    let fileData: string = this.readFile(fileName);
+                    let copyFile: number = this.writeFile(newFileName, fileData);
                     if (copyFile === 2) {
                         copyCase = 3;
                     }
@@ -209,14 +209,14 @@ module TSOS {
             return copyCase;
         }
 
-        public renameFile(fileName: string, newFileName: string) {
+        public renameFile(fileName: string, newFileName: string): number {
             let renameCase: number = 0;
-            let key = this.findFile(fileName)[0];
-            let otherKey = this.findFile(newFileName)[0];
+            let key: string = this.findFile(fileName)[0];
+            let otherKey: string = this.findFile(newFileName)[0];
 
             // make sure existing file actually exists and new file name isn't already in use
             if (key && !otherKey) {
-                let data = sessionStorage.getItem(key);
+                let data: string = sessionStorage.getItem(key);
                 sessionStorage.setItem(key, Utils.replaceAt(data, 5, '0'.repeat(60)));
 
                 data = sessionStorage.getItem(key);
@@ -236,7 +236,7 @@ module TSOS {
         }
 
         public getAllFiles(): string[] {
-            let fileNames = []
+            let fileNames: string[] = []
             for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
                     for (let b = 0; b < _Disk.numBlocks; b++) {
@@ -254,7 +254,7 @@ module TSOS {
 
         public findFile(fileName): string[] {
             let startingBlockKey = null;
-            let fileArr = [];
+            let fileArr: string[] = [];
 
             directorySearch:
             for (let t = 0; t < 1; t++) {
@@ -360,8 +360,8 @@ module TSOS {
             return block.split(':')[1] != '0'.repeat(60);
         }
 
-        public setFinalDataBlock(key) {
-            let data = sessionStorage.getItem(key);
+        public setFinalDataBlock(key): void {
+            let data: string = sessionStorage.getItem(key);
             if (data) {
                 let temp = data;
                 for (let i = 1; i < 4; i++) {
@@ -371,8 +371,8 @@ module TSOS {
             }
         }
 
-        public setUseStatus(key, isUsing) {
-            let data = sessionStorage.getItem(key);
+        public setUseStatus(key, isUsing): void {
+            let data: string = sessionStorage.getItem(key);
             if (data) {
                 if (isUsing) {
                     sessionStorage.setItem(key, Utils.replaceAt(data, 0, "1"));
