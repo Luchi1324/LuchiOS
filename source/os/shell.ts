@@ -557,8 +557,18 @@ module TSOS {
                         _StdOut.advanceLine();
                         _StdOut.putText(`PID: ${loadedPid}`);
                     } else {
-                        _StdOut.advanceLine();
-                        _StdOut.putText("All memory segments are currently allocated. There isn't a hard drive yet so go run some programs.");
+                        if (_Disk.isFormatted) {
+                            let loadedPid = ProcessControlBlock.currentPID;
+                            _krnDiskDriver.createSwapFile(loadedPid, input.replace(/\s+/g, ''));
+                            Devices.hostUpdateDiskDisplay();
+                            _StdOut.advanceLine()
+                            _StdOut.putText("Memory is full. Loaded to disk.");
+                            _StdOut.advanceLine();
+                            _StdOut.putText(`PID: ${loadedPid}`);
+                        } else {
+                            _StdOut.advanceLine()
+                            _StdOut.putText("Memory is full, but the disk is not formatted.");
+                        }
                     }
                 }
             } else {
