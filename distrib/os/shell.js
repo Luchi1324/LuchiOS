@@ -28,7 +28,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellFancyVer, "fver", "- Displays the current version, but with spice.");
             this.commandList[this.commandList.length] = sc;
             // status
-            sc = new TSOS.ShellCommand(this.shellStatus, "status", "- Changes the status above");
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "- Changes the status above.");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
@@ -262,7 +262,7 @@ var TSOS;
                         _StdOut.putText("This displays the name and the current version of the os.");
                         break;
                     case "status":
-                        _StdOut.putText("Changes a patch of text on the top of the OS. Enter 'status' followed by the string of your choice");
+                        _StdOut.putText("Changes a patch of text on the top of the OS. Enter 'status' followed by the string of your choice, or leave blank to reset it.");
                         break;
                     case "shutdown":
                         _StdOut.putText("Shutdown, well, shuts down the virtual os once entered.");
@@ -734,18 +734,17 @@ var TSOS;
                 document.getElementById('divStatus').innerHTML = status;
             }
             else {
-                _StdOut.putText("Usage: status <string> Please supply a string.");
+                status = '';
+                _StdOut.putText("Reset status.");
+                document.getElementById('divStatus').innerHTML = status;
             }
         }
         // TODO: Make the ASCII art smaller
         shellFancyVer(args) {
-            _StdOut.putText("  _                             _       __      ____      ___        ____         _  _    ");
-            _StdOut.putText("  FJ        _    _     ____     FJ___    LJ     F __ ]    F __\".     F _  ]       FJ  L] ");
-            _StdOut.putText(" J |       J |  | L   F ___J.  J  __ `.        J |--| L  J (___|    J |/ | L     J |__| L ");
-            _StdOut.putText(" | |       | |  | |  | |---LJ  | |--| |  FJ    | |  | |  J\___ \    | | /| |     |____  | ");
-            _StdOut.putText(" F L_____  F L__J J  F L___--. F L  J J J  L   F L__J J .--___) \   F  /_J J  __ L____J J ");
-            _StdOut.putText("J________LJ\____,__LJ\______/FJ__L  J__LJ__L  J\______/FJ\______J  J\______/FJ__L     J__L");
-            _StdOut.putText("|________| J____,__F J______F |__L  J__||__|   J______F  J______F   J______F |__|     J__|");
+            _StdOut.advanceLine();
+            _StdOut.putText("█░░ █░█ █▀▀ █░█ █ █▀█ █▀   █▀█ ░ █░█");
+            _StdOut.putText("█▄▄ █▄█ █▄▄ █▀█ █ █▄█ ▄█   █▄█ ▄ ▀▀█");
+            _StdOut.advanceLine();
         }
     }
     TSOS.Shell = Shell;
