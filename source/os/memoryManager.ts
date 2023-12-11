@@ -32,7 +32,7 @@ module TSOS {
                 Devices.hostUpdatePcbDisplay(pcb);
                 return true;
             } else {
-                if (!_Disk.isFormatted) {
+                if (_Disk.isFormatted) {
                     pcb.createPCB();
                     this.residentTasks.push(pcb);
                     pcb.state = "Resident";
