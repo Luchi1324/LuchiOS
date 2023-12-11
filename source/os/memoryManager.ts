@@ -17,7 +17,6 @@ module TSOS {
         }
 
         public loadMem(program: number[], pcbSwap?: ProcessControlBlock): boolean {
-            alert((!pcbSwap));
             if (!pcbSwap) {
                 // Creates new PCB object ...
                 let pcb = new ProcessControlBlock();
@@ -47,8 +46,7 @@ module TSOS {
                 // If we're loading into memory an already existing PCB (called from rollOut)...
                 if (this.canBeAllocated(program) === true) {
                     // ... then we only need to allocate the program (rollOut alreay frees up a memory segment)
-                    this.allocateMem(pcbSwap, program)
-                    alert(pcbSwap.baseReg);
+                    this.allocateMem(pcbSwap, program);
                     pcbSwap.location = "Memory";
                     Devices.hostUpdatePcbDisplay(pcbSwap);
                 }

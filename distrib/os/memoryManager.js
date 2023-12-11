@@ -15,7 +15,6 @@ var TSOS;
             };
         }
         loadMem(program, pcbSwap) {
-            alert((!pcbSwap));
             if (!pcbSwap) {
                 // Creates new PCB object ...
                 let pcb = new TSOS.ProcessControlBlock();
@@ -48,7 +47,6 @@ var TSOS;
                 if (this.canBeAllocated(program) === true) {
                     // ... then we only need to allocate the program (rollOut alreay frees up a memory segment)
                     this.allocateMem(pcbSwap, program);
-                    alert(pcbSwap.baseReg);
                     pcbSwap.location = "Memory";
                     TSOS.Devices.hostUpdatePcbDisplay(pcbSwap);
                 }
