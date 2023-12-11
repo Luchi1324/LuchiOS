@@ -5,6 +5,7 @@ var TSOS;
         pc;
         baseReg;
         limitReg;
+        location;
         acc;
         XReg;
         YReg;
@@ -13,11 +14,12 @@ var TSOS;
         waitCycles;
         turnCycles;
         static currentPID = -1;
-        constructor(pid = 0, pc = 0, baseReg = 0x00, limitReg = 0x00, acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "", waitCycles = 0, turnCycles = 0) {
+        constructor(pid = 0, pc = 0, baseReg = 0x00, limitReg = 0x00, location = "", acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "", waitCycles = 0, turnCycles = 0) {
             this.pid = pid;
             this.pc = pc;
             this.baseReg = baseReg;
             this.limitReg = limitReg;
+            this.location = location;
             this.acc = acc;
             this.XReg = XReg;
             this.YReg = YReg;

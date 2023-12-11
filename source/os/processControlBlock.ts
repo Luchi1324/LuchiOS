@@ -8,6 +8,7 @@ module TSOS {
             public pc: number = 0,
             public baseReg: number = 0x00,
             public limitReg: number = 0x00,
+            public location: string = "",
             public acc: number = 0,
             public XReg: number = 0,
             public YReg: number = 0,
