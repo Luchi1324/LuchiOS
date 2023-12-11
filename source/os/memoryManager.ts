@@ -26,11 +26,19 @@ module TSOS {
                 // ... but when we add it to the resident tasks list, and after it is loaded ...
                 this.residentTasks.push(pcb);
                 this.allocateMem(pcb, program)
-                // ... then the PCB is now a 'resident'
+                // ... then the PCB is now a 'resident' and stored in memory
                 pcb.state = "Resident";
+                pcb.location = "Memory";
                 Devices.hostUpdatePcbDisplay(pcb);
                 return true;
             } else {
+                if (!_Disk.isFormatted) {
+                    pcb.createPCB();
+                    this.residentTasks.push(pcb);
+                    pcb.state = "Resident";
+                    pcb.location = "Disk";
+                    Devices.hostUpdatePcbDisplay(pcb)
+                }
                 return false;
             }
 
@@ -44,14 +52,10 @@ module TSOS {
                     // Update the current segment that is being allocated
                     this.currSeg = i;
                     return true;
-                // ... or else they are all allocated then we can't allocate more ...
+                // ... or else they are all allocated then we can't allocate anymore.
                 } else if (this.segMap[i] === 'allAllocated') {
                     return false;
                 }
-                // ... else it doesn't fit and can't be allocated
-                //} else {
-                //    return false;
-                //}
             }
         }
 
