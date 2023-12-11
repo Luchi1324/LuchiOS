@@ -16,32 +16,41 @@ module TSOS {
             };
         }
 
-        public loadMem(program: number[]): boolean {
-            // Creates new PCB object ...
-            let pcb = new ProcessControlBlock();
-            // ... and if the memory can be allocated
-            if (this.canBeAllocated(program) === true) {
-                // PCB is 'new' when it is created ...
-                pcb.createPCB();
-                // ... but when we add it to the resident tasks list, and after it is loaded ...
-                this.residentTasks.push(pcb);
-                this.allocateMem(pcb, program)
-                // ... then the PCB is now a 'resident' and stored in memory
-                pcb.state = "Resident";
-                pcb.location = "Memory";
-                Devices.hostUpdatePcbDisplay(pcb);
-                return true;
-            } else {
-                if (_Disk.isFormatted) {
+        public loadMem(program: number[], pcbSwap?: ProcessControlBlock): boolean {
+            if (!pcbSwap) {
+                // Creates new PCB object ...
+                let pcb = new ProcessControlBlock();
+                // ... and if the memory can be allocated
+                if (this.canBeAllocated(program) === true) {
+                    // PCB is 'new' when it is created ...
                     pcb.createPCB();
+                    // ... but when we add it to the resident tasks list, and after it is loaded ...
                     this.residentTasks.push(pcb);
+                    this.allocateMem(pcb, program)
+                    // ... then the PCB is now a 'resident' and stored in memory
                     pcb.state = "Resident";
-                    pcb.location = "Disk";
-                    Devices.hostUpdatePcbDisplay(pcb)
+                    pcb.location = "Memory";
+                    Devices.hostUpdatePcbDisplay(pcb);
+                    return true;
+                } else {
+                    if (_Disk.isFormatted) {
+                        pcb.createPCB();
+                        this.residentTasks.push(pcb);
+                        pcb.state = "Resident";
+                        pcb.location = "Disk";
+                        Devices.hostUpdatePcbDisplay(pcb)
+                    }
+                    return false;
                 }
-                return false;
+            } else {
+                // If we're loading into memory an already existing PCB (called from rollOut)...
+                if (this.canBeAllocated(program) === true) {
+                    // ... then we only need to allocate the program (rollOut alreay frees up a memory segment)
+                    this.allocateMem(pcbSwap, program)
+                    pcbSwap.location = "Memory";
+                    Devices.hostUpdatePcbDisplay(pcbSwap);
+                }
             }
-
         }
 
         public canBeAllocated(program: number[]): boolean {
@@ -72,14 +81,18 @@ module TSOS {
         }
 
         // Clears a segment of memory associated with a PCB
-        public clearMemSeg(pcb: TSOS.ProcessControlBlock): void {
+        public clearMemSeg(pcb: TSOS.ProcessControlBlock, swap?: boolean): void {
             for (let i = 0x00; i < 0xFF; i++) {
                 _MemoryAccessor.writeMem(pcb, i, 0x00);
             }
 
-            // Marks segment as unallocated, and removes from resident list
+            // Marks segment as unallocated, and removes from resident list (if not called from the swapper)
             this.segMap[pcb.baseReg] = false;
-            _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, null);
+
+            if (!swap) {
+                _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, null);
+            }
+
             Devices.hostUpdateMemDisplay();
         }
 
