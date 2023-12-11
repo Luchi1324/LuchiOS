@@ -84,6 +84,8 @@ var TSOS;
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
+            // Since it's reliant on the DiskDriver, we then load the disk display once krnBootstrap is called
+            TSOS.Devices.hostUpdateDiskDisplay();
         }
         static hostBtnHaltOS_click(btn) {
             Control.hostLog("Emergency halt", "host");

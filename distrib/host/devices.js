@@ -142,27 +142,35 @@ var TSOS;
                 }
             });
         }
-        static hostUpdateDiskDisplay(format) {
-            const diskDisplay = document.getElementById("tableDisk");
-            diskDisplay.innerHTML = "";
+        static hostUpdateDiskDisplay() {
+            let diskDisplay = document.getElementById("tableDisk");
+            let diskBody = '<tbody><tr><th>T:S:B</th><th>Used</th><th>Next</th><th>Data</th></tr>';
             for (let t = 0; t < _Disk.numTracks; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
                     for (let b = 0; b < _Disk.numBlocks; b++) {
-                        const row = diskDisplay.insertRow();
-                        const tsb = row.insertCell(0);
-                        const inUse = row.insertCell(1);
-                        const next = row.insertCell(2);
-                        const data = row.insertCell(3);
                         let block = sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b));
-                        let blockArr = block.split(':');
-                        tsb.innerHTML = `${t.toString()}:${s.toString()}:${b.toString()}`;
-                        tsb.style.backgroundColor = "#e1dcdc";
-                        inUse.innerHTML = blockArr[0].slice(0, 1);
-                        next.innerHTML = blockArr[0].slice(1, 4);
-                        data.innerHTML = blockArr[1].toUpperCase();
+                        if (block !== null) {
+                            _Disk.isFormatted = true;
+                            let blockArr = block.split(':');
+                            // T:S:B | Used | Next | Data
+                            diskBody += `<tr>
+                            <td style="background-color:#e1dcdc">${t.toString()}:${s.toString()}:${b.toString()}</td>
+                            <td>${blockArr[0].slice(0, 1)}</td>
+                            <td>${blockArr[0].slice(1, 4)}</td>
+                            <td>${blockArr[1].toUpperCase()}</td>`;
+                        }
+                        else {
+                            diskBody += `<tr>
+                            <td style="background-color:#e1dcdc">E:R:R</td>
+                            <td>E</td>
+                            <td>ERR</td>
+                            <td nowrap>ERR: Data does not exist. Likely an unformatted drive.</td>`;
+                        }
                     }
                 }
             }
+            diskBody += '</tbody>';
+            diskDisplay.innerHTML = diskBody;
         }
     }
     TSOS.Devices = Devices;
