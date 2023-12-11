@@ -34,6 +34,14 @@ module TSOS {
             Devices.hostUpdateDiskDisplay();
         }
 
+        public createSwapFile(pid, data) {
+            let fileName = '.swap' + pid;
+
+            // file data will be overwritten if file already exists
+            this.createFile(fileName);
+            this.writeFile(fileName, data);
+        }
+
         public createFile(fileName: string): boolean {
             let createdFlag: boolean = false;
             let startingBlockKey = this.findFile(fileName)[1];

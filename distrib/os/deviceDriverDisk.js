@@ -29,6 +29,12 @@ var TSOS;
             _Kernel.krnTrace("Disk formatted.");
             TSOS.Devices.hostUpdateDiskDisplay();
         }
+        createSwapFile(pid, data) {
+            let fileName = '.swap' + pid;
+            // file data will be overwritten if file already exists
+            this.createFile(fileName);
+            this.writeFile(fileName, data);
+        }
         createFile(fileName) {
             let createdFlag = false;
             let startingBlockKey = this.findFile(fileName)[1];
