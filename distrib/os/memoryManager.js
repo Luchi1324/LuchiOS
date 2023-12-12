@@ -95,7 +95,6 @@ var TSOS;
             // ... and removes from resident list (if not called from the swapper)
             if (swap === false) {
                 pcb.terminatePCB();
-                _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, undefined);
                 TSOS.Devices.hostUpdatePcbDisplay(pcb);
             }
             TSOS.Devices.hostUpdateMemDisplay();
