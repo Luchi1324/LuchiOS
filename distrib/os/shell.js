@@ -85,7 +85,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellRename, "rename", "<filename> <newfilename> - Renames an existing file.");
             this.commandList[this.commandList.length] = sc;
             // ls
-            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all the files stored on the disk.");
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all the files stored on the disk. -a shows hidden files starting with a '.'");
             this.commandList[this.commandList.length] = sc;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "<string> - Sets the mode for the scheduler. Options are Round Robin(use rr) or First Come First Serve(use fcfs).");
@@ -319,7 +319,7 @@ var TSOS;
                         _StdOut.putText("Renames a file from the hard drive. Enter this followed by first the filename that you want to rename, and then the new filename.");
                         break;
                     case "ls":
-                        _StdOut.putText("Lists all of the files on the hard drive.");
+                        _StdOut.putText("Lists all of the files on the hard drive. Add -a to show hidden files too.");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -686,7 +686,14 @@ var TSOS;
                 _StdOut.putText("Please format the disk first.");
             }
             else {
-                let fileNames = _krnDiskDriver.getAllFiles();
+                let fileNames = [];
+                alert(args[0]);
+                if (args[0] !== '-a') {
+                    fileNames = _krnDiskDriver.getAllFiles(false);
+                }
+                else {
+                    fileNames = _krnDiskDriver.getAllFiles(true);
+                }
                 if (fileNames.length > 0) {
                     for (let i = 0; i < fileNames.length; i++) {
                         _StdOut.putText(fileNames[i]);

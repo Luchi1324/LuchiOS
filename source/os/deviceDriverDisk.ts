@@ -258,7 +258,7 @@ module TSOS {
             return renameCase;
         }
 
-        public getAllFiles(): string[] {
+        public getAllFiles(getHidden: boolean): string[] {
             let fileNames: string[] = []
             for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
@@ -267,7 +267,7 @@ module TSOS {
 
                         if (file && this.checkIfInUse(file)) {
                             let fileName = Utils.hexToTxt(this.readBlockData(file.split(':')[1]));
-                            fileNames.push(fileName);
+                            (getHidden || !fileName.startsWith('.')) ? fileNames.push(fileName) : null;
                         }
                     }
                 }

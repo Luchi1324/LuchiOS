@@ -154,7 +154,7 @@ module TSOS {
             // ls
             sc = new ShellCommand(this.shellLs,
                                   "ls",
-                                  "- Lists all the files stored on the disk.");
+                                  "- Lists all the files stored on the disk. -a shows hidden files starting with a '.'");
             this.commandList[this.commandList.length] = sc;
 
             // setschedule
@@ -425,7 +425,7 @@ module TSOS {
                         _StdOut.putText("Renames a file from the hard drive. Enter this followed by first the filename that you want to rename, and then the new filename.");
                         break;
                     case "ls":
-                        _StdOut.putText("Lists all of the files on the hard drive.");
+                        _StdOut.putText("Lists all of the files on the hard drive. Add -a to show hidden files too.");
                         break;
                     case "schedulingmode":
                         _StdOut.putText("Sets the mode for the CPU scheduler. Enter this followed by any of the following: rr (Round Robin), fcfs (First Come First Serve).");
@@ -779,7 +779,14 @@ module TSOS {
             if (!_Disk.isFormatted) {
                 _StdOut.putText("Please format the disk first.");
             } else {
-                let fileNames = _krnDiskDriver.getAllFiles();
+                let fileNames: string[] = [];
+                alert(args[0]);
+                if (args[0] !== '-a') {
+                    fileNames = _krnDiskDriver.getAllFiles(false);
+                } else {
+                    fileNames = _krnDiskDriver.getAllFiles(true);
+                }
+
                 if (fileNames.length > 0) {
                     for (let i = 0; i < fileNames.length; i++) {
                         _StdOut.putText(fileNames[i]);

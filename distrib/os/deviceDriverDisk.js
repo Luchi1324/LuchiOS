@@ -223,7 +223,7 @@ var TSOS;
             TSOS.Devices.hostUpdateDiskDisplay();
             return renameCase;
         }
-        getAllFiles() {
+        getAllFiles(getHidden) {
             let fileNames = [];
             for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < _Disk.numSectors; s++) {
@@ -231,7 +231,7 @@ var TSOS;
                         let file = sessionStorage.getItem(this.createStorageKey(t, s, b));
                         if (file && this.checkIfInUse(file)) {
                             let fileName = TSOS.Utils.hexToTxt(this.readBlockData(file.split(':')[1]));
-                            fileNames.push(fileName);
+                            (getHidden || !fileName.startsWith('.')) ? fileNames.push(fileName) : null;
                         }
                     }
                 }
