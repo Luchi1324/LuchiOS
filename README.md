@@ -9,6 +9,6 @@ Now it is being worked on and developed by yours truly, Luciano Mattoli.
 Final iProject 4 Branch (Current Working Branch)
 ===============================
 
-Please grade iProject 3 with this branch, grade this. Also please find labs 5, 6 & 7 on here.
+Please grade the final iProject with this branch, grade this. Also please find the rest of the labs on here.
 
 
