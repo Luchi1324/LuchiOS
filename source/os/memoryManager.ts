@@ -4,7 +4,6 @@ module TSOS {
         public residentTasks: ProcessControlBlock[];
         public segMap: Object;
         public currSeg: number;
-        public memFull: boolean;
 
         constructor() {
             this.residentTasks = [];
@@ -14,7 +13,6 @@ module TSOS {
                 0x100: false,
                 0x200: false,
             };
-            this.memFull = false;
         }
 
         public loadMem(program: number[], pcbSwap?: ProcessControlBlock): boolean {
@@ -60,9 +58,7 @@ module TSOS {
             // First we check the beginning of each segment ...
             for (let i = 0x000; i <= 0x300; i += 0x100) {
                 // ... if it is free and the program fits, it can be allocated ...
-                alert(`I: ${i}, SegMap: ${this.segMap[i]}, ProgLength: ${program.length}`);
                 if (this.segMap[i] === false && program.length <= 0xFF) {
-                    alert('Seg found!');
                     // Update the current segment that is being allocated
                     this.currSeg = i;
                     return true;
@@ -71,8 +67,6 @@ module TSOS {
                     continue;
                 // ... or else they are all allocated then we can't allocate anymore.
                 } else {
-                    this.memFull = true;
-                    alert('Memory is full')
                     return false;
                 }
             }
@@ -101,7 +95,6 @@ module TSOS {
 
             // ... and removes from resident list (if not called from the swapper)
             if (swap === false) {
-                alert('Removing from resident tasks')
                 pcb.terminatePCB();
                 _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, null);
                 Devices.hostUpdatePcbDisplay(pcb);

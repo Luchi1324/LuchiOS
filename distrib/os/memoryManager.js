@@ -4,7 +4,6 @@ var TSOS;
         residentTasks;
         segMap;
         currSeg;
-        memFull;
         constructor() {
             this.residentTasks = [];
             this.currSeg = 0;
@@ -13,7 +12,6 @@ var TSOS;
                 0x100: false,
                 0x200: false,
             };
-            this.memFull = false;
         }
         loadMem(program, pcbSwap) {
             if (!pcbSwap) {
@@ -60,9 +58,7 @@ var TSOS;
             // First we check the beginning of each segment ...
             for (let i = 0x000; i <= 0x300; i += 0x100) {
                 // ... if it is free and the program fits, it can be allocated ...
-                alert(`I: ${i}, SegMap: ${this.segMap[i]}, ProgLength: ${program.length}`);
                 if (this.segMap[i] === false && program.length <= 0xFF) {
-                    alert('Seg found!');
                     // Update the current segment that is being allocated
                     this.currSeg = i;
                     return true;
@@ -73,8 +69,6 @@ var TSOS;
                     // ... or else they are all allocated then we can't allocate anymore.
                 }
                 else {
-                    this.memFull = true;
-                    alert('Memory is full');
                     return false;
                 }
             }
@@ -98,7 +92,6 @@ var TSOS;
             this.segMap[pcb.baseReg] = false;
             // ... and removes from resident list (if not called from the swapper)
             if (swap === false) {
-                alert('Removing from resident tasks');
                 pcb.terminatePCB();
                 _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, null);
                 TSOS.Devices.hostUpdatePcbDisplay(pcb);
