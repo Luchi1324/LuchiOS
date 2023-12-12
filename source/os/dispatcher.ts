@@ -34,7 +34,6 @@ module TSOS {
 
                 // If it's loaded from disk, we need to roll out the old task to disk then the next one to memory
                 if (nextTask.location === 'Disk') {
-                    //let swapPCB = _Scheduler.readyQueue.getLast();
                     _Kernel.krnTrace(`Context Switch: Moving PID: ${oldTask.pid} to disk and loading PID: ${oldTask.pid} to memory.`);
                     _Swapper.rollOut(oldTask);
                     _Swapper.rollIn(nextTask);
