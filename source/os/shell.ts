@@ -780,7 +780,6 @@ module TSOS {
                 _StdOut.putText("Please format the disk first.");
             } else {
                 let fileNames: string[] = [];
-                alert(args[0]);
                 if (args[0] !== '-a') {
                     fileNames = _krnDiskDriver.getAllFiles(false);
                 } else {

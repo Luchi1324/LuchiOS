@@ -687,7 +687,6 @@ var TSOS;
             }
             else {
                 let fileNames = [];
-                alert(args[0]);
                 if (args[0] !== '-a') {
                     fileNames = _krnDiskDriver.getAllFiles(false);
                 }
