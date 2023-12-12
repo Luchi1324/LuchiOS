@@ -15,7 +15,7 @@ module TSOS {
                 _Kernel.krnTrace(`Loading new PID ${newTask.pid}`);
                 
                 if (newTask.location === 'Disk') {
-                    _Kernel.krnTrace(`Loading new PID from Disk ${newTask.pid}`);
+                    _Kernel.krnTrace(`Loading new PID ${newTask.pid} from Disk`);
                     _Swapper.rollIn(newTask);
                 }
 

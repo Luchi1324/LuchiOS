@@ -5,7 +5,7 @@ var TSOS;
         segMap;
         currSeg;
         constructor() {
-            this.residentTasks = [undefined, undefined, undefined];
+            this.residentTasks = [];
             this.currSeg = 0;
             this.segMap = {
                 0x000: false,
@@ -22,8 +22,7 @@ var TSOS;
                     // PCB is 'new' when it is created ...
                     pcb.createPCB();
                     // ... but when we add it to the resident tasks list, and after it is loaded ...
-                    //this.residentTasks.push(pcb);
-                    this.residentTasks[pcb.pid % 3] = pcb;
+                    this.residentTasks[pcb.pid] = pcb;
                     this.allocateMem(pcb, program);
                     // ... then the PCB is now a 'resident' and stored in memory
                     pcb.state = "Resident";
@@ -34,8 +33,7 @@ var TSOS;
                 else {
                     if (_Disk.isFormatted) {
                         pcb.createPCB();
-                        //this.residentTasks.push(pcb);
-                        this.residentTasks[pcb.pid % 3] = pcb;
+                        this.residentTasks[pcb.pid] = pcb;
                         pcb.state = "Resident";
                         pcb.location = "Disk";
                         TSOS.Devices.hostUpdatePcbDisplay(pcb);

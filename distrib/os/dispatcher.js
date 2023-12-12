@@ -12,7 +12,7 @@ var TSOS;
                 // Logging context switch to the kernel trace
                 _Kernel.krnTrace(`Loading new PID ${newTask.pid}`);
                 if (newTask.location === 'Disk') {
-                    _Kernel.krnTrace(`Loading new PID from Disk ${newTask.pid}`);
+                    _Kernel.krnTrace(`Loading new PID ${newTask.pid} from Disk`);
                     _Swapper.rollIn(newTask);
                 }
                 _Scheduler.executingPCB = newTask;
