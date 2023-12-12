@@ -65,7 +65,7 @@ var TSOS;
                 // 'Fetches' instruction
                 let instruction = _MemoryAccessor.readMem(this.currentPCB, this.PC);
                 this.instruReg = instruction;
-                TSOS.Devices.hostUpdateMemDisplay(true, this.PC);
+                TSOS.Devices.hostUpdateMemDisplay(true, this.PC + this.currentPCB.baseReg);
                 // 'Decodes' the function in the switch statement, then 'executes' it accordingly
                 switch (instruction) {
                     case 0xA9:
