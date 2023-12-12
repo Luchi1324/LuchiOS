@@ -41,8 +41,6 @@ var TSOS;
             }
             else {
                 _StdOut.putText("All processes have been completed.");
-                // Reset residentTask array after all tasks have been executed
-                _MemoryManager.residentTasks = [];
                 _StdOut.advanceLine();
                 _OsShell.putPrompt();
             }
