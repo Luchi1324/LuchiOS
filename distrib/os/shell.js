@@ -473,9 +473,17 @@ var TSOS;
         shellRun(args) {
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
-                _MemoryManager.residentTasks[pid].state = "Ready";
-                _Scheduler.readyQueue.enqueue(_MemoryManager.residentTasks[pid]);
-                _Scheduler.schedule();
+                // Find the task with the given PID in the resident tasks array
+                let targetTask = _MemoryManager.residentTasks.find(task => task.pid === pid);
+                // If our tasks exists, and it hasn't already been terminated
+                if (targetTask && targetTask.state !== "Terminated") {
+                    targetTask.state = "Ready";
+                    _Scheduler.readyQueue.enqueue(targetTask);
+                    _Scheduler.schedule();
+                }
+                else {
+                    _StdOut.putText(`Error: Task with PID ${pid} not found.`);
+                }
             }
             else {
                 _StdOut.putText("Usage: run <pid> Please supply a PID.");
@@ -485,7 +493,6 @@ var TSOS;
             let pcb = null;
             if (_MemoryManager.residentTasks.length > 0) {
                 for (let i = 0; i < _MemoryManager.residentTasks.length; i++) {
-                    //alert(_MemoryManager.residentTasks[i]);
                     if (_MemoryManager.residentTasks[i].state === "Resident") {
                         pcb = _MemoryManager.residentTasks[i];
                         pcb.state = "Ready";
