@@ -13,6 +13,12 @@ module TSOS {
                 let newTask = _Scheduler.readyQueue.dequeue();
                 // Logging context switch to the kernel trace
                 _Kernel.krnTrace(`Loading new PID ${newTask.pid}`);
+                
+                if (newTask.location === 'Disk') {
+                    _Kernel.krnTrace(`Loading new PID from Disk ${newTask.pid}`);
+                    _Swapper.rollIn(newTask);
+                }
+
                 _Scheduler.executingPCB = newTask;
                 _CPU.loadProgram(newTask);
 
