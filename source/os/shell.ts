@@ -708,6 +708,7 @@ module TSOS {
                             _StdOut.putText("ERR: Disk is full.");
                         } else if (result === 2) {
                             _StdOut.putText(`File ${fileName} successfully written to.`);
+                            Devices.hostUpdateDiskDisplay();
                         } else {
                             _StdOut.putText("Something happened but it wasn't good.")
                         }

@@ -604,6 +604,7 @@ var TSOS;
                         }
                         else if (result === 2) {
                             _StdOut.putText(`File ${fileName} successfully written to.`);
+                            TSOS.Devices.hostUpdateDiskDisplay();
                         }
                         else {
                             _StdOut.putText("Something happened but it wasn't good.");
