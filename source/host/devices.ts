@@ -106,26 +106,15 @@ module TSOS {
             for (let i = 0; i < cells.length; i++) {
                 let cell = cells[i];
                 cell.classList.remove('highlight');          // Remove highlight class from all cells ...
-                cell.classList.remove('highlight-adjacent'); // ... and the adjacent highlights too
             }
         
             if (addr >= 0x00 && addr < cells.length) {
                 // Add highlight class to the current cell ...
                 let currentCell = cells[addr];
                 currentCell.classList.add('highlight');
-                
-                // ... then get OPCODE adjacent highlight amount and add that
-                let opcode = currentCell.textContent;
-                let highlight = OPCODE_HIGHLIGHT_MAPPING.get(opcode);
 
-                if (highlight !== undefined) {
-                    let adjPos = addr + highlight;
-
-                    if (adjPos >= 0 && adjPos < cells.length) {
-                        let adjacentCell = cells[adjPos];
-                        adjacentCell.classList.add('highlight-adjacent');
-                    }
-                }
+                // Scroll the tableMemory to the highlighted cell
+                currentCell.scrollIntoView({ behavior: 'auto', block: 'end' });
             }
         }
         
