@@ -103,19 +103,18 @@ module TSOS {
 
         public static highlightMemCell(row: HTMLTableRowElement, addr: number) {
             let cells = row.getElementsByTagName('td');
-            for (let i = 0; i < cells.length; i++) {
-                let cell = cells[i];
-                cell.classList.remove('highlight');          // Remove highlight class from all cells ...
-            }
-        
-            if (addr >= 0x00 && addr < cells.length) {
-                // Add highlight class to the current cell ...
-                let currentCell = cells[addr];
-                currentCell.style.backgroundColor = 'yellow'; 
-                currentCell.style.fontWeight = 'bold';
+
+            // Check if addr is within the valid range of cells in the row
+            if (addr >= 0 && addr < cells.length) {
+                const opcodeCell = cells[addr];
+                const opcode = opcodeCell.textContent;
+
+                // Highlight the specified cell
+                opcodeCell.style.backgroundColor = 'yellow';
+                opcodeCell.style.fontWeight = 'bold';
 
                 // Scroll the tableMemory to the highlighted cell
-                currentCell.scrollIntoView({ behavior: 'auto', block: 'end' });
+                opcodeCell.scrollIntoView({ behavior: 'auto', block: 'end' });
             }
         }
         
