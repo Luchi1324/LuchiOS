@@ -122,7 +122,7 @@ module TSOS {
 
                 // Remove existing file data before writing to it
                 if (this.checkIfHasData(data)) {
-                    this.deleteFile(fileName)
+                    this.fullDeleteFile(fileName)
                     this.createFile(fileName);
                     startingBlockKey = this.findFile(fileName)[1];
                     data = sessionStorage.getItem(startingBlockKey);
@@ -186,6 +186,29 @@ module TSOS {
 
             Devices.hostUpdateDiskDisplay();
             return deleteFlag;
+        }
+
+        public fullDeleteFile(fileName: string) {
+            let startingBlockKey: string = this.findFile(fileName)[1];
+
+            if (startingBlockKey) {
+                let block: string = sessionStorage.getItem(startingBlockKey);
+                let blockArr: string[] = block.split(':');
+                let metaData: string = blockArr[0];
+
+                sessionStorage.setItem(startingBlockKey, this.createEmptyBlock());
+                let nextKey: string = metaData.slice(1,4);
+                let nextData: string = sessionStorage.getItem(nextKey);
+
+                // File contains more than 1 block
+                while (nextKey != '---') {
+                    sessionStorage.setItem(nextKey, this.createEmptyBlock());
+                    nextKey = nextData.split(':')[0].slice(1,4);
+                    nextData = sessionStorage.getItem(nextKey);
+                }
+                // clear the directory once all data has been removed
+                this.deleteFile(fileName);
+            }
         }
 
 
