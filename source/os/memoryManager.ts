@@ -6,7 +6,7 @@ module TSOS {
         public currSeg: number;
 
         constructor() {
-            this.residentTasks = [];
+            this.residentTasks = [undefined, undefined, undefined];
             this.currSeg = 0;
             this.segMap = {
                 0x000: false,
@@ -24,7 +24,8 @@ module TSOS {
                     // PCB is 'new' when it is created ...
                     pcb.createPCB();
                     // ... but when we add it to the resident tasks list, and after it is loaded ...
-                    this.residentTasks.push(pcb);
+                    //this.residentTasks.push(pcb);
+                    this.residentTasks[pcb.pid % 3] = pcb;
                     this.allocateMem(pcb, program)
                     // ... then the PCB is now a 'resident' and stored in memory
                     pcb.state = "Resident";
@@ -34,7 +35,8 @@ module TSOS {
                 } else {
                     if (_Disk.isFormatted) {
                         pcb.createPCB();
-                        this.residentTasks.push(pcb);
+                        //this.residentTasks.push(pcb);
+                        this.residentTasks[pcb.pid % 3] = pcb;
                         pcb.state = "Resident";
                         pcb.location = "Disk";
                         Devices.hostUpdatePcbDisplay(pcb)
@@ -96,7 +98,7 @@ module TSOS {
             // ... and removes from resident list (if not called from the swapper)
             if (swap === false) {
                 pcb.terminatePCB();
-                _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, null);
+                _MemoryManager.residentTasks.splice(pcb.pid % 3, 1, undefined);
                 Devices.hostUpdatePcbDisplay(pcb);
             }
 
