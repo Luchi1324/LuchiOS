@@ -103,7 +103,8 @@ var TSOS;
             if (addr >= 0x00 && addr < cells.length) {
                 // Add highlight class to the current cell ...
                 let currentCell = cells[addr];
-                currentCell.classList.add('highlight');
+                currentCell.style.backgroundColor = 'yellow';
+                currentCell.style.fontWeight = 'bold';
                 // Scroll the tableMemory to the highlighted cell
                 currentCell.scrollIntoView({ behavior: 'auto', block: 'end' });
             }
