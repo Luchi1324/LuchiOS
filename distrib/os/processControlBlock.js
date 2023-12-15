@@ -15,7 +15,7 @@ var TSOS;
         waitCycles;
         turnCycles;
         static currentPID = -1;
-        constructor(pid = 0, priority = Number.MAX_VALUE, pc = 0, baseReg = 0x00, limitReg = 0x00, location = "", acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "", waitCycles = 0, turnCycles = 0) {
+        constructor(pid = 0, priority = 32, pc = 0, baseReg = 0x00, limitReg = 0x00, location = "", acc = 0, XReg = 0, YReg = 0, ZFlag = 0, state = "", waitCycles = 0, turnCycles = 0) {
             this.pid = pid;
             this.priority = priority;
             this.pc = pc;
@@ -34,7 +34,7 @@ var TSOS;
             // Creates new PCB, class keeps track of current PID number
             ProcessControlBlock.currentPID++;
             this.pid = ProcessControlBlock.currentPID;
-            this.priority = priority;
+            this.priority = 32;
             this.pc = 0;
             this.baseReg = 0x00;
             this.limitReg = 0x00;

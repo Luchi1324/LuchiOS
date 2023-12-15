@@ -5,7 +5,7 @@ module TSOS {
 
         constructor(
             public pid: number = 0,
-            public priority: number = Number.MAX_VALUE,
+            public priority: number = 32,
             public pc: number = 0,
             public baseReg: number = 0x00,
             public limitReg: number = 0x00,
@@ -24,7 +24,7 @@ module TSOS {
             // Creates new PCB, class keeps track of current PID number
             ProcessControlBlock.currentPID++
             this.pid = ProcessControlBlock.currentPID;
-            this.priority = priority;
+            this.priority = 32;
             this.pc = 0;
             this.baseReg = 0x00;
             this.limitReg = 0x00;
