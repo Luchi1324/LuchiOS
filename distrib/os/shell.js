@@ -409,6 +409,7 @@ var TSOS;
         }
         shellLoad(args) {
             let flag = true;
+            //let priority = parseInt(args[0]);
             // I don't remember where I found the <HTMLInputElement> but it was the only thing that got this stupid .value working
             // This took nearly an hour alone, the text is starting to dance on my screen
             let input = document.getElementById("taProgramInput").value;
@@ -440,6 +441,7 @@ var TSOS;
                     for (let i = 0x000; i < inputArray.length; i++) {
                         program.push(parseInt(inputArray[i], 16));
                     }
+                    //let loadedMem = _MemoryManager.loadMem(program, null, priority);
                     let loadedMem = _MemoryManager.loadMem(program);
                     if (loadedMem === true) {
                         let loadedPid = TSOS.ProcessControlBlock.currentPID;

@@ -47,6 +47,25 @@ module TSOS {
             this.scheduleRR();
         }
 
+        // TODO: Get this working
+        public scheduleNPP(): void {
+            this.quantum = Number.MAX_VALUE;
+            // Finds highest priority by dequeuing contents of ready queue into a temp queue...
+            let tempQueue: Queue = new Queue();
+            let maxPriority: number = 32;
+            let priorityPID: number = 0;
+
+            // ... checking the priority of each task ...
+            for (let i = 0; i < _MemoryManager.readyQueue.getSize(); i++) {
+                let task = _MemoryManager.readyQueue.dequeue();
+                if (task.priority < maxPriority) {
+                    maxPriority = task.priority;
+                    priorityPID = task.pid;
+                }
+                tempQueue.enqueue(task);
+            }
+        }
+
         public quantaCheck(): void {
             this.quantaCount++;
             if (this.quantaCount % this.quantum === 0) {

@@ -50,6 +50,23 @@ var TSOS;
             this.quantum = Number.MAX_VALUE;
             this.scheduleRR();
         }
+        // TODO: Get this working
+        scheduleNPP() {
+            this.quantum = Number.MAX_VALUE;
+            // Finds highest priority by dequeuing contents of ready queue into a temp queue...
+            let tempQueue = new TSOS.Queue();
+            let maxPriority = 32;
+            let priorityPID = 0;
+            // ... checking the priority of each task ...
+            for (let i = 0; i < _MemoryManager.readyQueue.getSize(); i++) {
+                let task = _MemoryManager.readyQueue.dequeue();
+                if (task.priority < maxPriority) {
+                    maxPriority = task.priority;
+                    priorityPID = task.pid;
+                }
+                tempQueue.enqueue(task);
+            }
+        }
         quantaCheck() {
             this.quantaCount++;
             if (this.quantaCount % this.quantum === 0) {

@@ -13,7 +13,7 @@ var TSOS;
                 0x200: false,
             };
         }
-        loadMem(program, pcbSwap) {
+        loadMem(program, pcbSwap, priority) {
             if (!pcbSwap) {
                 // Creates new PCB object ...
                 let pcb = new TSOS.ProcessControlBlock();
@@ -27,6 +27,10 @@ var TSOS;
                     // ... then the PCB is now a 'resident' and stored in memory
                     pcb.state = "Resident";
                     pcb.location = "Memory";
+                    // If we are given a priority, then we assign it so it is not the default 32
+                    //if (priority) { 
+                    //    pcb.priority = priority 
+                    //    };
                     TSOS.Devices.hostUpdatePcbDisplay(pcb);
                     return true;
                 }
@@ -36,6 +40,9 @@ var TSOS;
                         this.residentTasks[pcb.pid] = pcb;
                         pcb.state = "Resident";
                         pcb.location = "Disk";
+                        //if (priority) { 
+                        //    pcb.priority = priority 
+                        //};
                         TSOS.Devices.hostUpdatePcbDisplay(pcb);
                     }
                     return false;
